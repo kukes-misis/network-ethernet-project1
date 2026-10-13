@@ -83,7 +83,7 @@
 
 ## 🔗 Реестр ссылок на составляющие проекта (для проверяющих и других команд)
 
-- 🎨 **Виртуальная доска проекта (Miro):** [`https://miro.com/app/board/misis-bivt-net-project1-ethernet/`](https://miro.com/app/board/misis-bivt-net-project1-ethernet/)
+- 🎨 **Виртуальная доска проекта (Miro):** [`https://miro.com/app/board/uXjVEaoGUo4=/`](https://miro.com/app/board/uXjVEaoGUo4=/)
 - 📝 **Интерактивный тест для других команд (Google Forms):** [`https://forms.yandex.ru/u/misis-bivt-project1-ethernet-test/`](https://forms.yandex.ru/u/misis-bivt-project1-ethernet-test/)
 - 📑 **Полный академический отчет (29 стр. по ГОСТ):** [`https://github.com/kukes-misis/network-ethernet-project1/`](https://github.com/kukes-misis/network-ethernet-project1/)
 - 🎙️ **Слайды презентации к защите:** [`https://cloud.misis.ru/s/pr4-project1-presentation-erepov/`](https://cloud.misis.ru/s/pr4-project1-presentation-erepov/)
