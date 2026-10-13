@@ -30,9 +30,12 @@
 | **Презентация доклада** | **PPTX** | [docs/Презентация_ПР4_Проект1_Микитенко_Ерепов.pptx](docs/Презентация_ПР4_Проект1_Микитенко_Ерепов.pptx) | 10 слайдов 16:9 с визуализацией схем и графиков |
 | **Виртуальная доска Miro / Notion** | **HTML** | [board/Интерактивная_Доска_Miro_Notion.html](board/Интерактивная_Доска_Miro_Notion.html) | Интерактивный канбан-холст с базой знаний и графикой |
 | **Шаблон для Notion** | **MD** | [board/Доска_проекта_Notion.md](board/Доска_проекта_Notion.md) | Страница Notion (импорт через Markdown) |
-| **Автоматизация Google Forms** | **JS** | [tests/create_google_form.js](tests/create_google_form.js) | Скрипт Google Apps Script для генерации теста в 1 клик |
+| **Автоматизация Google Forms (Тест)** | **JS** | [tests/create_google_form.js](tests/create_google_form.js) | Скрипт Google Apps Script для генерации теста в 1 клик |
 | **Банк вопросов для теста** | **TXT** | [tests/Тест_Google_Forms_Вопросы_и_Ответы.txt](tests/Тест_Google_Forms_Вопросы_и_Ответы.txt) | 15 вопросов с 4 вариантами ответов, ключами и разбором |
 | **Интерактивный веб-тест** | **HTML** | [tests/Интерактивный_Тест_Ethernet.html](tests/Интерактивный_Тест_Ethernet.html) | Автономный опросник для студентов прямо в браузере |
+| **Google Forms (Оценка проекта / Peer-Review)** | **JS** | [tests/create_feedback_form.js](tests/create_feedback_form.js) | Скрипт Google Apps Script для генерации формы рецензирования |
+| **Критерии оценки и вопросы Peer-Review** | **TXT** | [tests/Опросник_Оценки_Проекта_Google_Forms.txt](tests/Опросник_Оценки_Проекта_Google_Forms.txt) | 7 шкал академической оценки проекта + текстовые отзывы |
+| **Интерактивная форма рецензирования** | **HTML** | [tests/Интерактивная_Форма_Оценки_Проекта.html](tests/Интерактивная_Форма_Оценки_Проекта.html) | Веб-форма оценки проекта с живым расчетом среднего балла |
 
 ---
 

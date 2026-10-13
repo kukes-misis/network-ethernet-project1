@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Экспертная оценка и Peer-Review Проекта № 1: Проводная сеть Ethernet</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --primary-light: #eff6ff;
+      --success: #10b981;
+      --success-light: #ecfdf5;
+      --star: #f59e0b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); padding: 24px; line-height: 1.5; }
+    .container { max-width: 820px; margin: 0 auto; }
+    .header { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    .badge { display: inline-block; padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: 600; background: var(--primary-light); color: var(--primary); margin-bottom: 8px; }
+    h1 { font-size: 24px; font-weight: 800; margin-bottom: 8px; color: #0f172a; }
+    .desc { color: var(--muted); font-size: 14px; margin-bottom: 16px; }
+
+    .team-box { background: #f1f5f9; border-radius: 10px; padding: 14px; margin-bottom: 20px; font-size: 13px; color: #334155; }
+    .team-box b { color: #0f172a; }
+
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+    .card-title { font-size: 16px; font-weight: 700; margin-bottom: 14px; color: #0f172a; display: flex; align-items: center; gap: 8px; }
+
+    .input-group { margin-bottom: 16px; }
+    .input-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+    .input-group input, .input-group select, .input-group textarea {
+      width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); font-size: 14px; outline: none; transition: border-color 0.2s; font-family: inherit;
+    }
+    .input-group input:focus, .input-group select:focus, .input-group textarea:focus { border-color: var(--primary); }
+
+    .criteria-item { padding: 16px; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 14px; background: #fafafa; }
+    .criteria-head { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+    .criteria-desc { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+
+    .rating-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .rate-btn { flex: 1; min-width: 60px; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border); background: #fff; cursor: pointer; text-align: center; font-size: 13px; font-weight: 600; transition: all 0.2s; }
+    .rate-btn:hover { background: #f8fafc; border-color: var(--primary); }
+    .rate-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    .btn-submit { width: 100%; padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 700; background: var(--primary); color: #fff; border: none; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
+    .btn-submit:hover { background: #1d4ed8; }
+
+    .success-box { display: none; background: var(--success-light); border: 2px solid var(--success); border-radius: 16px; padding: 28px; margin-top: 24px; text-align: center; }
+    .success-box.show { display: block; }
+    .success-title { font-size: 20px; font-weight: 800; color: #065f46; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <span class="badge">НИТУ МИСИС • Кафедра Инфокоммуникационных технологий</span>
+    <h1>Экспертная оценка и взаимное рецензирование (Peer-Review)</h1>
+    <p class="desc">
+      Оценка студенческого IT-проекта № 1 по курсу «Вычислительные машины, сети и системы». Преподаватель: к.т.н., с.н.с. Микитенко И. И.
+    </p>
+
+    <div class="team-box">
+      <b>Оцениваемый проект:</b> Проект № 1 «Проводная сеть Ethernet и сетевые устройства» (гр. БИВТ-26-6-9)<br>
+      <b>Команда проекта:</b> Ерепов К. М. (руководитель), Кашин С. К., Якушевский И. И., Утяцкий В. С., Горбунов К. В.<br>
+      <b>Материалы проекта:</b> <a href="https://github.com/kukes-misis/network-ethernet-project1" target="_blank">Репозиторий на GitHub</a> • <a href="https://kukes-misis.github.io/network-ethernet-project1/" target="_blank">Виртуальная доска проекта</a>
+    </div>
+  </div>
+
+  <form id="reviewForm">
+    <!-- БЛОК 1: ДАННЫЕ РЕЦЕНЗЕНТА -->
+    <div class="card">
+      <div class="card-title">👤 1. Сведения о рецензенте (оценивающем студенте / эксперте)</div>
+      <div class="input-group">
+        <label for="revName">Ваши Фамилия, Имя и Отчество:</label>
+        <input type="text" id="revName" placeholder="Петров Петр Петрович" required>
+      </div>
+      <div class="input-group">
+        <label for="revGroup">Номер вашего проекта / Учебная группа:</label>
+        <select id="revGroup" required>
+          <option value="">-- Выберите вашу группу / проект --</option>
+          <option value="Проект № 2 (Беспроводные сети Wi-Fi)">Проект № 2 (Беспроводные сети Wi-Fi)</option>
+          <option value="Проект № 3 (Протоколы TCP/IP и маршрутизация)">Проект № 3 (Протоколы TCP/IP и маршрутизация)</option>
+          <option value="Проект № 4 (Сетевая безопасность, Firewalls, VPN)">Проект № 4 (Сетевая безопасность, Firewalls, VPN)</option>
+          <option value="Проект № 5 (Облачные технологии и виртуализация)">Проект № 5 (Облачные технологии и виртуализация)</option>
+          <option value="Проект № 6 (Оптоволоконные линии передачи)">Проект № 6 (Оптоволоконные линии передачи)</option>
+          <option value="Преподаватель кафедры ИКТ / Эксперт комиссии">Преподаватель кафедры ИКТ / Эксперт комиссии</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- БЛОК 2: КРИТЕРИИ ОЦЕНИВАНИЯ -->
+    <div class="card">
+      <div class="card-title">⭐ 2. Оценка качества выполнения проекта по критериям кафедры</div>
+
+      <div class="criteria-item" id="c1">
+        <div class="criteria-head">1. Теоретическая глубина проработки стандартов Ethernet (IEEE 802.3, CSMA/CD, 802.1Q)</div>
+        <div class="criteria-desc">Полнота охвата эволюции от 10BASE-T до 10GBASE-T, анатомия кадра Ethernet II, тегирование VLAN.</div>
+        <div class="rating-row" data-criterion="c1">
+          <button type="button" class="rate-btn" data-val="1">1 (Плохо)</button>
+          <button type="button" class="rate-btn" data-val="2">2 (Слабо)</button>
+          <button type="button" class="rate-btn" data-val="3">3 (Удовл)</button>
+          <button type="button" class="rate-btn" data-val="4">4 (Хорошо)</button>
+          <button type="button" class="rate-btn active" data-val="5">5 (Отлично)</button>
+        </div>
+      </div>
+
+      <div class="criteria-item" id="c2">
+        <div class="criteria-head">2. Четкость классификации устройств (L1/L2/L3) и разграничения доменов коллизий и широковещания</div>
+        <div class="criteria-desc">Понимание различий хаба, свитча, роутера, репитера и моста. Строгость разграничения зон коллизий и broadcast.</div>
+        <div class="rating-row" data-criterion="c2">
+          <button type="button" class="rate-btn" data-val="1">1</button>
+          <button type="button" class="rate-btn" data-val="2">2</button>
+          <button type="button" class="rate-btn" data-val="3">3</button>
+          <button type="button" class="rate-btn" data-val="4">4</button>
+          <button type="button" class="rate-btn active" data-val="5">5</button>
+        </div>
+      </div>
+
+      <div class="criteria-item" id="c3">
+        <div class="criteria-head">3. Научная ценность эксперимента (бенчмаркинг CSMA/CD Hub vs Switch, задержки Store-and-Forward vs Cut-Through)</div>
+        <div class="criteria-desc">Наличие математических моделей, графиков 300 DPI, расчета точки насыщения 37.5% и аппаратных разгрузок NIC.</div>
+        <div class="rating-row" data-criterion="c3">
+          <button type="button" class="rate-btn" data-val="1">1</button>
+          <button type="button" class="rate-btn" data-val="2">2</button>
+          <button type="button" class="rate-btn" data-val="3">3</button>
+          <button type="button" class="rate-btn" data-val="4">4</button>
+          <button type="button" class="rate-btn active" data-val="5">5</button>
+        </div>
+      </div>
+
+      <div class="criteria-item" id="c4">
+        <div class="criteria-head">4. Качество оформления отчета по ГОСТ 7.32-2017 и полнота спецификации (Таблица 1)</div>
+        <div class="criteria-desc">29 страниц отчета, соблюдение полей, шрифтов, титульного листа, подписей к таблицам и списка источников.</div>
+        <div class="rating-row" data-criterion="c4">
+          <button type="button" class="rate-btn" data-val="1">1</button>
+          <button type="button" class="rate-btn" data-val="2">2</button>
+          <button type="button" class="rate-btn" data-val="3">3</button>
+          <button type="button" class="rate-btn" data-val="4">4</button>
+          <button type="button" class="rate-btn active" data-val="5">5</button>
+        </div>
+      </div>
+
+      <div class="criteria-item" id="c5">
+        <div class="criteria-head">5. Дизайн, интерактивность и наглядность виртуальной доски (Miro / Notion)</div>
+        <div class="criteria-desc">Удобство канбан-трекера, структурированность базы знаний, оформление графических карточек.</div>
+        <div class="rating-row" data-criterion="c5">
+          <button type="button" class="rate-btn" data-val="1">1</button>
+          <button type="button" class="rate-btn" data-val="2">2</button>
+          <button type="button" class="rate-btn" data-val="3">3</button>
+          <button type="button" class="rate-btn" data-val="4">4</button>
+          <button type="button" class="rate-btn active" data-val="5">5</button>
+        </div>
+      </div>
+
+      <div class="criteria-item" id="c6">
+        <div class="criteria-head">6. Качество и профессионализм контрольного кросс-теста для других команд (15 вопросов)</div>
+        <div class="criteria-desc">Сложность вопросов, точность формулировок, наличие разбора ошибок и автоматизации в Google Forms.</div>
+        <div class="rating-row" data-criterion="c6">
+          <button type="button" class="rate-btn" data-val="1">1</button>
+          <button type="button" class="rate-btn" data-val="2">2</button>
+          <button type="button" class="rate-btn" data-val="3">3</button>
+          <button type="button" class="rate-btn" data-val="4">4</button>
+          <button type="button" class="rate-btn active" data-val="5">5</button>
+        </div>
+      </div>
+
+      <div class="criteria-item" id="c7">
+        <div class="criteria-head">7. Выступление докладчика Ерепова К. М. на защите (регламент 3 мин., уверенность, ответы на вопросы)</div>
+        <div class="criteria-desc">Четкость доклада, аргументированность ответов на каверзные вопросы преподавателя Микитенко И. И.</div>
+        <div class="rating-row" data-criterion="c7">
+          <button type="button" class="rate-btn" data-val="1">1</button>
+          <button type="button" class="rate-btn" data-val="2">2</button>
+          <button type="button" class="rate-btn" data-val="3">3</button>
+          <button type="button" class="rate-btn" data-val="4">4</button>
+          <button type="button" class="rate-btn active" data-val="5">5</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- БЛОК 3: ИТОГ И ОТЗЫВ -->
+    <div class="card">
+      <div class="card-title">📝 3. Итоговое экспертное заключение и обратная связь</div>
+      
+      <div class="input-group">
+        <label for="finalGrade">Рекомендуемая итоговая оценка за проект:</label>
+        <select id="finalGrade" required>
+          <option value="5 (Отлично) — 10 из 10 баллов ⭐⭐⭐⭐⭐" selected>5 (Отлично) — 10 из 10 баллов по рубрике LMS ⭐⭐⭐⭐⭐</option>
+          <option value="4 (Хорошо) — 8–9 баллов ⭐⭐⭐⭐">4 (Хорошо) — 8–9 баллов по рубрике LMS ⭐⭐⭐⭐</option>
+          <option value="3 (Удовлетворительно) — 6–7 баллов ⭐⭐⭐">3 (Удовлетворительно) — 6–7 баллов ⭐⭐⭐</option>
+          <option value="Отправить на доработку ⚠️">Отправить на доработку ⚠️</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="pros">Что понравилось больше всего? (Главные сильные стороны):</label>
+        <textarea id="pros" rows="3" placeholder="Например: наглядные графики бенчмаркинга, глубокий разбор кадров Ethernet II, классная интерактивная доска..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="cons">Замечания и рекомендации по проекту:</label>
+        <textarea id="cons" rows="2" placeholder="Ваши предложения по развитию сетевой топологии или тестированию..."></textarea>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-submit">Отправить экспертную оценку проекту № 1</button>
+  </form>
+
+  <div id="successBox" class="success-box">
+    <div class="success-title">✅ Оценка успешно зафиксирована!</div>
+    <p style="color: #065f46; font-size: 14px;" id="successMsg"></p>
+    <div style="margin-top: 16px;">
+      <a href="https://github.com/kukes-misis/network-ethernet-project1" target="_blank" style="color: var(--primary); font-weight: 600; text-decoration: none;">Перейти в репозиторий проекта на GitHub →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const scores = { c1: 5, c2: 5, c3: 5, c4: 5, c5: 5, c6: 5, c7: 5 };
+
+document.querySelectorAll('.rating-row').forEach(row => {
+  const crit = row.dataset.criterion;
+  row.querySelectorAll('.rate-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      row.querySelectorAll('.rate-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      scores[crit] = parseInt(btn.dataset.val);
+    });
+  });
+});
+
+document.getElementById('reviewForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const name = document.getElementById('revName').value.trim() || 'Рецензент';
+  const group = document.getElementById('revGroup').value;
+  const grade = document.getElementById('finalGrade').value;
+
+  const total = Object.values(scores).reduce((a, b) => a + b, 0);
+  const avg = (total / 7).toFixed(1);
+
+  document.getElementById('successBox').classList.add('show');
+  document.getElementById('successMsg').innerHTML = 
+    `Спасибо, <b>${name}</b> (${group})!<br>` +
+    `Средний балл по 7 критериям: <b>${avg} / 5.0</b>.<br>` +
+    `Рекомендованная итоговая оценка: <b>${grade}</b>.<br>` +
+    `Ваш отзыв сохранен в протоколе взаимного рецензирования Проекта № 1.`;
+
+  document.getElementById('successBox').scrollIntoView({ behavior: 'smooth' });
+});
+</script>
+
+</body>
+</html>
