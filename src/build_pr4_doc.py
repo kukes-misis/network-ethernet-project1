@@ -435,12 +435,13 @@ def create_pr4_docx():
     add_p("4. Утяцкий Владислав Сергеевич — Программист, моделирование сетевой инфраструктуры: разработка скриптов бенчмаркинга сетевых задержек, расчет математических моделей утилизации канала CSMA/CD, построение топологий в среде Cisco Packet Tracer;", indent=True)
     add_p("5. Горбунов Константин В. — Коммуникатор (коммуникация с другими командами): организация межличностного и межкомандного взаимодействия, сбор обратной связи по результатам тестирования, обеспечение доступности документации и ссылок.", indent=True)
 
-    add_p("В соответствии с требованиями регламента проекта подготовлены следующие обязательные цифровые составляющие:", indent=True)
-    add_p("• Виртуальная доска проекта (Miro / Conceptboard): интерактивная схема устройств L1/L2/L3, топология сети и домены коллизий (ссылка: https://miro.com/app/board/misis-bivt-net-project1-ethernet/);", indent=True)
-    add_p("• Презентация по проекту: комплект слайдов доклада в формате PDF/PPTX для сопровождения защиты (ссылка: https://cloud.misis.ru/s/pr4-project1-presentation-erepov/);", indent=True)
-    add_p("• Интерактивный тест по проекту: онлайн-форма для проведения тестирования смежных команд (ссылка: https://forms.yandex.ru/u/misis-bivt-project1-ethernet-test/);", indent=True)
-    add_p("• Ссылка на полный отчет по проекту: открытый доступ к отчету для обмена опытом с другими командами (ссылка: https://github.com/kukes-misis/network-ethernet-project1/);", indent=True)
-    add_p("• Исходные файлы симуляций и дампов трафика: проект топологии Cisco Packet Tracer (.pkt) и трассировки Wireshark (.pcapng) в репозитории проекта.", indent=True)
+    add_p("В соответствии с требованиями регламента проекта подготовлены и опубликованы в открытом доступе все обязательные составляющие:", indent=True)
+    add_p("• Официальный репозиторий проекта на GitHub со структурированными материалами: https://github.com/kukes-misis/network-ethernet-project1 ;", indent=True)
+    add_p("• Виртуальная доска проекта (интерактивный онлайн-портал в стиле Miro / Notion): https://kukes-misis.github.io/network-ethernet-project1/ ;", indent=True)
+    add_p("• Интерактивный онлайн-тест для других команд с автоматической проверкой: https://kukes-misis.github.io/network-ethernet-project1/tests/Интерактивный_Тест_Ethernet.html ;", indent=True)
+    add_p("• Скрипт автоматического создания Google Формы теста за 1 клик (Apps Script): https://github.com/kukes-misis/network-ethernet-project1/blob/main/tests/create_google_form.js ;", indent=True)
+    add_p("• Слайды презентации к защите проекта (PowerPoint 16:9): https://github.com/kukes-misis/network-ethernet-project1/blob/main/docs/Презентация_ПР4_Проект1_Микитенко_Ерепов.pptx ;", indent=True)
+    add_p("• Полный текст отчета по ГОСТ 7.32-2017 (29 стр.): https://github.com/kukes-misis/network-ethernet-project1/blob/main/docs/ПР-4__БИВТ-26-6-9__Ерепов%20К.М.__Проводная%20сеть%20Ethernet%20и%20сетевые%20устройства.pdf .", indent=True)
 
     # =========================================================================
     # 2. ТЕОРЕТИЧЕСКИЕ ОСНОВЫ ТЕХНОЛОГИИ ETHERNET
