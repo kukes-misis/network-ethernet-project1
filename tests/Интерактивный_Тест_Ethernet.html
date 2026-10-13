@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тест по Проекту № 1: Проводная сеть Ethernet и сетевые устройства</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); padding: 24px; line-height: 1.5; }
+    .container { max-width: 820px; margin: 0 auto; }
+    .header { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    .badge { display: inline-block; padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: 600; background: #eff6ff; color: #2563eb; margin-bottom: 8px; }
+    h1 { font-size: 24px; font-weight: 800; margin-bottom: 8px; color: #0f172a; }
+    .desc { color: var(--muted); font-size: 14px; margin-bottom: 16px; }
+
+    .user-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    .input-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+    .input-group input { width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); font-size: 14px; outline: none; transition: border-color 0.2s; }
+    .input-group input:focus { border-color: var(--primary); }
+
+    .q-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+    .q-num { font-size: 12px; font-weight: 700; color: var(--primary); text-transform: uppercase; margin-bottom: 6px; }
+    .q-title { font-size: 15px; font-weight: 700; margin-bottom: 14px; line-height: 1.4; }
+    
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .opt-label { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; font-size: 14px; }
+    .opt-label:hover { background: #f8fafc; border-color: #cbd5e1; }
+    .opt-label input { margin-top: 3px; cursor: pointer; }
+    
+    .opt-label.selected { border-color: var(--primary); background: #eff6ff; }
+    .opt-label.correct { border-color: var(--success); background: #ecfdf5; font-weight: 600; color: #065f46; }
+    .opt-label.incorrect { border-color: var(--danger); background: #fef2f2; color: #991b1b; }
+
+    .feedback { margin-top: 14px; padding: 12px 16px; border-radius: 8px; font-size: 13px; display: none; line-height: 1.4; }
+    .feedback.show { display: block; }
+    .feedback.ok { background: #ecfdf5; border-left: 4px solid var(--success); color: #065f46; }
+    .feedback.fail { background: #fef2f2; border-left: 4px solid var(--danger); color: #991b1b; }
+
+    .btn-submit { width: 100%; padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 700; background: var(--primary); color: #fff; border: none; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
+    .btn-submit:hover { background: #1d4ed8; }
+
+    .result-modal { display: none; background: var(--card); border: 2px solid var(--primary); border-radius: 16px; padding: 28px; margin-top: 24px; text-align: center; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); }
+    .result-modal.show { display: block; }
+    .score-big { font-size: 48px; font-weight: 900; color: var(--primary); margin: 12px 0; }
+    .grade-text { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <span class="badge">НИТУ МИСИС • Проектная команда № 1</span>
+    <h1>Контрольный тест: Проводные сети Ethernet и сетевые устройства</h1>
+    <p class="desc">
+      Дисциплина: «Вычислительные машины, сети и системы». Преподаватель: к.т.н., с.н.с. Микитенко И. И.<br>
+      Разработчик теста: Якушевский И. И. (тестер проекта, гр. БИВТ-26-6-9). Руководитель: Ерепов К. М.
+    </p>
+
+    <div class="user-inputs">
+      <div class="input-group">
+        <label for="studentName">ФИО тестируемого студента:</label>
+        <input type="text" id="studentName" placeholder="Иванов Иван Иванович" required>
+      </div>
+      <div class="input-group">
+        <label for="studentGroup">Группа / Номер проекта:</label>
+        <input type="text" id="studentGroup" placeholder="БИВТ-26-6-9 / Проект № 2" required>
+      </div>
+    </div>
+  </div>
+
+  <form id="quizForm">
+    <div id="questionsContainer"></div>
+    <button type="submit" class="btn-submit">Завершить тестирование и проверить результат</button>
+  </form>
+
+  <div id="resultBox" class="result-modal">
+    <span class="badge">Результат тестирования</span>
+    <div id="studentGreeting" style="font-weight: 700; font-size: 16px;"></div>
+    <div class="score-big" id="scoreDisplay">0 / 15</div>
+    <div class="grade-text" id="gradeDisplay"></div>
+    <p id="resultDesc" style="color: var(--muted); font-size: 14px; margin-bottom: 16px;"></p>
+    <button type="button" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" class="btn-submit" style="width: auto; padding: 10px 24px; font-size: 14px;">Посмотреть разбор ошибок выше ↑</button>
+  </div>
+</div>
+
+<script>
+const quizData = [
+  {
+    q: "1. На каком уровне эталонной модели OSI функционирует классический сетевой концентратор (хаб)?",
+    opts: [
+      "A) Сетевой уровень (Network)",
+      "B) Канальный уровень (Data Link)",
+      "C) Физический уровень (Physical)",
+      "D) Транспортный уровень (Transport)"
+    ],
+    ans: 2,
+    exp: "Концентратор (хаб) является многопортовым повторителем физического уровня (L1), работающим исключительно с битовым потоком электрических сигналов."
+  },
+  {
+    q: "2. Что происходит в полудуплексном сегменте на базе концентратора при одновременной передаче данных двумя узлами?",
+    opts: [
+      "A) Данные буферизируются хабом во входной очереди",
+      "B) Возникает физическая коллизия сигналов в общей среде (CSMA/CD)",
+      "C) Хаб перенаправляет один из потоков в резервный порт",
+      "D) Станции автоматически переходят в режим Full-Duplex"
+    ],
+    ans: 1,
+    exp: "Хаб образует единую разделяемую среду (Shared Media), где одновременная передача неизбежно приводит к физическому наложению импульсов и коллизии."
+  },
+  {
+    q: "3. Какое устройство делит локальную сеть на изолированные домены коллизий, но сохраняет единый широковещательный домен (без настройки VLAN)?",
+    opts: [
+      "A) Сетевой концентратор (Hub)",
+      "B) Сетевой повторитель (Repeater)",
+      "C) Сетевой коммутатор (Switch L2)",
+      "D) Маршрутизатор (Router L3)"
+    ],
+    ans: 2,
+    exp: "Коммутатор L2 осуществляет микросегментацию, создавая выделенный домен коллизий на каждом порту, сохраняя общий широковещательный домен."
+  },
+  {
+    q: "4. Какой минимальный и максимальный размер кадра Ethernet II без учета преамбулы и тегов 802.1Q определен стандартом IEEE 802.3?",
+    opts: [
+      "A) От 32 до 1024 байт",
+      "B) От 64 до 1518 байт",
+      "C) От 46 до 1500 байт",
+      "D) От 128 до 9000 байт"
+    ],
+    ans: 1,
+    exp: "Минимальный размер кадра равен 64 байтам (для корректной работы слота коллизий CSMA/CD), а максимальный стандартный размер — 1518 байт."
+  },
+  {
+    q: "5. В каком режиме коммутации кадр начинает передаваться в целевой порт сразу после считывания первых 6 байт Destination MAC?",
+    opts: [
+      "A) Store-and-Forward (буферизация с проверкой)",
+      "B) Fragment-Free (бесфрагментная)",
+      "C) Cut-Through (сквозная коммутация)",
+      "D) Adaptive Switching (адаптивная)"
+    ],
+    ans: 2,
+    exp: "Режим Cut-Through считывает только MAC-адрес назначения (6 байт) и мгновенно пересылает кадр, обеспечивая минимальную задержку (~0.45 мкс)."
+  },
+  {
+    q: "6. Какая служебная информация записывается в CAM-таблицу коммутатора в процессе его самообучения?",
+    opts: [
+      "A) IP-адрес источника и номер порта",
+      "B) MAC-адрес источника, номер порта и номер VLAN",
+      "C) MAC-адрес назначения и метрика стоимости маршрута",
+      "D) Контрольная сумма FCS кадра и тайм-аут сокета"
+    ],
+    ans: 1,
+    exp: "Коммутатор самообучается по Source MAC-адресам входящих кадров, связывая их с физическим портом поступления и номером VLAN."
+  },
+  {
+    q: "7. Какой протокол предотвращает образование петель коммутации и широковещательных штормов в сетях Ethernet с избыточными связями?",
+    opts: [
+      "A) ARP (Address Resolution Protocol)",
+      "B) OSPF (Open Shortest Path First)",
+      "C) STP (Spanning Tree Protocol / IEEE 802.1D / 802.1w)",
+      "D) DHCP (Dynamic Host Configuration Protocol)"
+    ],
+    ans: 2,
+    exp: "Протокол STP строит логическую древовидную топологию без петель путем обмена кадрами BPDU и блокировки избыточных линков."
+  },
+  {
+    q: "8. Какова разрядность идентификатора виртуальной локальной сети VLAN ID (VID) в заголовке IEEE 802.1Q?",
+    opts: [
+      "A) 8 бит (до 256 VLAN)",
+      "B) 10 бит (до 1024 VLAN)",
+      "C) 12 бит (до 4094 VLAN)",
+      "D) 16 бит (до 65536 VLAN)"
+    ],
+    ans: 2,
+    exp: "Поле VLAN ID занимает ровно 12 бит, что определяет диапазон от 1 до 4094 доступных виртуальных сетей (значения 0 и 4095 зарезервированы)."
+  },
+  {
+    q: "9. Что выполняет технология Checksum Offload в современном сетевом адаптере (NIC)?",
+    opts: [
+      "A) Автоматическое исправление битовых ошибок в памяти хоста",
+      "B) Аппаратный расчет контрольных сумм IP, TCP и UDP без загрузки CPU",
+      "C) Шифрование сетевого трафика по протоколу IPsec",
+      "D) Проверку подлинности цифровых сертификатов сервера"
+    ],
+    ans: 1,
+    exp: "Checksum Offload переносит вычисление контрольных сумм сетевых пакетов на аппаратный процессор сетевой карты, освобождая ресурсы CPU хоста."
+  },
+  {
+    q: "10. Какое максимальное расстояние передачи гарантируется стандартом 1000BASE-T для медной витой пары Cat.5e/6 без репитеров?",
+    opts: [
+      "A) 50 метров",
+      "B) 100 метров",
+      "C) 185 метров",
+      "D) 500 метров"
+    ],
+    ans: 1,
+    exp: "Максимальная длина сегмента витой пары без повторителей ограничена 100 метрами (90 м постоянная линия + 10 м патч-корды)."
+  },
+  {
+    q: "11. Какое значение имеет специальное поле EtherType в кадре Ethernet II для инкапсулированного IPv4-пакета?",
+    opts: [
+      "A) 0x0800",
+      "B) 0x86DD",
+      "C) 0x0806",
+      "D) 0x8100"
+    ],
+    ans: 0,
+    exp: "Значение EtherType = 0x0800 указывает на протокол IPv4 (0x86DD — IPv6, 0x0806 — ARP, 0x8100 — тег 802.1Q)."
+  },
+  {
+    q: "12. В чем главное функциональное отличие сетевого моста (Bridge) от современного коммутатора (Switch)?",
+    opts: [
+      "A) Мост работает на уровне L3, а коммутатор — на уровне L2",
+      "B) Мост обрабатывает кадры программно на CPU, а коммутатор — аппаратно на ASIC-чипах",
+      "C) Мост не поддерживает разделение доменов коллизий",
+      "D) Мост используется только в беспроводных сетях Wi-Fi"
+    ],
+    ans: 1,
+    exp: "Исторические мосты выполняли коммутацию программно с ограниченной скоростью, тогда как коммутаторы выполняют параллельную аппаратную коммутацию на ASIC."
+  },
+  {
+    q: "13. Какое устройство полностью изолирует широковещательный сетевой трафик (Broadcast Domains)?",
+    opts: [
+      "A) Неуправляемый коммутатор L2",
+      "B) Сетевой мост (Bridge)",
+      "C) Маршрутизатор (Router L3)",
+      "D) Концентратор с оптическим аплинком"
+    ],
+    ans: 2,
+    exp: "Маршрутизаторы L3 не передают широковещательные кадры канального уровня между своими интерфейсами, разделяя широковещательные домены."
+  },
+  {
+    q: "14. Для чего в Ethernet-сетях используются кадры увеличенного размера (Jumbo Frames)?",
+    opts: [
+      "A) Для работы в полудуплексных сетях CSMA/CD",
+      "B) Для снижения количества прерываний CPU и увеличения пропускной способности при передаче больших данных",
+      "C) Для аппаратного шифрования трафика",
+      "D) Для обратной совместимости с сетями Token Ring"
+    ],
+    ans: 1,
+    exp: "Jumbo Frames (до 9000 байт) уменьшают относительный оверхед заголовков и снижают число прерываний ядра в несколько раз."
+  },
+  {
+    q: "15. Что происходит со значением поля Time To Live (TTL) в IP-пакете при прохождении через сетевой коммутатор L2?",
+    opts: [
+      "A) Уменьшается ровно на 1",
+      "B) Увеличивается на 1",
+      "C) Остается неизменным, так как коммутатор L2 не модифицирует заголовки сетевого уровня",
+      "D) Сбрасывается в 0 при обнаружении коллизии"
+    ],
+    ans: 2,
+    exp: "Коммутатор L2 работает исключительно с заголовками канального уровня Ethernet и передает IP-пакет абсолютно прозрачно без изменения поля TTL."
+  }
+];
+
+const container = document.getElementById('questionsContainer');
+
+quizData.forEach((item, qIdx) => {
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  card.id = `q_card_${qIdx}`;
+
+  let optsHtml = '';
+  item.opts.forEach((optText, oIdx) => {
+    optsHtml += `
+      <label class="opt-label" id="opt_lbl_${qIdx}_${oIdx}">
+        <input type="radio" name="q_${qIdx}" value="${oIdx}" required>
+        <span>${optText}</span>
+      </label>
+    `;
+  });
+
+  card.innerHTML = `
+    <div class="q-num">Вопрос ${qIdx + 1} из 15 • 1 балл</div>
+    <div class="q-title">${item.q}</div>
+    <div class="options">${optsHtml}</div>
+    <div class="feedback" id="feedback_${qIdx}"></div>
+  `;
+  container.appendChild(card);
+});
+
+document.getElementById('quizForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const name = document.getElementById('studentName').value.trim() || 'Студент';
+  const group = document.getElementById('studentGroup').value.trim() || 'Группа';
+  
+  let score = 0;
+  
+  quizData.forEach((item, qIdx) => {
+    const selected = document.querySelector(`input[name="q_${qIdx}"]:checked`);
+    const fBox = document.getElementById(`feedback_${qIdx}`);
+    const selectedVal = selected ? parseInt(selected.value) : -1;
+    
+    // Сброс подсветки
+    item.opts.forEach((_, oIdx) => {
+      const lbl = document.getElementById(`opt_lbl_${qIdx}_${oIdx}`);
+      lbl.classList.remove('correct', 'incorrect', 'selected');
+      if (oIdx === item.ans) {
+        lbl.classList.add('correct');
+      }
+    });
+
+    if (selectedVal === item.ans) {
+      score++;
+      fBox.className = 'feedback show ok';
+      fBox.innerHTML = `<b>Верно! (+1 балл)</b><br>${item.exp}`;
+    } else {
+      if (selectedVal !== -1) {
+        document.getElementById(`opt_lbl_${qIdx}_${selectedVal}`).classList.add('incorrect');
+      }
+      fBox.className = 'feedback show fail';
+      fBox.innerHTML = `<b>Неверно (0 баллов).</b> Правильный ответ: <i>${item.opts[item.ans]}</i>.<br>${item.exp}`;
+    }
+  });
+
+  // Вывод итогов
+  const resultBox = document.getElementById('resultBox');
+  resultBox.classList.add('show');
+  
+  document.getElementById('studentGreeting').innerText = `Студент: ${name} (${group})`;
+  document.getElementById('scoreDisplay').innerText = `${score} / 15`;
+  
+  const percent = Math.round((score / 15) * 100);
+  let grade = '';
+  if (score >= 13) grade = 'Оценка: 5 (Отлично) 🌟';
+  else if (score >= 10) grade = 'Оценка: 4 (Хорошо) 👍';
+  else if (score >= 8) grade = 'Оценка: 3 (Удовлетворительно) ⚠️';
+  else grade = 'Оценка: 2 (Неудовлетворительно) ❌';
+
+  document.getElementById('gradeDisplay').innerText = `${grade} (${percent} %)`;
+  document.getElementById('resultDesc').innerText = `Проверка знаний по материалам Проекта № 1 команды гр. БИВТ-26-6-9 завершена.`;
+
+  resultBox.scrollIntoView({ behavior: 'smooth' });
+});
+</script>
+
+</body>
+</html>
