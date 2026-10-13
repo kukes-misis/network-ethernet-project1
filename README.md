@@ -36,6 +36,10 @@
 | **Google Forms (Оценка проекта / Peer-Review)** | **JS** | [tests/create_feedback_form.js](tests/create_feedback_form.js) | Скрипт Google Apps Script для генерации формы рецензирования |
 | **Критерии оценки и вопросы Peer-Review** | **TXT** | [tests/Опросник_Оценки_Проекта_Google_Forms.txt](tests/Опросник_Оценки_Проекта_Google_Forms.txt) | 7 шкал академической оценки проекта + текстовые отзывы |
 | **Интерактивная форма рецензирования** | **HTML** | [tests/Интерактивная_Форма_Оценки_Проекта.html](tests/Интерактивная_Форма_Оценки_Проекта.html) | Веб-форма оценки проекта с живым расчетом среднего балла |
+| **Импорт в Miro (Стикеры)** | **CSV** | [board/miro_sticky_notes.csv](board/miro_sticky_notes.csv) | CSV-файл для моментального создания стикеров в Miro (Bulk / Drag&Drop) |
+| **Импорт в Miro (Текст для вставки)** | **TXT** | [board/miro_paste_stickies.txt](board/miro_paste_stickies.txt) | Список стикеров для вставки на холст Miro через обычный `Cmd+V` |
+| **Автоматизация доски Miro (Web SDK)** | **JS** | [board/miro_automation_script.js](board/miro_automation_script.js) | Скрипт консоли браузера для генерации всех фреймов и стикеров Miro в 1 клик |
+| **Полные данные доски Miro (JSON)** | **JSON** | [board/miro_board_data.json](board/miro_board_data.json) | Полная структура доски (координаты, рамки, стикеры, связи) |
 
 ---
 
