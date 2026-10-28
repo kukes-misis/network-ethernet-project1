@@ -1711,6 +1711,286 @@
       color: var(--text-subtle);
     }
 
+  
+    /* ==========================================================================
+       КРОСС-БРАУЗЕРНАЯ И МОБИЛЬНАЯ АДАПТАЦИЯ (iOS, Android, Safari, Chrome, FF)
+       - Поддержка: iPhone SE (320px) до 4K мониторов (2560px+)
+       - Touch Targets: min 44px, touch-action: manipulation, zero tap lag
+       - Safe Areas: iPhone Notch / Dynamic Island / Navigation Bars
+       - Vendor prefixes: -webkit-backdrop-filter, -webkit-text-size-adjust
+       ========================================================================== */
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      padding-top: env(safe-area-inset-top, 0);
+      padding-bottom: env(safe-area-inset-bottom, 0);
+      padding-left: env(safe-area-inset-left, 0);
+      padding-right: env(safe-area-inset-right, 0);
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      text-rendering: optimizeLegibility;
+    }
+
+    button, a {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Мобильная кнопка меню (Гамбургер) */
+    .mobile-menu-btn {
+      display: none;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-bright);
+      color: #ffffff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Мобильное выпадающее меню */
+    .mobile-drawer {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: rgba(4, 7, 17, 0.98);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-bottom: 1px solid var(--border-bright);
+      padding: 18px 24px;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+      z-index: 999;
+      animation: drawerSlideDown 0.25s var(--ease-spring);
+    }
+
+    .mobile-drawer.open {
+      display: flex;
+    }
+
+    @keyframes drawerSlideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .mobile-drawer .topbar-link {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+    }
+
+    /* -------------------------------------------------------------
+       RESPONSIVE BREAKPOINTS (ALL DEVICES)
+       ------------------------------------------------------------- */
+    @media (max-width: 1024px) {
+      .topbar-nav {
+        display: none; /* Скрываем десктопные ссылки, оставляем мобильный режим */
+      }
+      .mobile-menu-btn {
+        display: inline-flex;
+      }
+      .topbar-inner {
+        padding: 12px 20px;
+      }
+      .hero-split {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        margin-bottom: 36px;
+        padding-bottom: 36px;
+      }
+      .telemetry-card {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .site-container {
+        padding: 24px 16px 60px 16px;
+      }
+      .hero-title {
+        font-size: clamp(28px, 7.5vw, 42px);
+        line-height: 1.1;
+      }
+      .hero-lead {
+        font-size: 15px;
+      }
+      .hero-metrics {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .hero-btn-presentation {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 18px;
+        font-size: 14px;
+      }
+      .metric-pill {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      /* Адаптация инспектора пакета */
+      .packet-strip {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+      }
+      .packet-chunk:last-child {
+        grid-column: span 2;
+      }
+      
+      /* Светодиоды портов коммутатора */
+      .switch-leds-panel {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .leds-row {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      /* Адаптация табов */
+      .tabs-controller {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 6px;
+      }
+      .tab-trigger {
+        padding: 12px 14px;
+        font-size: 13.5px;
+        min-height: 48px;
+      }
+
+      /* Адаптация оборудования */
+      .hardware-spotlight {
+        padding: 22px 18px;
+      }
+      .spotlight-title {
+        font-size: 22px;
+      }
+      .spotlight-specs-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 12px;
+      }
+
+      /* Адаптация таблицы OSI */
+      .osi-layer-card {
+        padding: 18px 14px;
+      }
+      .osi-table, .osi-table tbody, .osi-table tr, .osi-table td {
+        display: block;
+        width: 100%;
+      }
+      .osi-table td:first-child {
+        width: 100%;
+        color: var(--accent);
+        padding-top: 10px;
+        padding-bottom: 2px;
+      }
+      .osi-table td:last-child {
+        padding-top: 0;
+        padding-bottom: 12px;
+      }
+
+      /* Адаптация схем */
+      .figure-box img {
+        height: 200px;
+      }
+      .figure-box[style*="span 2"] {
+        grid-column: span 1 !important;
+      }
+      .figure-box img[style*="height"] {
+        height: 220px !important;
+      }
+
+      /* Адаптация команды */
+      .team-grid {
+        grid-template-columns: 1fr;
+      }
+
+      /* Адаптация модального вьюера презентации */
+      .pres-topbar {
+        padding: 0 12px;
+        height: 52px;
+      }
+      .pres-brand {
+        font-size: 12px;
+      }
+      .pres-timer-pill {
+        font-size: 11px;
+        padding: 3px 6px;
+      }
+      .pres-slide-indicator {
+        font-size: 11px;
+        padding: 3px 8px;
+      }
+      .pres-action-btn span.btn-label {
+        display: none;
+      }
+      .pres-viewport {
+        padding: 8px;
+      }
+      .pres-slide-stage {
+        max-height: calc(100vh - 110px);
+        aspect-ratio: unset;
+        padding: 20px 16px;
+        overflow-y: auto;
+      }
+      .slide-split-content {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .slide-img-preview {
+        max-height: 220px;
+      }
+      .slide-title {
+        font-size: 18px;
+      }
+      .pres-nav-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+      .pres-nav-prev { left: 8px; }
+      .pres-nav-next { right: 8px; }
+      .pres-bottombar {
+        padding: 0 12px;
+        height: 46px;
+      }
+      .pres-dot {
+        width: 16px;
+        height: 6px;
+      }
+      .pres-dot.active {
+        width: 28px;
+      }
+      .pres-hints {
+        display: none;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .brand-meta {
+        display: none;
+      }
+      .brand-logo {
+        font-size: 16px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -1732,6 +2012,24 @@
           Руководитель: <span>Микитенко И. И.</span>
         </div>
       </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button onclick="openPresentationModal()" class="topbar-link btn-presentation" style="display: inline-flex;">
+          <span class="btn-play-icon">▶</span> Презентация
+        </button>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Открыть меню">
+          ☰
+        </button>
+      </div>
+
+      <!-- Мобильный Drawer со всеми ссылками -->
+      <nav id="mobile-drawer" class="mobile-drawer">
+        <a href="tests/Интерактивный_Тест_Ethernet.html" target="_blank" class="topbar-link" onclick="toggleMobileMenu()">📝 Тест (15 вопросов)</a>
+        <a href="tests/Интерактивная_Форма_Оценки_Проекта.html" target="_blank" class="topbar-link" onclick="toggleMobileMenu()">⭐ Рецензирование</a>
+        <a href="docs/ПР-4__БИВТ-26-6-9__Ерепов%20К.М.__Проводная%20сеть%20Ethernet%20и%20сетевые%20устройства.pdf" target="_blank" class="topbar-link" onclick="toggleMobileMenu()">📄 Отчет ГОСТ (29 с.)</a>
+        <a href="docs/План_защиты_ВМ_ПР4_Микитенко_Ерепов_К_М.pdf" target="_blank" class="topbar-link" onclick="toggleMobileMenu()">⏱ План защиты (3 мин.)</a>
+        <a href="https://github.com/kukes-misis/network-ethernet-project1" target="_blank" class="topbar-link btn-github" onclick="toggleMobileMenu()">🐙 GitHub Репозиторий</a>
+      </nav>
+
       <ul class="topbar-nav">
         <li><a href="tests/Интерактивный_Тест_Ethernet.html" target="_blank" class="topbar-link">Тест (15 вопросов)</a></li>
         <li><a href="tests/Интерактивная_Форма_Оценки_Проекта.html" target="_blank" class="topbar-link">Рецензирование</a></li>
@@ -2635,6 +2933,45 @@
         document.exitFullscreen();
       }
     }
+
+  
+    // Мобильное меню гамбургер
+    function toggleMobileMenu() {
+      const drawer = document.getElementById('mobile-drawer');
+      if (drawer) {
+        drawer.classList.toggle('open');
+      }
+    }
+
+    // Touch Swipe для мобильных телефонов и планшетов (iOS Safari / Android Chrome)
+    (function initTouchSwipe() {
+      const stage = document.querySelector('.pres-viewport');
+      if (!stage) return;
+      let startX = 0;
+      let startY = 0;
+
+      stage.addEventListener('touchstart', function(e) {
+        if (e.touches.length === 1) {
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+        }
+      }, { passive: true });
+
+      stage.addEventListener('touchend', function(e) {
+        if (e.changedTouches.length === 1) {
+          const diffX = e.changedTouches[0].clientX - startX;
+          const diffY = e.changedTouches[0].clientY - startY;
+          // Горизонтальный свайп с амплитудой от 45px
+          if (Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY)) {
+            if (diffX < 0) {
+              nextSlide(); // свайп влево -> следующий слайд
+            } else {
+              prevSlide(); // свайп вправо -> предыдущий слайд
+            }
+          }
+        }
+      }, { passive: true });
+    })();
 
   </script>
 
