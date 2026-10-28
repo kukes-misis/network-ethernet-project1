@@ -55,7 +55,7 @@ DEFENSE_CONTENT = """# План защиты и экспресс-шпаргал�
 >    - *Режимы коммутации:* задержка сквозной коммутации Cut-Through составляет фиксированные 0.45 мкс независимо от длины кадра, в то время как Store-and-Forward вносит задержку до 12.14 мкс для стандартных кадров и 72 мкс для Jumbo Frames.
 >    - *Аппаратные разгрузки NIC:* активация Checksum Offload, TSO/LRO и Jumbo Frames 9000 байт снижает загрузку CPU хоста с 92.4 % до 9.8 % при 10G-трафике.
 > 4. **Межкомандное взаимодействие и составляющие проекта:**
->    - Дизайнером Кашиным С. оформлена интерактивная виртуальная доска проекта Miro;
+>    - Дизайнером Кашиным С. оформлена интерактивная виртуальная доска проекта Интерактивная доска проекта;
 >    - Тестером Якушевским И. разработан опросник из 15 вопросов для проверки знаний других команд;
 >    - Программистом Утяцким В. смоделирована топология в Cisco Packet Tracer;
 >    - Коммуникатором Горбуновым К. открыт общий доступ к отчетам и материалам.
@@ -128,7 +128,7 @@ DEFENSE_CONTENT = """# План защиты и экспресс-шпаргал�
 
 ## 📋 3. Составляющие проекта (ссылки для преподавателя и команд)
 - **Официальный репозиторий проекта на GitHub:** [https://github.com/kukes-misis/network-ethernet-project1](https://github.com/kukes-misis/network-ethernet-project1)
-- **Виртуальная доска проекта (онлайн-портал Miro / Notion):** [https://kukes-misis.github.io/network-ethernet-project1/](https://kukes-misis.github.io/network-ethernet-project1/)
+- **Виртуальная доска проекта (онлайн-портал Виртуальная интерактивная доска проекта):** [https://kukes-misis.github.io/network-ethernet-project1/](https://kukes-misis.github.io/network-ethernet-project1/)
 - **Интерактивный онлайн-тест для других команд:** [https://kukes-misis.github.io/network-ethernet-project1/tests/Интерактивный_Тест_Ethernet.html](https://kukes-misis.github.io/network-ethernet-project1/tests/Интерактивный_Тест_Ethernet.html)
 - **Скрипт автоматического создания Google Формы (Apps Script):** [https://github.com/kukes-misis/network-ethernet-project1/blob/main/tests/create_google_form.js](https://github.com/kukes-misis/network-ethernet-project1/blob/main/tests/create_google_form.js)
 - **Презентация доклада к защите (PowerPoint 16:9):** [https://github.com/kukes-misis/network-ethernet-project1/blob/main/docs/Презентация_ПР4_Проект1_Микитенко_Ерепов.pptx](https://github.com/kukes-misis/network-ethernet-project1/blob/main/docs/Презентация_ПР4_Проект1_Микитенко_Ерепов.pptx)

@@ -437,7 +437,7 @@ def create_pr4_docx():
 
     add_p("В соответствии с требованиями регламента проекта подготовлены и опубликованы в открытом доступе все обязательные составляющие:", indent=True)
     add_p("• Официальный репозиторий проекта на GitHub со структурированными материалами: https://github.com/kukes-misis/network-ethernet-project1 ;", indent=True)
-    add_p("• Виртуальная доска проекта (интерактивный онлайн-портал в стиле Miro / Notion): https://kukes-misis.github.io/network-ethernet-project1/ ;", indent=True)
+    add_p("• Виртуальная доска проекта (интерактивный онлайн-портал в стиле Виртуальная интерактивная доска проекта): https://kukes-misis.github.io/network-ethernet-project1/ ;", indent=True)
     add_p("• Интерактивный онлайн-тест для других команд с автоматической проверкой: https://kukes-misis.github.io/network-ethernet-project1/tests/Интерактивный_Тест_Ethernet.html ;", indent=True)
     add_p("• Скрипт автоматического создания Google Формы теста за 1 клик (Apps Script): https://github.com/kukes-misis/network-ethernet-project1/blob/main/tests/create_google_form.js ;", indent=True)
     add_p("• Слайды презентации к защите проекта (PowerPoint 16:9): https://github.com/kukes-misis/network-ethernet-project1/blob/main/docs/Презентация_ПР4_Проект1_Микитенко_Ерепов.pptx ;", indent=True)
