@@ -1095,7 +1095,7 @@
     }
 
     .figure-box {
-      background: var(--bg-card);
+      background: rgba(11, 17, 32, 0.7);
       border: 1px solid var(--border);
       border-radius: 14px;
       overflow: hidden;
@@ -1108,27 +1108,61 @@
     .figure-box:hover {
       border-color: var(--border-bright);
       transform: translateY(-4px);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(244, 63, 94, 0.15);
     }
 
-    .figure-box img {
-      width: 100%;
-      height: 260px;
-      object-fit: cover;
-      background: #020617;
+    .figure-img-wrap {
+      background: #ffffff;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 290px;
+      position: relative;
       cursor: zoom-in;
+      overflow: hidden;
+    }
+
+    .figure-box[style*="span 2"] .figure-img-wrap {
+      height: 380px;
+    }
+
+    .figure-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
       display: block;
       transition: transform 0.3s var(--ease-smooth);
     }
 
-    .figure-box:hover img {
-      transform: scale(1.03);
+    .figure-box:hover .figure-img-wrap img {
+      transform: scale(1.025);
+    }
+
+    .figure-img-hint {
+      position: absolute;
+      bottom: 10px;
+      right: 12px;
+      background: rgba(4, 7, 17, 0.85);
+      color: #ffffff;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .figure-caption {
       padding: 18px 22px;
       border-top: 1px solid var(--border);
       flex-grow: 1;
+      background: var(--bg-card);
     }
 
     .figure-number {
@@ -1906,14 +1940,13 @@
       }
 
       /* Адаптация схем */
-      .figure-box img {
-        height: 200px;
+      .figure-img-wrap,
+      .figure-box[style*="span 2"] .figure-img-wrap {
+        height: 220px !important;
+        padding: 10px;
       }
       .figure-box[style*="span 2"] {
         grid-column: span 1 !important;
-      }
-      .figure-box img[style*="height"] {
-        height: 220px !important;
       }
 
       /* Адаптация команды */
@@ -2112,6 +2145,99 @@
     .slide-point-box.l2 { border-left-color: var(--accent-cyan); }
     .slide-point-box.l1 { border-left-color: var(--accent-emerald); }
 
+    /* Для широкоформатных диаграмм (2:1 и 2.5:1) — гармоничная вертикальная компоновка */
+    .slide-wide-diagram {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      height: 100%;
+      justify-content: flex-start;
+    }
+
+    .slide-wide-diagram .slide-diagram-card {
+      min-height: 380px;
+      height: calc(100% - 130px);
+      max-height: 470px;
+      width: 100%;
+      padding: 16px 24px;
+      flex-grow: 1;
+      flex-shrink: 1;
+    }
+
+    .slide-wide-diagram .slide-diagram-card img {
+      max-height: 440px;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .slide-cards-row {
+      display: grid;
+      gap: 14px;
+      flex-grow: 0;
+      flex-shrink: 0;
+      align-items: stretch;
+    }
+
+    .slide-cards-row.cols-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .slide-cards-row.cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 900px) {
+      .slide-cards-row.cols-4,
+      .slide-cards-row.cols-3 {
+        grid-template-columns: 1fr;
+      }
+      .slide-wide-diagram .slide-diagram-card {
+        height: 240px;
+        min-height: unset;
+      }
+    }
+
+    .slide-card-item {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      border-top: 3px solid var(--accent);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .slide-card-item:hover {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: var(--border-bright);
+      transform: translateY(-2px);
+    }
+
+    .slide-card-item.accent-crimson { border-top-color: var(--accent); }
+    .slide-card-item.accent-cyan { border-top-color: var(--accent-cyan); }
+    .slide-card-item.accent-emerald { border-top-color: var(--accent-emerald); }
+    .slide-card-item.accent-amber { border-top-color: #f59e0b; }
+
+    .slide-card-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.3;
+    }
+
+    .slide-card-desc {
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+
+    .slide-card-desc b {
+      color: #ffffff;
+    }
   </style>
 </head>
 <body>
@@ -2646,7 +2772,10 @@
       <div class="gallery-grid">
         
         <div class="figure-box">
-          <img src="img/fig1_architecture.png" alt="Классификация OSI" onclick="openModalLightbox(this.src)">
+          <div class="figure-img-wrap" onclick="openModalLightbox('img/fig1_architecture.png')" title="Увеличить схему">
+            <img src="img/fig1_architecture.png" alt="Классификация OSI">
+            <span class="figure-img-hint">🔍 300 DPI</span>
+          </div>
           <div class="figure-caption">
             <span class="figure-number">Рисунок 1</span>
             <div class="figure-title">Классификация оборудования по уровням модели OSI</div>
@@ -2655,7 +2784,10 @@
         </div>
 
         <div class="figure-box">
-          <img src="img/fig4_ethernet_frame.png" alt="Анатомия кадра" onclick="openModalLightbox(this.src)">
+          <div class="figure-img-wrap" onclick="openModalLightbox('img/fig4_ethernet_frame.png')" title="Увеличить схему">
+            <img src="img/fig4_ethernet_frame.png" alt="Анатомия кадра">
+            <span class="figure-img-hint">🔍 300 DPI</span>
+          </div>
           <div class="figure-caption">
             <span class="figure-number">Рисунок 2</span>
             <div class="figure-title">Анатомия кадра Ethernet II с тегированием IEEE 802.1Q</div>
@@ -2664,7 +2796,10 @@
         </div>
 
         <div class="figure-box">
-          <img src="img/fig2_benchmark_latency.png" alt="Бенчмаркинг Hub vs Switch" onclick="openModalLightbox(this.src)">
+          <div class="figure-img-wrap" onclick="openModalLightbox('img/fig2_benchmark_latency.png')" title="Увеличить схему">
+            <img src="img/fig2_benchmark_latency.png" alt="Бенчмаркинг Hub vs Switch">
+            <span class="figure-img-hint">🔍 300 DPI</span>
+          </div>
           <div class="figure-caption">
             <span class="figure-number">Рисунок 3</span>
             <div class="figure-title">Бенчмаркинг CSMA/CD: коллапс шины хаба vs коммутатор</div>
@@ -2673,7 +2808,10 @@
         </div>
 
         <div class="figure-box">
-          <img src="img/fig3_database_performance.png" alt="Задержки коммутации и NIC" onclick="openModalLightbox(this.src)">
+          <div class="figure-img-wrap" onclick="openModalLightbox('img/fig3_database_performance.png')" title="Увеличить схему">
+            <img src="img/fig3_database_performance.png" alt="Задержки коммутации и NIC">
+            <span class="figure-img-hint">🔍 300 DPI</span>
+          </div>
           <div class="figure-caption">
             <span class="figure-number">Рисунок 4</span>
             <div class="figure-title">Задержки коммутации и аппаратная разгрузка процессора</div>
@@ -2682,7 +2820,10 @@
         </div>
 
         <div class="figure-box" style="grid-column: span 2;">
-          <img src="img/fig5_topology.png" alt="Корпоративная топология сети" style="height: 400px;" onclick="openModalLightbox(this.src)">
+          <div class="figure-img-wrap" onclick="openModalLightbox('img/fig5_topology.png')" title="Увеличить схему">
+            <img src="img/fig5_topology.png" alt="Корпоративная топология сети">
+            <span class="figure-img-hint">🔍 300 DPI • Вся топология</span>
+          </div>
           <div class="figure-caption">
             <span class="figure-number">Рисунок 5</span>
             <div class="figure-title">Корпоративная топология сети проекта в среде моделирования Cisco Packet Tracer</div>
@@ -2882,6 +3023,15 @@
         btnElement.classList.add('active');
       }
     }
+
+    // Автоматическое переключение вкладки по хэшу URL (#gallery, #kanban, #osi)
+    window.addEventListener('DOMContentLoaded', function() {
+      if (window.location.hash) {
+        const h = window.location.hash.replace('#', '');
+        const btn = document.querySelector('.tab-trigger[onclick*="' + h + '"]');
+        if (btn) switchDesignTab(h, btn);
+      }
+    });
 
     // 5. МОДАЛЬНОЕ ОКНО LIGHTBOX
     function openModalLightbox(src) {
@@ -3280,18 +3430,28 @@
             </button>
           </div>
           <div class="slide-body">
-            <div class="slide-split-diagram">
+            <div class="slide-wide-diagram">
               <div class="slide-diagram-card" onclick="openModalLightbox('img/fig4_ethernet_frame.png')" title="Кликните для зума">
                 <img src="img/fig4_ethernet_frame.png" alt="Анатомия кадра">
                 <span class="slide-zoom-hint">🔍 300 DPI • Нажмите для зума</span>
               </div>
-              <div>
-                <ul class="slide-bullet-list">
-                  <li><b>Преамбула + SFD (8 байт):</b> синхронизация тактового генератора сетевого контроллера.</li>
-                  <li><b>MAC-адреса (12 байт):</b> физическая адресация получателя и источника (OUI + Device ID).</li>
-                  <li><b>Тег 802.1Q (4 байта):</b> TPID 0x8100, приоритет PCP (QoS 0–7) и VID (до 4094 VLAN).</li>
-                  <li><b>MTU (1500 байт) и FCS CRC-32 (4 байта):</b> аппаратная проверка целостности кадра.</li>
-                </ul>
+              <div class="slide-cards-row cols-4">
+                <div class="slide-card-item accent-crimson">
+                  <div class="slide-card-title">1. Преамбула + SFD (8 байт)</div>
+                  <div class="slide-card-desc">7Б синхронизации (10101010...) + 1Б SFD (10101011) для тактового генератора контроллера PHY.</div>
+                </div>
+                <div class="slide-card-item accent-cyan">
+                  <div class="slide-card-title">2. MAC-адреса (12 байт)</div>
+                  <div class="slide-card-desc">6 байт Destination + 6 байт Source (24 бита OUI вендора IEEE + 24 бита ID интерфейса).</div>
+                </div>
+                <div class="slide-card-item accent-amber">
+                  <div class="slide-card-title">3. Тег 802.1Q (4 байта)</div>
+                  <div class="slide-card-desc">TPID 0x8100, приоритет PCP (3 бита QoS 0–7), флаг DEI и 12 бит VLAN ID (до 4094 сетей).</div>
+                </div>
+                <div class="slide-card-item accent-emerald">
+                  <div class="slide-card-title">4. MTU и FCS CRC-32 (4 байта)</div>
+                  <div class="slide-card-desc">Полезная нагрузка Payload (46–1500 байт) и аппаратный полином контроля целостности CRC-32.</div>
+                </div>
               </div>
             </div>
           </div>
@@ -3309,17 +3469,24 @@
             </button>
           </div>
           <div class="slide-body">
-            <div class="slide-split-diagram">
+            <div class="slide-wide-diagram">
               <div class="slide-diagram-card" onclick="openModalLightbox('img/fig5_topology.png')" title="Кликните для зума">
                 <img src="img/fig5_topology.png" alt="Топология сети">
                 <span class="slide-zoom-hint">🔍 300 DPI • Нажмите для зума</span>
               </div>
-              <div>
-                <ul class="slide-bullet-list">
-                  <li><b>Маршрутизатор L3 Cisco ISR 4331:</b> межсетевая маршрутизация между подсетями 192.168.10.0/24 и 192.168.20.0/24.</li>
-                  <li><b>Сегмент А (Switch Full-Duplex):</b> коммутатор Cisco Catalyst 2960-X, гигабитные каналы 1000BASE-T, 0 коллизий.</li>
-                  <li><b>Сегмент Б (Hub Half-Duplex):</b> концентратор 3Com SuperStack, коллизионный арбитраж CSMA/CD.</li>
-                </ul>
+              <div class="slide-cards-row cols-3">
+                <div class="slide-card-item accent-crimson">
+                  <div class="slide-card-title">Маршрутизатор L3 (Cisco ISR 4331)</div>
+                  <div class="slide-card-desc">Межсетевая маршрутизация IP (RIB/FIB) между подсетями 192.168.10.0/24 и 192.168.20.0/24. Полная изоляция broadcast-шторма.</div>
+                </div>
+                <div class="slide-card-item accent-cyan">
+                  <div class="slide-card-title">Сегмент А (Switch Full-Duplex)</div>
+                  <div class="slide-card-desc">Коммутатор Cisco Catalyst 2960-X, гигабитные каналы 1000BASE-T, аппаратная микросегментация на ASIC-матрицах, 0 коллизий.</div>
+                </div>
+                <div class="slide-card-item accent-emerald">
+                  <div class="slide-card-title">Сегмент Б (Hub Half-Duplex)</div>
+                  <div class="slide-card-desc">Концентратор 3Com SuperStack, коллизионный арбитраж CSMA/CD, единая разделяемая среда (Shared Media), полудуплекс.</div>
+                </div>
               </div>
             </div>
           </div>
@@ -3337,17 +3504,24 @@
             </button>
           </div>
           <div class="slide-body">
-            <div class="slide-split-diagram">
+            <div class="slide-wide-diagram">
               <div class="slide-diagram-card" onclick="openModalLightbox('img/fig2_benchmark_latency.png')" title="Кликните для зума">
                 <img src="img/fig2_benchmark_latency.png" alt="Бенчмаркинг CSMA/CD">
                 <span class="slide-zoom-hint">🔍 300 DPI • Нажмите для зума</span>
               </div>
-              <div>
-                <ul class="slide-bullet-list">
-                  <li><b>Коллапс разделяемой среды:</b> при нагрузке 100% частота коллизий на концентраторе достигает <b>9400 кол/с</b>.</li>
-                  <li><b>Деградация пропускной способности:</b> полезная емкость хаба падает со 100 Мбит/с до <b>8.2 Мбит/с</b>.</li>
-                  <li><b>Преимущество Switch Full-Duplex:</b> коммутатор сохраняет утилизацию <b>98.0 Мбит/с</b> при <b>0 коллизий</b>.</li>
-                </ul>
+              <div class="slide-cards-row cols-3">
+                <div class="slide-card-item accent-crimson">
+                  <div class="slide-card-title">Коллапс разделяемой среды</div>
+                  <div class="slide-card-desc">При нагрузке 100% частота коллизий на концентраторе лавинообразно достигает <b>9400 кол/с</b> из-за алгоритма экспоненциального отката BEB.</div>
+                </div>
+                <div class="slide-card-item accent-amber">
+                  <div class="slide-card-title">Деградация полезной емкости</div>
+                  <div class="slide-card-desc">Полезная пропускная способность хаба катастрофически падает со 100 Мбит/с до <b>8.2 Мбит/с</b> (потеря 91.8% пропускной способности).</div>
+                </div>
+                <div class="slide-card-item accent-emerald">
+                  <div class="slide-card-title">Преимущество Switch Full-Duplex</div>
+                  <div class="slide-card-desc">Коммутатор сохраняет линейную утилизацию <b>98.0 Мбит/с</b> при <b>0 коллизий</b> благодаря выделенным буферам каждого порта.</div>
+                </div>
               </div>
             </div>
           </div>
@@ -3365,17 +3539,24 @@
             </button>
           </div>
           <div class="slide-body">
-            <div class="slide-split-diagram">
+            <div class="slide-wide-diagram">
               <div class="slide-diagram-card" onclick="openModalLightbox('img/fig3_database_performance.png')" title="Кликните для зума">
                 <img src="img/fig3_database_performance.png" alt="Задержки коммутации">
                 <span class="slide-zoom-hint">🔍 300 DPI • Нажмите для зума</span>
               </div>
-              <div>
-                <ul class="slide-bullet-list">
-                  <li><b>Сквозная коммутация (Cut-Through):</b> ультранизкая постоянная задержка <b>0.45 мкс</b> независимо от длины пакета.</li>
-                  <li><b>Буферизация (Store-and-Forward):</b> линейный рост задержки до <b>12.80 мкс</b> при MTU 1500 байт.</li>
-                  <li><b>Аппаратные разгрузки NIC (TSO/LRO/Jumbo):</b> снижают нагрузку на центральный процессор хоста с <b>92.4% до 9.8%</b>.</li>
-                </ul>
+              <div class="slide-cards-row cols-3">
+                <div class="slide-card-item accent-cyan">
+                  <div class="slide-card-title">Сквозная коммутация (Cut-Through)</div>
+                  <div class="slide-card-desc">Постоянная ультранизкая задержка <b>0.45 мкс</b> независимо от длины кадра (коммутация сразу после чтения первых 6 байт MAC).</div>
+                </div>
+                <div class="slide-card-item accent-amber">
+                  <div class="slide-card-title">Буферизация (Store-and-Forward)</div>
+                  <div class="slide-card-desc">Линейный рост задержки до <b>12.80 мкс</b> при MTU 1500 байт из-за необходимости полной буферизации и валидации FCS CRC-32.</div>
+                </div>
+                <div class="slide-card-item accent-emerald">
+                  <div class="slide-card-title">Аппаратные разгрузки NIC (TSO/LRO)</div>
+                  <div class="slide-card-desc">Разгрузка сегментации TCP и Jumbo-фреймы снижают утилизацию центрального процессора хоста с <b>92.4% до 9.8%</b>.</div>
+                </div>
               </div>
             </div>
           </div>
