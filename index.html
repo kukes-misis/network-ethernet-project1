@@ -233,56 +233,87 @@
       line-height: 1.45;
     }
 
-    /* Навигация по доскам (Табы в стиле «Инвентаря» студии) */
+    /* Навигация по доскам — Удобные кнопки без листалки (без горизонтальной прокрутки) */
     .als-section-tabs {
-      display: flex;
-      border-bottom: 1px solid var(--border);
-      gap: 32px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
       margin-bottom: 35px;
-      overflow-x: auto;
+      background: var(--bg-alt);
+      padding: 8px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: visible;
+    }
+
+    @media (max-width: 960px) {
+      .als-section-tabs {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .als-section-tabs {
+        grid-template-columns: 1fr;
+      }
     }
 
     .als-tab-item {
-      padding: 14px 0;
-      font-size: 15.5px;
+      padding: 12px 16px;
+      font-size: 14.5px;
       font-weight: 700;
-      color: var(--text-subtle);
-      border: none;
+      color: var(--text-muted);
+      border: 1px solid transparent;
       background: transparent;
       cursor: pointer;
-      border-bottom: 3px solid transparent;
-      white-space: nowrap;
-      transition: all 0.25s var(--ease-smooth);
+      border-radius: 8px;
+      transition: all 0.2s var(--ease-smooth);
       display: flex;
       align-items: center;
-      gap: 8px;
-      position: relative;
+      justify-content: space-between;
+      gap: 10px;
+      text-align: left;
+      user-select: none;
     }
 
     .als-tab-item:hover {
       color: var(--text);
+      background: #ffffff;
       transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
 
     .als-tab-item.active {
-      color: var(--text);
-      border-bottom-color: var(--accent-red);
+      color: #ffffff;
+      background: #111111;
+      border-color: #111111;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+      position: relative;
+    }
+
+    .als-tab-title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .tab-badge {
       font-family: var(--mono);
       font-size: 11px;
-      background: var(--bg-alt);
+      background: var(--bg);
       color: var(--text-muted);
-      padding: 2px 7px;
-      border-radius: 4px;
+      padding: 3px 8px;
+      border-radius: 6px;
       border: 1px solid var(--border);
       transition: all 0.2s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
+
     .als-tab-item.active .tab-badge {
-      background: #111111;
+      background: rgba(255, 255, 255, 0.18);
       color: #ffffff;
-      border-color: #111111;
+      border-color: rgba(255, 255, 255, 0.3);
     }
 
     .tab-pane {
@@ -779,19 +810,23 @@
       </p>
     </section>
 
-    <!-- ТАБЫ В СТИЛЕ ИНВЕНТАРЯ СТУДИИ -->
+    <!-- ТАБЫ: НАВИГАЦИЯ БЕЗ ПРОКРУТКИ И ЛИСТАЛОК -->
     <nav class="als-section-tabs">
       <button class="als-tab-item active" onclick="switchAlsTab('whiteboard', this)">
-        1. Интерактивная доска оборудования <span class="tab-badge">5 устройств + 4 схемы</span>
+        <span class="als-tab-title">1. Доска оборудования</span>
+        <span class="tab-badge">5 устройств</span>
       </button>
       <button class="als-tab-item" onclick="switchAlsTab('kanban', this)">
-        2. Доска этапов реализации <span class="tab-badge">9 задач (100%)</span>
+        <span class="als-tab-title">2. Этапы реализации</span>
+        <span class="tab-badge">9 задач</span>
       </button>
       <button class="als-tab-item" onclick="switchAlsTab('osi', this)">
-        3. Архитектура уровней OSI <span class="tab-badge">L1 / L2 / L3</span>
+        <span class="als-tab-title">3. Модель OSI</span>
+        <span class="tab-badge">L1 • L2 • L3</span>
       </button>
       <button class="als-tab-item" onclick="switchAlsTab('gallery', this)">
-        4. Научные схемы и графики <span class="tab-badge">300 DPI</span>
+        <span class="als-tab-title">4. Научные схемы</span>
+        <span class="tab-badge">300 DPI</span>
       </button>
     </nav>
 
@@ -1195,13 +1230,18 @@
 
   <script>
     function switchAlsTab(tabId, btnElement) {
-      document.querySelectorAll('.tab-pane').forEach(tab => {
-        tab.classList.remove('active');
-      });
-      document.querySelectorAll('.als-tab-item').forEach(btn => {
-        btn.classList.remove('active');
-      });
+      // Снимаем активность со всех панелей и кнопок
+      const panes = document.querySelectorAll('.tab-pane');
+      for (let i = 0; i < panes.length; i++) {
+        panes[i].classList.remove('active');
+      }
 
+      const buttons = document.querySelectorAll('.als-tab-item');
+      for (let i = 0; i < buttons.length; i++) {
+        buttons[i].classList.remove('active');
+      }
+
+      // Активируем выбранную доску
       const target = document.getElementById(tabId);
       if (target) {
         target.classList.add('active');
@@ -1210,29 +1250,33 @@
       if (btnElement) {
         btnElement.classList.add('active');
       }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function openAlsLightbox(src) {
       const lb = document.getElementById('als-lightbox');
       const img = document.getElementById('als-lightbox-img');
-      img.src = src;
-      lb.classList.add('active');
+      if (lb && img) {
+        img.src = src;
+        lb.classList.add('active');
+      }
     }
 
     function closeAlsLightbox() {
-      document.getElementById('als-lightbox').classList.remove('active');
+      const lb = document.getElementById('als-lightbox');
+      if (lb) {
+        lb.classList.remove('active');
+      }
     }
 
-    // Дополнительный интерактивный 3D-Tilt эффект для карточек оборудования
-    document.querySelectorAll('.als-card').forEach(card => {
-      card.addEventListener('mousemove', e => {
+    // Интерактивный 3D-Tilt эффект при наведении курсора
+    document.querySelectorAll('.als-card').forEach(function(card) {
+      card.addEventListener('mousemove', function(e) {
         const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        card.style.transform = ;
+        const x = (e.clientX - rect.left - rect.width / 2) / 20;
+        const y = (e.clientY - rect.top - rect.height / 2) / 20;
+        card.style.transform = 'perspective(1000px) rotateX(' + (-y) + 'deg) rotateY(' + x + 'deg) translateY(-4px)';
       });
-      card.addEventListener('mouseleave', () => {
+      card.addEventListener('mouseleave', function() {
         card.style.transform = '';
       });
     });
