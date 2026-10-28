@@ -3,573 +3,618 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Проект № 1: Проводная сеть Ethernet и сетевые устройства | НИТУ МИСИС</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <title>Проект № 1: Проводная сеть Ethernet и сетевые устройства — НИТУ МИСИС</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
+    /* -------------------------------------------------------------
+       ДИЗАЙН-КОД СТУДИИ АРТЕМИЯ ЛЕБЕДЕВА (Art. Lebedev Studio style)
+       Контраст, плотная сетка, четкая швейцарская типографика, 
+       лаконичные акценты, функциональные микросекции и инвентарь.
+       ------------------------------------------------------------- */
     :root {
-      --bg: #0b1120;
-      --card-bg: #1e293b;
-      --card-border: #334155;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --accent: #7c3aed;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --canvas-bg: #e2e8f0;
-      --grid-dot: #cbd5e1;
+      --bg: #ffffff;
+      --bg-alt: #f6f7f8;
+      --border: #e2e4e8;
+      --border-dark: #1a1a1a;
+      --text: #111111;
+      --text-muted: #666666;
+      --text-subtle: #888888;
+      --accent-red: #ea2323;
+      --accent-blue: #0052cc;
+      --accent-yellow: #ffcc00;
+      --link: #0044bb;
+      --link-hover: #ea2323;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: var(--sans);
       background: var(--bg);
       color: var(--text);
-      min-height: 100vh;
-      line-height: 1.55;
+      line-height: 1.45;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Верхняя академическая панель навигации */
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(11, 17, 32, 0.94);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--card-border);
-      padding: 14px 28px;
+    a {
+      color: var(--link);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+      transition: color 0.15s ease, text-decoration-color 0.15s ease;
+    }
+    a:hover {
+      color: var(--link-hover);
+      text-decoration-color: var(--link-hover);
+    }
+
+    /* Верхняя фирменная полоса (Header Лебедева) */
+    .als-topbar {
+      border-bottom: 2px solid var(--text);
+      padding: 14px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
+      background: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .als-identity {
+      display: flex;
+      align-items: baseline;
       gap: 16px;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .brand-logo {
-      width: 42px;
-      height: 42px;
-      background: linear-gradient(135deg, #1e40af, #3b82f6);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      font-weight: 800;
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
-      border: 1px solid rgba(255,255,255,0.15);
-    }
-
-    .brand-title {
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: -0.3px;
-      color: #ffffff;
-    }
-
-    .brand-sub {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 1px;
-    }
-
-    /* Навигационные вкладки */
-    .tabs-nav {
-      display: flex;
-      background: #1e293b;
-      padding: 4px;
-      border-radius: 12px;
-      border: 1px solid var(--card-border);
-      gap: 4px;
-    }
-
-    .tab-btn {
-      padding: 9px 18px;
-      border-radius: 8px;
-      font-size: 13.5px;
-      font-weight: 600;
-      color: var(--text-muted);
-      background: transparent;
-      border: none;
-      cursor: pointer;
+    .als-logo-text {
+      font-size: 19px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      color: var(--text);
       display: flex;
       align-items: center;
       gap: 8px;
-      transition: all 0.2s ease;
+    }
+    .als-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: var(--accent-red);
+      border-radius: 50%;
     }
 
-    .tab-btn:hover {
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.06);
-    }
-
-    .tab-btn.active {
-      background: var(--primary);
-      color: #ffffff;
-      box-shadow: 0 2px 10px rgba(37, 99, 235, 0.4);
-    }
-
-    .quick-links {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .btn-link {
-      padding: 8px 14px;
-      border-radius: 8px;
+    .als-meta {
       font-size: 12.5px;
-      font-weight: 600;
+      color: var(--text-muted);
+      font-family: var(--mono);
+    }
+
+    .als-nav {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+      align-items: center;
+    }
+
+    .als-nav a {
+      font-size: 13px;
+      font-weight: 700;
       text-decoration: none;
-      color: #f1f5f9;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--card-border);
-      transition: all 0.2s;
+      color: var(--text);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    .als-nav a:hover {
+      background: var(--text);
+      color: #ffffff;
+    }
+
+    .als-btn-red {
+      background: var(--accent-red) !important;
+      color: #ffffff !important;
+      text-decoration: none !important;
+      padding: 6px 14px !important;
+      border-radius: 4px !important;
+      font-weight: 800 !important;
+    }
+    .als-btn-red:hover {
+      background: #111111 !important;
+    }
+
+    /* Главный контейнер */
+    .als-container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 40px 40px 80px 40px;
+    }
+
+    /* Мощный типографический заголовок в стиле «Ководства» */
+    .als-hero {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 30px;
+      margin-bottom: 35px;
+    }
+
+    .als-tagline {
+      font-family: var(--mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent-red);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .als-hero h1 {
+      font-size: 44px;
+      font-weight: 900;
+      letter-spacing: -1.2px;
+      line-height: 1.1;
+      max-width: 1100px;
+      margin-bottom: 16px;
+    }
+
+    .als-lead {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 950px;
+      line-height: 1.45;
+    }
+
+    /* Навигация по доскам / разделам (Табы в стиле «Инвентаря» студии) */
+    .als-section-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      gap: 32px;
+      margin-bottom: 35px;
+      overflow-x: auto;
+    }
+
+    .als-tab-item {
+      padding: 12px 0;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-subtle);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+      transition: all 0.15s ease;
       display: flex;
       align-items: center;
-      gap: 6px;
-    }
-    .btn-link:hover {
-      background: rgba(255,255,255,0.12);
-      border-color: #64748b;
+      gap: 8px;
     }
 
-    .btn-link-accent {
-      background: rgba(124, 58, 237, 0.2);
-      border-color: rgba(124, 58, 237, 0.5);
-      color: #c4b5fd;
-    }
-    .btn-link-accent:hover {
-      background: rgba(124, 58, 237, 0.35);
-      border-color: #a78bfa;
+    .als-tab-item:hover {
+      color: var(--text);
     }
 
-    /* Контейнеры вкладок */
-    .tab-content {
+    .als-tab-item.active {
+      color: var(--text);
+      border-bottom-color: var(--accent-red);
+    }
+
+    .tab-badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      background: var(--bg-alt);
+      color: var(--text-muted);
+      padding: 2px 6px;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+    }
+
+    .tab-pane {
       display: none;
-      padding: 30px;
-      max-width: 1520px;
-      margin: 0 auto;
-      animation: fadeIn 0.2s ease-out;
+      animation: fadeIn 0.15s ease-out;
     }
-
-    .tab-content.active {
+    .tab-pane.active {
       display: block;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
-    /* Академическая шапка раздела */
-    .section-header {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 22px 26px;
-      margin-bottom: 25px;
+    /* -------------------------------------------------------------
+       РАЗДЕЛ 1: АНАЛИТИЧЕСКИЕ КАРТОЧКИ ОБОРУДОВАНИЯ И ИНТЕЛЛЕКТ-КАРТЫ
+       ------------------------------------------------------------- */
+    .als-grid-5 {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .als-card {
+      border: 1px solid var(--border);
+      background: #ffffff;
+      padding: 22px 18px;
+      border-radius: 4px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .als-card:hover {
+      border-color: var(--border-dark);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .als-card-header {
+      margin-bottom: 14px;
+    }
+
+    .als-card-osi {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-red);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .als-card-title {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+
+    .als-card-text {
+      font-size: 13.5px;
+      color: #333333;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .als-card-props {
+      list-style: none;
+      font-size: 12.5px;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+      color: var(--text-muted);
+    }
+    .als-card-props li {
+      margin-bottom: 5px;
+      padding-left: 14px;
+      position: relative;
+    }
+    .als-card-props li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: var(--accent-red);
+    }
+
+    .als-card-footer {
+      margin-top: 16px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-subtle);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Модульная сетка интеллект-карт (Mind Maps) */
+    .als-subhead {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .als-mindmaps {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .als-map-box {
+      border: 1px solid var(--border);
+      background: var(--bg-alt);
+      padding: 24px;
+      border-radius: 4px;
+    }
+
+    .als-map-title {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .als-map-root {
+      background: #111111;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 14px;
+      padding: 10px 18px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    .als-map-branches {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+    }
+
+    .als-branch {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      padding: 12px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      transition: border-color 0.15s;
+    }
+    .als-branch:hover {
+      border-color: #111111;
+    }
+    .als-branch b {
+      display: block;
+      font-size: 12.5px;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    /* -------------------------------------------------------------
+       РАЗДЕЛ 2: КАНБАН-ДОСКА ЭТАПОВ ПРОЕКТА
+       ------------------------------------------------------------- */
+    .als-kanban {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .als-kanban-col {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      padding: 20px;
+      border-radius: 4px;
+    }
+
+    .als-kanban-head {
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--text);
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .als-task {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px;
+      margin-bottom: 12px;
+      transition: all 0.15s ease;
+    }
+    .als-task:hover {
+      border-color: var(--text);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .als-task-category {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-red);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .als-task-title {
+      font-size: 14.5px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      line-height: 1.35;
+    }
+
+    .als-task-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 12px;
+    }
+
+    .als-task-meta {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: var(--text-subtle);
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* -------------------------------------------------------------
+       РАЗДЕЛ 3: СРАВНЕНИЕ OSI И БАЗА ЗНАНИЙ
+       ------------------------------------------------------------- */
+    .als-osi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .als-osi-box {
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--text);
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 4px;
+    }
+    .als-osi-box-l3 { border-top-color: #0052cc; }
+    .als-osi-box-l2 { border-top-color: #00875a; }
+    .als-osi-box-l1 { border-top-color: #ff9900; }
+
+    .als-osi-num {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .als-osi-name {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+    .als-osi-sub {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .als-osi-specs {
+      list-style: none;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .als-osi-specs li {
+      margin-bottom: 10px;
+      padding-left: 14px;
+      position: relative;
+    }
+    .als-osi-specs li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: var(--accent-red);
+      font-weight: bold;
+    }
+
+    /* -------------------------------------------------------------
+       РАЗДЕЛ 4: НАУЧНЫЕ СХЕМЫ И ГРАФИКИ (300 DPI) С ПОДПИСЯМИ
+       ------------------------------------------------------------- */
+    .als-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .als-fig-box {
+      border: 1px solid var(--border);
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 4px;
+      transition: border-color 0.15s ease;
+    }
+    .als-fig-box:hover {
+      border-color: #111111;
+    }
+
+    .als-fig-box img {
+      width: 100%;
+      height: 340px;
+      object-fit: contain;
+      background: var(--bg-alt);
+      border-radius: 2px;
+      border: 1px solid var(--border);
+      display: block;
+      margin-bottom: 14px;
+      cursor: zoom-in;
+    }
+
+    .als-fig-title {
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .als-fig-desc {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    /* -------------------------------------------------------------
+       ПОДВАЛ В СТИЛЕ СТУДИИ ЛЕБЕДЕВА (ПАСПОРТ ПРОЕКТА И КОМАНДА)
+       ------------------------------------------------------------- */
+    .als-footer {
+      border-top: 2px solid var(--text);
+      padding-top: 30px;
+      margin-top: 50px;
+    }
+
+    .als-team-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .als-member {
+      border-left: 2px solid var(--accent-red);
+      padding-left: 12px;
+    }
+    .als-member-name {
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 2px;
+    }
+    .als-member-role {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--accent-blue);
+      margin-bottom: 4px;
+    }
+    .als-member-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    .als-credits {
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 16px;
-    }
-    .section-header h2 {
-      font-size: 19px;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #ffffff;
-    }
-    .section-header p {
-      font-size: 13.5px;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 12.5px;
-      font-weight: 700;
-      background: rgba(16, 185, 129, 0.15);
-      color: #34d399;
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-
-    /* =========================================================================
-       РАЗДЕЛ 1: СТИЛИ ИНТЕРАКТИВНОЙ ДОСКИ ОБОРУДОВАНИЯ И СХЕМ
-       ========================================================================= */
-    .canvas-container {
-      background-color: var(--canvas-bg);
-      background-image: radial-gradient(var(--grid-dot) 1.5px, transparent 1.5px);
-      background-size: 22px 22px;
-      border-radius: 18px;
-      padding: 28px;
-      box-shadow: inset 0 2px 8px rgba(0,0,0,0.12);
-      border: 1px solid #94a3b8;
-      color: #0f172a;
-    }
-
-    .stickers-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 18px;
-      margin-bottom: 30px;
-    }
-
-    .sticky-card {
-      border-radius: 12px;
-      padding: 18px 16px;
-      box-shadow: 2px 6px 14px rgba(0,0,0,0.07);
-      position: relative;
-      transition: transform 0.2s, box-shadow 0.2s;
-      min-height: 295px;
-      display: flex;
-      flex-direction: column;
-      border-top: 5px solid;
-    }
-    .sticky-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 4px 12px 22px rgba(0,0,0,0.12);
-      z-index: 5;
-    }
-
-    .sticky-yellow { background: #fef9c3; border-color: #eab308; }
-    .sticky-pink { background: #fce7f3; border-color: #ec4899; }
-    .sticky-orange { background: #ffedd5; border-color: #f97316; }
-    .sticky-green { background: #dcfce7; border-color: #22c55e; }
-    .sticky-blue { background: #dbeafe; border-color: #3b82f6; }
-
-    .sticky-header {
-      font-size: 16px;
-      font-weight: 800;
-      color: #0f172a;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px dashed rgba(0,0,0,0.18);
-      padding-bottom: 7px;
-    }
-
-    .sticky-level {
-      font-size: 11px;
-      font-weight: 800;
-      padding: 2px 7px;
-      border-radius: 6px;
-      background: rgba(0,0,0,0.08);
-      color: #0f172a;
-    }
-
-    .sticky-body {
-      font-size: 13px;
-      line-height: 1.5;
-      color: #1e293b;
-      flex-grow: 1;
-    }
-
-    .sticky-footer {
-      margin-top: 12px;
-      padding-top: 7px;
-      border-top: 1px dashed rgba(0,0,0,0.18);
-      font-size: 11.5px;
-      font-weight: 700;
-      color: #334155;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .mindmaps-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 22px;
-    }
-
-    .mindmap-block {
-      background: rgba(255, 255, 255, 0.94);
-      border-radius: 14px;
-      border: 1px solid #cbd5e1;
-      padding: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
-    }
-
-    .mindmap-title {
-      font-size: 15px;
-      font-weight: 800;
-      color: #0f172a;
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .tree-root {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .root-node {
-      background: #1d4ed8;
-      color: #ffffff;
-      font-weight: 800;
-      font-size: 14px;
-      padding: 9px 22px;
-      border-radius: 10px;
-      box-shadow: 0 3px 8px rgba(29, 78, 216, 0.3);
-      text-align: center;
-    }
-    .root-node-purple { background: #6d28d9; box-shadow: 0 3px 8px rgba(109, 40, 217, 0.3); }
-    .root-node-teal { background: #0f766e; box-shadow: 0 3px 8px rgba(15, 118, 110, 0.3); }
-    .root-node-amber { background: #b45309; box-shadow: 0 3px 8px rgba(180, 83, 9, 0.3); }
-
-    .branches-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
-      gap: 10px;
-      width: 100%;
-    }
-
-    .branch-card {
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      padding: 10px 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-      font-size: 11.5px;
-      text-align: center;
-      transition: all 0.2s;
-    }
-    .branch-card:hover {
-      border-color: #2563eb;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    }
-    .branch-card b { display: block; font-size: 12px; margin-bottom: 3px; color: #0f172a; }
-
-    /* =========================================================================
-       РАЗДЕЛ 2: КАНБАН-ДОСКА ЭТАПОВ ПРОЕКТА
-       ========================================================================= */
-    .kanban-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      margin-bottom: 25px;
-    }
-
-    .kanban-col {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 18px;
-    }
-
-    .kanban-col-header {
-      font-size: 15px;
-      font-weight: 800;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--card-border);
-    }
-
-    .kanban-task {
-      background: #0f172a;
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 13px;
-      transition: all 0.2s;
-    }
-    .kanban-task:hover {
-      border-color: var(--primary);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-    }
-
-    .task-tag {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 6px;
-      margin-bottom: 8px;
-    }
-    .tag-blue { background: rgba(37, 99, 235, 0.2); color: #93c5fd; }
-    .tag-green { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
-    .tag-purple { background: rgba(124, 58, 237, 0.2); color: #d8b4fe; }
-
-    .task-title {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 6px;
-      color: #f8fafc;
-    }
-    .task-desc {
       font-size: 12.5px;
       color: var(--text-muted);
-      line-height: 1.45;
-    }
-    .task-assignee {
-      margin-top: 10px;
-      padding-top: 8px;
-      border-top: 1px dashed var(--card-border);
-      font-size: 11.5px;
-      font-weight: 600;
-      color: #38bdf8;
-      display: flex;
-      justify-content: space-between;
+      font-family: var(--mono);
     }
 
-    /* =========================================================================
-       РАЗДЕЛ 3: БАЗА ЗНАНИЙ И СРАВНЕНИЕ OSI
-       ========================================================================= */
-    .osi-cards-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      margin-bottom: 25px;
-    }
-
-    .osi-layer-card {
-      background: var(--card-bg);
-      border: 2px solid;
-      border-radius: 16px;
-      padding: 22px;
-    }
-    .osi-layer-l3 { border-color: #0288d1; }
-    .osi-layer-l2 { border-color: #10b981; }
-    .osi-layer-l1 { border-color: #f59e0b; }
-
-    .osi-title {
-      font-size: 17px;
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-    .osi-devs {
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 14px;
-      color: var(--text-muted);
-    }
-
-    .osi-list {
-      list-style: none;
-      font-size: 12.8px;
-      line-height: 1.6;
-    }
-    .osi-list li {
-      margin-bottom: 8px;
-      padding-left: 18px;
-      position: relative;
-    }
-    .osi-list li::before {
-      content: "•";
-      position: absolute;
-      left: 0;
-      color: var(--primary);
-      font-weight: bold;
-    }
-
-    /* =========================================================================
-       РАЗДЕЛ 4: ГАЛЕРЕЯ НАУЧНЫХ СХЕМ
-       ========================================================================= */
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 22px;
-      margin-bottom: 25px;
-    }
-
-    .gallery-item {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 16px;
-      overflow: hidden;
-      transition: all 0.2s;
-    }
-    .gallery-item:hover {
-      border-color: var(--primary);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-    }
-    .gallery-item img {
-      width: 100%;
-      height: 310px;
-      object-fit: contain;
-      background: #0b1120;
-      border-radius: 10px;
-      border: 1px solid var(--card-border);
-      display: block;
-      margin-bottom: 12px;
-      cursor: zoom-in;
-    }
-    .gallery-caption {
-      font-size: 13.5px;
-      font-weight: 700;
-      color: var(--text);
-      text-align: center;
-    }
-    .gallery-sub {
-      font-size: 12px;
-      color: var(--text-muted);
-      text-align: center;
-      margin-top: 3px;
-    }
-
-    /* Проектная команда (в подвале каждого раздела) */
-    .team-strip {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 22px;
-      margin-top: 25px;
-    }
-    .team-strip h3 {
-      font-size: 15px;
-      font-weight: 800;
-      margin-bottom: 14px;
-      color: #ffffff;
-    }
-    .team-strip-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 12px;
-    }
-    .strip-card {
-      background: #0f172a;
-      border: 1px solid var(--card-border);
-      border-radius: 10px;
-      padding: 12px;
-      border-left: 4px solid var(--primary);
-    }
-    .strip-name { font-size: 12.5px; font-weight: 700; margin-bottom: 3px; color: #f8fafc; }
-    .strip-role { font-size: 11px; font-weight: 600; color: #60a5fa; margin-bottom: 4px; }
-    .strip-desc { font-size: 11px; color: var(--text-muted); line-height: 1.35; }
-
-    /* Lightbox для схем */
-    .lightbox {
+    /* Lightbox */
+    .als-lightbox {
       display: none;
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.88);
+      background: rgba(17, 17, 17, 0.92);
       backdrop-filter: blur(8px);
       z-index: 2000;
       justify-content: center;
@@ -577,247 +622,235 @@
       padding: 40px;
       cursor: zoom-out;
     }
-    .lightbox.active { display: flex; }
-    .lightbox img {
+    .als-lightbox.active { display: flex; }
+    .als-lightbox img {
       max-width: 95%;
       max-height: 90vh;
-      border-radius: 10px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-      border: 1px solid #475569;
+      border-radius: 4px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.2);
     }
   </style>
 </head>
 <body>
 
-  <!-- ВЕРХНЯЯ ПАНЕЛЬ С АКАДЕМИЧЕСКОЙ НАВИГАЦИЕЙ -->
-  <header class="navbar">
-    <div class="brand">
-      <div class="brand-logo">МИСИС</div>
-      <div>
-        <div class="brand-title">Проект № 1: Проводная сеть Ethernet и сетевые устройства</div>
-        <div class="brand-sub">Кафедра инфокоммуникационных технологий • Группа БИВТ-26-6-9 • Преподаватель: к.т.н., с.н.с. Микитенко И. И.</div>
-      </div>
+  <!-- ВЕРХНЯЯ ШВЕЙЦАРСКАЯ ПОЛОСА НАВИГАЦИИ -->
+  <header class="als-topbar">
+    <div class="als-identity">
+      <div class="als-logo-text"><span class="als-dot"></span> МИСИС • ИКТ</div>
+      <div class="als-meta">БИВТ-26-6-9 / Проект № 1 / Преподаватель: Микитенко И. И.</div>
     </div>
+    <ul class="als-nav">
+      <li><a href="tests/Интерактивный_Тест_Ethernet.html" target="_blank">Тест (15 вопросов)</a></li>
+      <li><a href="tests/Интерактивная_Форма_Оценки_Проекта.html" target="_blank">Рецензирование</a></li>
+      <li><a href="docs/ПР-4__БИВТ-26-6-9__Ерепов%20К.М.__Проводная%20сеть%20Ethernet%20и%20сетевые%20устройства.pdf" target="_blank">Отчет ГОСТ (29 с.)</a></li>
+      <li><a href="docs/План_защиты_ВМ_ПР4_Микитенко_Ерепов_К_М.pdf" target="_blank">План защиты (3 мин.)</a></li>
+      <li><a href="https://github.com/kukes-misis/network-ethernet-project1" target="_blank" class="als-btn-red">GitHub</a></li>
+    </ul>
+  </header>
 
-    <!-- ВКЛАДКИ РАЗДЕЛОВ ДОСКИ -->
-    <nav class="tabs-nav">
-      <button class="tab-btn active" onclick="switchTab('whiteboard', this)">
-        📊 Виртуальная интерактивная доска
+  <div class="als-container">
+
+    <!-- КРУПНЫЙ ТИПОГРАФИЧЕСКИЙ БЛОК В СТИЛЕ СТУДИИ ЛЕБЕДЕВА -->
+    <section class="als-hero">
+      <div class="als-tagline">Практическая работа № 4 — Разработка и защита IT-проекта</div>
+      <h1>Проводная сеть Ethernet, режимы работы и стандарты сетевых устройств</h1>
+      <p class="als-lead">
+        Архитектурное исследование концентраторов, мостов, коммутаторов, маршрутизаторов, сетевых адаптеров (NIC) и стандартов IEEE 802.3. Включает физический бенчмаркинг CSMA/CD, замеры задержек Cut-Through и оценку аппаратной разгрузки процессора хоста.
+      </p>
+    </section>
+
+    <!-- ТАБЫ В СТИЛЕ ИНВЕНТАРЯ СТУДИИ -->
+    <nav class="als-section-tabs">
+      <button class="als-tab-item active" onclick="switchAlsTab('whiteboard', this)">
+        1. Интерактивная доска оборудования <span class="tab-badge">5 устройств + 4 схемы</span>
       </button>
-      <button class="tab-btn" onclick="switchTab('kanban', this)">
-        📌 Доска реализации проекта
+      <button class="als-tab-item" onclick="switchAlsTab('kanban', this)">
+        2. Доска этапов реализации <span class="tab-badge">9 задач (100%)</span>
       </button>
-      <button class="tab-btn" onclick="switchTab('osi', this)">
-        🧱 Архитектура оборудования L1/L2/L3 OSI
+      <button class="als-tab-item" onclick="switchAlsTab('osi', this)">
+        3. Архитектура уровней OSI <span class="tab-badge">L1 / L2 / L3</span>
       </button>
-      <button class="tab-btn" onclick="switchTab('gallery', this)">
-        🖼️ Научные схемы и графики (300 DPI)
+      <button class="als-tab-item" onclick="switchAlsTab('gallery', this)">
+        4. Научные схемы и графики <span class="tab-badge">300 DPI</span>
       </button>
     </nav>
 
-    <div class="quick-links">
-      <a href="tests/Интерактивный_Тест_Ethernet.html" class="btn-link" target="_blank">
-        🚀 Тест (15 вопросов)
-      </a>
-      <a href="tests/Интерактивная_Форма_Оценки_Проекта.html" class="btn-link btn-link-accent" target="_blank">
-        ⭐ Рецензирование
-      </a>
-      <a href="docs/ПР-4__БИВТ-26-6-9__Ерепов%20К.М.__Проводная%20сеть%20Ethernet%20и%20сетевые%20устройства.pdf" class="btn-link" target="_blank">
-        📄 Отчет по ГОСТ
-      </a>
-      <a href="docs/План_защиты_ВМ_ПР4_Микитенко_Ерепов_К_М.pdf" class="btn-link" target="_blank">
-        🎙️ Речь докладчика
-      </a>
-      <a href="https://github.com/kukes-misis/network-ethernet-project1" class="btn-link" target="_blank">
-        🐙 GitHub
-      </a>
-    </div>
-  </header>
-
-  <!-- =========================================================================
-       РАЗДЕЛ 1: ИНТЕРАКТИВНАЯ ДОСКА ОБОРУДОВАНИЯ И ИНТЕЛЛЕКТ-КАРТ
-       ========================================================================= -->
-  <main id="whiteboard" class="tab-content active">
-    <div class="section-header">
-      <div>
-        <h2>📊 Виртуальная интерактивная доска оборудования и стандартов сетей</h2>
-        <p>Архитектурная классификация сетевых устройств, режимов функционирования и стандартов проводных сетей IEEE 802.3.</p>
-      </div>
-      <div>
-        <span class="status-badge">
-          ✓ Материал подготовлен к очной защите проекта
-        </span>
-      </div>
-    </div>
-
-    <div class="canvas-container">
+    <!-- =============================================================
+         РАЗДЕЛ 1: ИНТЕРАКТИВНАЯ ДОСКА ОБОРУДОВАНИЯ (1 В 1 ПО РЕГЛАМЕНТУ)
+         ============================================================= -->
+    <div id="whiteboard" class="tab-pane active">
       
-      <!-- СТИКЕРЫ ОБОРУДОВАНИЯ (ПО ТРЕБОВАНИЯМ КАФЕДРЫ) -->
-      <div class="stickers-grid">
+      <div class="als-grid-5">
         
-        <div class="sticky-card sticky-yellow">
-          <div class="sticky-header">
-            <span>Концентратор (Хаб)</span>
-            <span class="sticky-level">L1 OSI</span>
+        <!-- КАРТОЧКА 1: ХАБ -->
+        <div class="als-card">
+          <div class="als-card-header">
+            <span class="als-card-osi">L1 Physical</span>
+            <div class="als-card-title">Концентратор (Хаб)</div>
           </div>
-          <div class="sticky-body">
-            Сетевое устройство физического уровня для объединения узлов в единый сегмент.
-            <br><br>
-            <b>Принцип функционирования:</b> побитовое повторение электрических сигналов со входного порта на <b>все остальные порты</b> без анализа MAC-адресов.
-            <br><br>
-            • 1 единый домен коллизий (Shared Media)<br>
-            • Полудуплексный режим (Half-Duplex)<br>
-            • Протокол доступа CSMA/CD<br>
-            • Отсутствие внутренней буферизации
+          <div class="als-card-text">
+            Повторяет электрические импульсы со входного порта на все остальные порты без анализа MAC-адресов.
           </div>
-          <div class="sticky-footer">
+          <ul class="als-card-props">
+            <li>1 общий домен коллизий (Shared Media)</li>
+            <li>Полудуплекс (Half-Duplex)</li>
+            <li>Протокол CSMA/CD</li>
+            <li>0 буферизации данных</li>
+          </ul>
+          <div class="als-card-footer">
             <span>3Com SuperStack</span>
-            <span>Физический уровень</span>
+            <span>Shared Media</span>
           </div>
         </div>
 
-        <div class="sticky-card sticky-pink">
-          <div class="sticky-header">
-            <span>Сетевой мост (Bridge)</span>
-            <span class="sticky-level">L2 OSI</span>
+        <!-- КАРТОЧКА 2: МОСТ -->
+        <div class="als-card">
+          <div class="als-card-header">
+            <span class="als-card-osi">L2 Data Link</span>
+            <div class="als-card-title">Сетевой мост (Bridge)</div>
           </div>
-          <div class="sticky-body">
-            Устройство канального уровня для объединения двух кабельных сегментов и изоляции коллизий.
-            <br><br>
-            <b>Принцип функционирования:</b> программная фильтрация и направленная пересылка кадров на основе <b>таблицы MAC-адресов</b> на CPU.
-            <br><br>
-            • 2 изолированных домена коллизий<br>
-            • Программная обработка кадров<br>
-            • 1 широковещательный домен (Broadcast)<br>
-            • Архитектурный предшественник коммутатора
+          <div class="als-card-text">
+            Программно фильтрует и пересылает кадры между сегментами на основе таблицы MAC-адресов на базе CPU.
           </div>
-          <div class="sticky-footer">
+          <ul class="als-card-props">
+            <li>2 изолированных домена коллизий</li>
+            <li>Программная обработка кадров</li>
+            <li>1 широковещательный домен</li>
+            <li>Предшественник коммутатора</li>
+          </ul>
+          <div class="als-card-footer">
             <span>Cisco 1500 Bridge</span>
-            <span>Канальный уровень</span>
+            <span>Software L2</span>
           </div>
         </div>
 
-        <div class="sticky-card sticky-orange">
-          <div class="sticky-header">
-            <span>Коммутатор (Switch)</span>
-            <span class="sticky-level">L2 OSI</span>
+        <!-- КАРТОЧКА 3: СВИТЧ -->
+        <div class="als-card">
+          <div class="als-card-header">
+            <span class="als-card-osi">L2 Data Link</span>
+            <div class="als-card-title">Коммутатор (Switch)</div>
           </div>
-          <div class="sticky-body">
-            Многопортовое устройство канального уровня для высокоскоростной аппаратной коммутации.
-            <br><br>
-            <b>Принцип функционирования:</b> микросегментация трафика с помощью <b>CAM-таблицы</b> (Source MAC → Port) на базе ASIC.
-            <br><br>
-            • <b>N доменов коллизий</b> (каждый порт изолирован)<br>
-            • Режимы: Cut-Through (0.45 мкс) и Store-and-Forward<br>
-            • Полнодуплексный режим (Full-Duplex, 0 коллизий)<br>
-            • Поддержка виртуальных сетей VLAN (IEEE 802.1Q)
+          <div class="als-card-text">
+            Высокоскоростная аппаратная микросегментация трафика с помощью специализированных матриц ASIC.
           </div>
-          <div class="sticky-footer">
+          <ul class="als-card-props">
+            <li>N доменов коллизий (по числу портов)</li>
+            <li>Режимы Cut-Through (0.45 мкс) и Store-and-Forward</li>
+            <li>Полный дуплекс (0 коллизий)</li>
+            <li>Поддержка VLAN (IEEE 802.1Q)</li>
+          </ul>
+          <div class="als-card-footer">
             <span>Cisco Catalyst 2960-X</span>
-            <span>Аппаратный ASIC</span>
+            <span>Hardware ASIC</span>
           </div>
         </div>
 
-        <div class="sticky-card sticky-green">
-          <div class="sticky-header">
-            <span>Маршрутизатор (Router)</span>
-            <span class="sticky-level">L3 OSI</span>
+        <!-- КАРТОЧКА 4: РОУТЕР -->
+        <div class="als-card">
+          <div class="als-card-header">
+            <span class="als-card-osi">L3 Network</span>
+            <div class="als-card-title">Маршрутизатор</div>
           </div>
-          <div class="sticky-body">
-            Специализированное сетевое устройство для межсетевого взаимодействия на основе <b>IP-адресации</b>.
-            <br><br>
-            <b>Ключевое отличие:</b> <b>полная изоляция широковещательных доменов</b> (блокировка Broadcast-штормов).
-            <br><br>
-            • Маршрутизация по таблицам RIB/FIB<br>
-            • Декремент поля TTL (предотвращение петель)<br>
-            • Трансляция сетевых адресов NAT/PAT<br>
-            • Списки контроля доступа (ACL) и защита
+          <div class="als-card-text">
+            Маршрутизирует IP-пакеты между независимыми подсетями с изоляцией широковещательного трафика.
           </div>
-          <div class="sticky-footer">
+          <ul class="als-card-props">
+            <li>N доменов коллизий и broadcast</li>
+            <li>Таблицы маршрутизации RIB/FIB</li>
+            <li>Декремент поля TTL (anti-loop)</li>
+            <li>Трансляция NAT/PAT и списки ACL</li>
+          </ul>
+          <div class="als-card-footer">
             <span>Cisco ISR 4331</span>
-            <span>Сетевой уровень</span>
+            <span>Network Layer</span>
           </div>
         </div>
 
-        <div class="sticky-card sticky-blue">
-          <div class="sticky-header">
-            <span>Репитер / Усилитель</span>
-            <span class="sticky-level">L1 OSI</span>
+        <!-- КАРТОЧКА 5: РЕПИТЕР -->
+        <div class="als-card">
+          <div class="als-card-header">
+            <span class="als-card-osi">L1 Physical</span>
+            <div class="als-card-title">Репитер / Усилитель</div>
           </div>
-          <div class="sticky-body">
-            Оборудование физического уровня для преодоления затухания сигналов в длинных линиях связи.
-            <br><br>
-            <b>Репитер (Повторитель):</b> регенерация формы и амплитуды импульсов, устранение фазового джиттера.
-            <br><br>
-            <b>Усилитель сигнала:</b> аналоговое усиление мощности без цифрового восстановления битов.
-            <br><br>
-            • Правило 5-4-3 (максимум 4 репитера в тракте)<br>
-            • Предел круговой задержки: 512 битовых слотов
+          <div class="als-card-text">
+            Преодолевает затухание сигналов в протяженных кабельных линиях связи.
           </div>
-          <div class="sticky-footer">
+          <ul class="als-card-props">
+            <li>Репитер: цифровая регенерация импульсов</li>
+            <li>Усилитель: аналоговое усиление амплитуды</li>
+            <li>Правило 5-4-3 (максимум 4 репитера)</li>
+            <li>Лимит задержки 512 битовых слотов</li>
+          </ul>
+          <div class="als-card-footer">
             <span>Ethernet Repeater</span>
-            <span>Регенерация импульсов</span>
+            <span>Signal Restore</span>
           </div>
         </div>
 
       </div>
 
-      <!-- ИНТЕЛЛЕКТ-КАРТЫ (MIND MAPS) -->
-      <div class="mindmaps-grid">
+      <!-- ИНТЕЛЛЕКТ-КАРТЫ СО СВЯЗЯМИ (MIND MAPS) -->
+      <h2 class="als-subhead">Интеллект-карты стандартов, протоколов и архитектуры</h2>
+      <div class="als-mindmaps">
         
-        <div class="mindmap-block">
-          <div class="mindmap-title">📦 1. Интеллект-карта: Семейство стандартов проводных сетей (IEEE 802.3)</div>
-          <div class="tree-root">
-            <div class="root-node">Стандарты IEEE 802.3</div>
-            <div class="branches-grid">
-              <div class="branch-card"><b>10BASE-T</b>10 Мбит/с<br>Витая пара Cat.3<br>Топология звезда (Хаб)</div>
-              <div class="branch-card"><b>100BASE-TX</b>100 Мбит/с Fast Eth<br>2 пары Cat.5, 100 м<br>Кодирование 4B/5B</div>
-              <div class="branch-card"><b>1000BASE-T</b>1 Гбит/с Gigabit<br>4 пары Cat.5e, PAM-5<br>Полный дуплекс</div>
-              <div class="branch-card"><b>10GBASE-T</b>10 Гбит/с<br>Витая пара Cat.6a/7<br>LDPC + PAM-16</div>
-              <div class="branch-card"><b>2.5G/5GBASE-T</b>Multi-Gigabit (802.3bz)<br>Для Wi-Fi 6 и NAS<br>Работа по Cat.5e</div>
-            </div>
+        <div class="als-map-box">
+          <div class="als-map-title">
+            <span>Семейство стандартов проводных сетей (IEEE 802.3)</span>
+            <span class="tab-badge">Стандарты</span>
+          </div>
+          <div class="als-map-root">Стандарты IEEE 802.3</div>
+          <div class="als-map-branches">
+            <div class="als-branch"><b>10BASE-T</b>10 Мбит/с, витая пара Cat.3, общая шина с хабом</div>
+            <div class="als-branch"><b>100BASE-TX</b>100 Мбит/с Fast Eth, витая пара Cat.5, 4B/5B, MLT-3</div>
+            <div class="als-branch"><b>1000BASE-T</b>1 Гбит/с Gigabit, 4 пары Cat.5e, PAM-5, полный дуплекс</div>
+            <div class="als-branch"><b>10GBASE-T</b>10 Гбит/с, витая пара Cat.6a/Cat.7, кодирование LDPC</div>
+            <div class="als-branch"><b>2.5G/5GBASE-T</b>Multi-Gigabit (IEEE 802.3bz) для точек Wi-Fi 6</div>
           </div>
         </div>
 
-        <div class="mindmap-block">
-          <div class="mindmap-title">⚡ 2. Интеллект-карта: Сетевой адаптер (NIC) и аппаратные разгрузки</div>
-          <div class="tree-root">
-            <div class="root-node root-node-purple">Сетевой адаптер (NIC)</div>
-            <div class="branches-grid">
-              <div class="branch-card"><b>MAC-адресация</b>48-битный адрес<br>24 бита OUI (вендор)<br>24 бита ID чипа</div>
-              <div class="branch-card"><b>Checksum Offload</b>Аппаратный расчет сумм IP/TCP/UDP<br>Без загрузки ядер CPU</div>
-              <div class="branch-card"><b>TSO / LSO</b>Сегментация TCP пакетов до 64 КБ на плате NIC</div>
-              <div class="branch-card"><b>LRO / GRO</b>Объединение входящих пакетов перед стеком ядра</div>
-              <div class="branch-card"><b>Jumbo Frames</b>Кадры до 9000 байт<br>Разгрузка CPU на <b>82.6 %</b></div>
-            </div>
+        <div class="als-map-box">
+          <div class="als-map-title">
+            <span>Сетевой адаптер (NIC) и аппаратные механизмы разгрузки</span>
+            <span class="tab-badge">Аппаратный стек</span>
+          </div>
+          <div class="als-map-root" style="background: #0052cc;">Сетевой адаптер (NIC)</div>
+          <div class="als-map-branches">
+            <div class="als-branch"><b>MAC-адресация</b>48-битный физический идентификатор: 24b OUI + 24b Chip</div>
+            <div class="als-branch"><b>Checksum Offload</b>Аппаратный подсчет сумм IP/TCP/UDP без загрузки ядер CPU</div>
+            <div class="als-branch"><b>TSO / LSO</b>Сегментация больших блоков данных TCP до 64 КБ на чипе NIC</div>
+            <div class="als-branch"><b>LRO / GRO</b>Агрегация входящих пакетов перед передачей сетевому стеку ОС</div>
+            <div class="als-branch"><b>Jumbo Frames</b>Кадры до 9000 байт: снижение загрузки CPU хоста на 82.6 %</div>
           </div>
         </div>
 
-        <div class="mindmap-block">
-          <div class="mindmap-title">🔄 3. Интеллект-карта: Режимы коммутации и маршрутизации</div>
-          <div class="tree-root">
-            <div class="root-node root-node-teal">Режимы сетевых устройств</div>
-            <div class="branches-grid">
-              <div class="branch-card"><b>Cut-Through</b>Коммутация по первым 6 байтам MAC<br>Задержка: <b>0.45 мкс</b></div>
-              <div class="branch-card"><b>Store-and-Forward</b>Буферизация кадра + проверка CRC<br>Задержка: 0.51–72 мкс</div>
-              <div class="branch-card"><b>VLAN (802.1Q)</b>Тегирование 4 байта<br>Разделение broadcast<br>VID: 1..4094</div>
-              <div class="branch-card"><b>Spanning Tree (STP)</b>IEEE 802.1D / RSTP<br>Блокировка петель<br>Защита от штормов</div>
-              <div class="branch-card"><b>L3 Inter-VLAN</b>Маршрутизация между VLAN на скорости кабеля (SVI)</div>
-            </div>
+        <div class="als-map-box">
+          <div class="als-map-title">
+            <span>Режимы функционирования коммутаторов и защита сети</span>
+            <span class="tab-badge">Алгоритмы L2</span>
+          </div>
+          <div class="als-map-root" style="background: #00875a;">Режимы сетевых устройств</div>
+          <div class="als-map-branches">
+            <div class="als-branch"><b>Cut-Through</b>Сквозная пересылка по первым 6 байтам MAC: задержка 0.45 мкс</div>
+            <div class="als-branch"><b>Store-and-Forward</b>Буферизация кадра с проверкой контрольной суммы FCS</div>
+            <div class="als-branch"><b>VLAN (802.1Q)</b>Тегирование 4 байта (TPID 0x8100, VID 1..4094, 3b PCP)</div>
+            <div class="als-branch"><b>STP / RSTP</b>Блокировка избыточных петель и предотвращение штормов</div>
+            <div class="als-branch"><b>Wire-Speed SVI</b>Аппаратная маршрутизация между VLAN на L3-коммутаторе</div>
           </div>
         </div>
 
-        <div class="mindmap-block">
-          <div class="mindmap-title">🧱 4. Интеллект-карта: Анатомия кадра Ethernet II (DIX v2)</div>
-          <div class="tree-root">
-            <div class="root-node root-node-amber">Кадр Ethernet II (64–1518 Б)</div>
-            <div class="branches-grid">
-              <div class="branch-card"><b>Преамбула + SFD</b>8 байт (7Б + 1Б)<br>Синхронизация тактовой частоты</div>
-              <div class="branch-card"><b>MAC Dst + Src</b>12 байт (6Б + 6Б)<br>Физические адреса хостов</div>
-              <div class="branch-card"><b>802.1Q Tag (опц.)</b>4 байта<br>TPID 0x8100 + VLAN ID + PCP</div>
-              <div class="branch-card"><b>EtherType (2Б)</b>0x0800 (IPv4)<br>0x86DD (IPv6)<br>0x0806 (ARP)</div>
-              <div class="branch-card"><b>Payload + FCS</b>Данные 46–1500 Б<br>FCS: 4 байта CRC32</div>
-            </div>
+        <div class="als-map-box">
+          <div class="als-map-title">
+            <span>Анатомия стандартного кадра Ethernet II (DIX v2)</span>
+            <span class="tab-badge">Формат данных</span>
+          </div>
+          <div class="als-map-root" style="background: #ea2323;">Кадр Ethernet II (64–1518 Б)</div>
+          <div class="als-map-branches">
+            <div class="als-branch"><b>Преамбула + SFD</b>8 байт (7Б + 1Б) для аппаратной синхронизации частоты</div>
+            <div class="als-branch"><b>MAC Dst + Src</b>12 байт (6Б получателя + 6Б отправителя)</div>
+            <div class="als-branch"><b>Тег 802.1Q (опц.)</b>4 байта тегирования виртуальных подсетей (VLAN)</div>
+            <div class="als-branch"><b>EtherType</b>2 байта протокола верхнего уровня (0x0800 IPv4, 0x86DD IPv6)</div>
+            <div class="als-branch"><b>Payload + FCS</b>Данные 46–1500 байт и 4 байта контрольной суммы CRC32</div>
           </div>
         </div>
 
@@ -825,300 +858,234 @@
 
     </div>
 
-    <!-- ПОДВАЛ С КОМАНДОЙ ПРОЕКТА -->
-    <div class="team-strip">
-      <h3>👥 Проектная команда (Группа БИВТ-26-6-9, Кафедра ИКТ НИТУ МИСИС)</h3>
-      <div class="team-strip-grid">
-        <div class="strip-card">
-          <div class="strip-name">Ерепов Кирилл Максимович</div>
-          <div class="strip-role">👑 Старший группы, докладчик</div>
-          <div class="strip-desc">Научно-техническое руководство, доклад и защита перед Микитенко И. И.</div>
-        </div>
-        <div class="strip-card">
-          <div class="strip-name">Кашин Степан Кириллович</div>
-          <div class="strip-role">🎨 Дизайнер, работа с виртуальной доской</div>
-          <div class="strip-desc">Проектирование архитектуры доски, визуализация схем оборудования и кадра 802.3.</div>
-        </div>
-        <div class="strip-card">
-          <div class="strip-name">Якушевский Игорь Игоревич</div>
-          <div class="strip-role">🧪 Составитель теста (тестер)</div>
-          <div class="strip-desc">Банк из 15 профессиональных заданий для проверки знаний других команд.</div>
-        </div>
-        <div class="strip-card">
-          <div class="strip-name">Утяцкий Владислав Сергеевич</div>
-          <div class="strip-role">💻 Программист, моделирование сетей</div>
-          <div class="strip-desc">Моделирование топологии в Cisco Packet Tracer, бенчмаркинг полезной емкости.</div>
-        </div>
-        <div class="strip-card">
-          <div class="strip-name">Горбунов Константин Васильевич</div>
-          <div class="strip-role">📡 Коммуникатор (связь с командами)</div>
-          <div class="strip-desc">Организация кросс-тестирования, координация экспертной оценки (Peer-Review).</div>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- =========================================================================
-       РАЗДЕЛ 2: КАНБАН-ДОСКА ЭТАПОВ РЕАЛИЗАЦИИ ПРОЕКТА
-       ========================================================================= -->
-  <main id="kanban" class="tab-content">
-    <div class="section-header">
-      <div>
-        <h2>📌 Доска задач и этапов выполнения научно-технического проекта</h2>
-        <p>Контроль исполнения академического регламента кафедры ИКТ по Проекту № 1.</p>
-      </div>
-      <div>
-        <span class="status-badge">
-          Готовность задач: 9 / 9 (100% Выполнено)
-        </span>
-      </div>
-    </div>
-
-    <div class="kanban-grid">
-      
-      <!-- КОЛОНКА 1 -->
-      <div class="kanban-col">
-        <div class="kanban-col-header">
-          <span>🔬 1. Исследование стандартов и теории</span>
-          <span style="color: #60a5fa;">3 задачи</span>
+    <!-- =============================================================
+         РАЗДЕЛ 2: КАНБАН-ДОСКА ЭТАПОВ ВЫПОЛНЕНИЯ ПРОЕКТА
+         ============================================================= -->
+    <div id="kanban" class="tab-pane">
+      <div class="als-kanban">
+        
+        <div class="als-kanban-col">
+          <div class="als-kanban-head">
+            <span>1. Теоретический анализ</span>
+            <span class="tab-badge">3 задачи</span>
+          </div>
+          <div class="als-task">
+            <span class="als-task-category">IEEE 802.3</span>
+            <div class="als-task-title">Эволюция стандартов Ethernet</div>
+            <div class="als-task-desc">Анализ физического кодирования: 10BASE-T, 100BASE-TX (4B/5B, MLT-3), 1000BASE-T (PAM-5) и 10GBASE-T.</div>
+            <div class="als-task-meta"><span>Ерепов К. М.</span><span>✓ Завершено</span></div>
+          </div>
+          <div class="als-task">
+            <span class="als-task-category">Кадр Ethernet II</span>
+            <div class="als-task-title">Анатомия кадра и тег 802.1Q</div>
+            <div class="als-task-desc">Разбор преамбулы, адресации MAC, тегирования VLAN (TPID 0x8100, VID 1..4094, PCP) и расчета FCS CRC32.</div>
+            <div class="als-task-meta"><span>Кашин С. К.</span><span>✓ Завершено</span></div>
+          </div>
+          <div class="als-task">
+            <span class="als-task-category">Спецификация</span>
+            <div class="als-task-title">Спецификация оборудования (Таблица 1)</div>
+            <div class="als-task-desc">Подбор 10 устройств и компонентов: Hub, Bridge, Switch, Router, Repeater, NIC с разбивкой по L1–L3.</div>
+            <div class="als-task-meta"><span>Утяцкий В. С.</span><span>✓ Завершено</span></div>
+          </div>
         </div>
 
-        <div class="kanban-task">
-          <span class="task-tag tag-blue">IEEE 802.3</span>
-          <div class="task-title">Эволюция стандартов Ethernet</div>
-          <div class="task-desc">Анализ физического кодирования: 10BASE-T, 100BASE-TX (4B/5B, MLT-3), 1000BASE-T (PAM-5) и 10GBASE-T.</div>
-          <div class="task-assignee"><span>Ерепов К. М.</span><span>✓ Завершено</span></div>
+        <div class="als-kanban-col">
+          <div class="als-kanban-head">
+            <span>2. Эксперименты и моделирование</span>
+            <span class="tab-badge">3 задачи</span>
+          </div>
+          <div class="als-task">
+            <span class="als-task-category">Cisco Packet Tracer</span>
+            <div class="als-task-title">Построение топологии сети</div>
+            <div class="als-task-desc">Сборка сегмента А (коммутатор Cisco 2960-X) и сегмента Б (хаб 3Com + репитер) через маршрутизатор ISR 4331.</div>
+            <div class="als-task-meta"><span>Утяцкий В. С.</span><span>✓ Завершено</span></div>
+          </div>
+          <div class="als-task">
+            <span class="als-task-category">Бенчмаркинг CSMA/CD</span>
+            <div class="als-task-title">Коллапс общей шины хаба vs свитч</div>
+            <div class="als-task-desc">Снятие графика полезной емкости: падение хаба до 8.2 Мбит/с при 100% нагрузке против 98.0 Мбит/с у свитча.</div>
+            <div class="als-task-meta"><span>Утяцкий В. С.</span><span>✓ Завершено</span></div>
+          </div>
+          <div class="als-task">
+            <span class="als-task-category">NIC Offload</span>
+            <div class="als-task-title">Аппаратные разгрузки процессора</div>
+            <div class="als-task-desc">Замер задержек Cut-Through (0.45 мкс) и оценка снижения утилизации CPU хоста с 92.4% до 9.8% за счет TSO и Jumbo.</div>
+            <div class="als-task-meta"><span>Ерепов К. М.</span><span>✓ Завершено</span></div>
+          </div>
         </div>
 
-        <div class="kanban-task">
-          <span class="task-tag tag-purple">Кадр Ethernet II</span>
-          <div class="task-title">Анатомия кадра и тег 802.1Q</div>
-          <div class="task-desc">Разбор преамбулы, адресации MAC, тегирования VLAN (TPID 0x8100, VID 1..4094, PCP) и расчета FCS CRC32.</div>
-          <div class="task-assignee"><span>Кашин С. К.</span><span>✓ Завершено</span></div>
+        <div class="als-kanban-col">
+          <div class="als-kanban-head">
+            <span>3. Защита и проверка знаний</span>
+            <span class="tab-badge">3 задачи</span>
+          </div>
+          <div class="als-task">
+            <span class="als-task-category">Диагностика знаний</span>
+            <div class="als-task-title">Банк из 15 контрольных вопросов</div>
+            <div class="als-task-desc">Разработка разноуровневых заданий с дистракторами и автоматизацией через Google Apps Script.</div>
+            <div class="als-task-meta"><span>Якушевский И. И.</span><span>✓ Завершено</span></div>
+          </div>
+          <div class="als-task">
+            <span class="als-task-category">Рецензирование</span>
+            <div class="als-task-title">Форма экспертной оценки (Peer-Review)</div>
+            <div class="als-task-desc">Опросник по 7 академическим критериям кафедры ИКТ для сбора обратной связи от других команд.</div>
+            <div class="als-task-meta"><span>Горбунов К. В.</span><span>✓ Завершено</span></div>
+          </div>
+          <div class="als-task">
+            <span class="als-task-category">Защита проекта</span>
+            <div class="als-task-title">Речь докладчика (3 мин.) и ТОП-10 ответов</div>
+            <div class="als-task-desc">Подготовка тайминга выступления Ерепова К. М. и шпаргалки ответов на каверзные вопросы Микитенко И. И.</div>
+            <div class="als-task-meta"><span>Ерепов К. М.</span><span>✓ Завершено</span></div>
+          </div>
         </div>
 
-        <div class="kanban-task">
-          <span class="task-tag tag-green">Спецификация</span>
-          <div class="task-title">Спецификация оборудования (Таблица 1)</div>
-          <div class="task-desc">Подбор 10 устройств и компонентов: Hub, Bridge, Switch, Router, Repeater, NIC с разбивкой по L1–L3.</div>
-          <div class="task-assignee"><span>Утяцкий В. С.</span><span>✓ Завершено</span></div>
-        </div>
-      </div>
-
-      <!-- КОЛОНКА 2 -->
-      <div class="kanban-col">
-        <div class="kanban-col-header">
-          <span>💻 2. Моделирование и эксперименты</span>
-          <span style="color: #34d399;">3 задачи</span>
-        </div>
-
-        <div class="kanban-task">
-          <span class="task-tag tag-green">Cisco Packet Tracer</span>
-          <div class="task-title">Построение топологии сети</div>
-          <div class="task-desc">Сборка сегмента А (коммутатор Cisco 2960-X) и сегмента Б (хаб 3Com + репитер) через маршрутизатор ISR 4331.</div>
-          <div class="task-assignee"><span>Утяцкий В. С.</span><span>✓ Завершено</span></div>
-        </div>
-
-        <div class="kanban-task">
-          <span class="task-tag tag-blue">Бенчмаркинг CSMA/CD</span>
-          <div class="task-title">Коллапс общей шины хаба vs свитч</div>
-          <div class="task-desc">Снятие графика полезной емкости: падение хаба до 8.2 Мбит/с при 100% нагрузке против 98.0 Мбит/с у свитча.</div>
-          <div class="task-assignee"><span>Утяцкий В. С.</span><span>✓ Завершено</span></div>
-        </div>
-
-        <div class="kanban-task">
-          <span class="task-tag tag-purple">NIC Offload</span>
-          <div class="task-title">Аппаратные разгрузки процессора</div>
-          <div class="task-desc">Замер задержек Cut-Through (0.45 мкс) и оценка снижения утилизации CPU хоста с 92.4% до 9.8% за счет TSO и Jumbo.</div>
-          <div class="task-assignee"><span>Ерепов К. М.</span><span>✓ Завершено</span></div>
-        </div>
-      </div>
-
-      <!-- КОЛОНКА 3 -->
-      <div class="kanban-col">
-        <div class="kanban-col-header">
-          <span>🎓 3. Защита и кросс-тестирование</span>
-          <span style="color: #c084fc;">3 задачи</span>
-        </div>
-
-        <div class="kanban-task">
-          <span class="task-tag tag-purple">Диагностика знаний</span>
-          <div class="task-title">Банк из 15 контрольных вопросов</div>
-          <div class="task-desc">Разработка разноуровневых заданий с дистракторами и автоматизацией через Google Apps Script.</div>
-          <div class="task-assignee"><span>Якушевский И. И.</span><span>✓ Завершено</span></div>
-        </div>
-
-        <div class="kanban-task">
-          <span class="task-tag tag-blue">Рецензирование</span>
-          <div class="task-title">Форма экспертной оценки (Peer-Review)</div>
-          <div class="task-desc">Опросник по 7 академическим критериям кафедры ИКТ для сбора обратной связи от других команд.</div>
-          <div class="task-assignee"><span>Горбунов К. В.</span><span>✓ Завершено</span></div>
-        </div>
-
-        <div class="kanban-task">
-          <span class="task-tag tag-green">Защита проекта</span>
-          <div class="task-title">Речь докладчика (3 мин.) и ТОП-10 ответов</div>
-          <div class="task-desc">Подготовка тайминга выступления Ерепова К. М. и шпаргалки ответов на каверзные вопросы Микитенко И. И.</div>
-          <div class="task-assignee"><span>Ерепов К. М.</span><span>✓ Завершено</span></div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="team-strip">
-      <h3>👥 Проектная команда (Группа БИВТ-26-6-9, Кафедра ИКТ НИТУ МИСИС)</h3>
-      <div class="team-strip-grid">
-        <div class="strip-card"><div class="strip-name">Ерепов Кирилл Максимович</div><div class="strip-role">👑 Старший группы, докладчик</div><div class="strip-desc">Научно-техническое руководство, доклад и защита перед Микитенко И. И.</div></div>
-        <div class="strip-card"><div class="strip-name">Кашин Степан Кириллович</div><div class="strip-role">🎨 Дизайнер, работа с виртуальной доской</div><div class="strip-desc">Проектирование архитектуры доски, визуализация схем оборудования и кадра 802.3.</div></div>
-        <div class="strip-card"><div class="strip-name">Якушевский Игорь Игоревич</div><div class="strip-role">🧪 Составитель теста (тестер)</div><div class="strip-desc">Банк из 15 профессиональных заданий для проверки знаний других команд.</div></div>
-        <div class="strip-card"><div class="strip-name">Утяцкий Владислав Сергеевич</div><div class="strip-role">💻 Программист, моделирование сетей</div><div class="strip-desc">Моделирование топологии в Cisco Packet Tracer, бенчмаркинг полезной емкости.</div></div>
-        <div class="strip-card"><div class="strip-name">Горбунов Константин Васильевич</div><div class="strip-role">📡 Коммуникатор (связь с командами)</div><div class="strip-desc">Организация кросс-тестирования, координация экспертной оценки (Peer-Review).</div></div>
-      </div>
-    </div>
-  </main>
-
-  <!-- =========================================================================
-       РАЗДЕЛ 3: АРХИТЕКТУРА И РАЗГРАНИЧЕНИЕ УРОВНЕЙ OSI
-       ========================================================================= -->
-  <main id="osi" class="tab-content">
-    <div class="section-header">
-      <div>
-        <h2>🧱 Архитектурное разграничение оборудования по уровням модели OSI</h2>
-        <p>Сравнительный анализ сетевых устройств, доменов коллизий, широковещательных доменов и методов коммутации.</p>
       </div>
     </div>
 
-    <div class="osi-cards-grid">
-      
-      <!-- L3 CARD -->
-      <div class="osi-layer-card osi-layer-l3">
-        <div class="osi-title" style="color: #38bdf8;">🌐 Уровень 3: Сетевой (Network Layer)</div>
-        <div class="osi-devs">Маршрутизатор (Router L3, Cisco ISR 4331), L3-коммутатор (Catalyst 3850)</div>
-        <ul class="osi-list">
-          <li><b>PDU:</b> Пакет (Packet) | <b>Адресация:</b> Логическая IP (IPv4 / IPv6)</li>
-          <li><b>Широковещательные домены:</b> <b>N раздельных доменов</b> (полная изоляция подсетей)</li>
-          <li><b>Домены коллизий:</b> N раздельных доменов (по числу физических портов)</li>
-          <li><b>Функционал:</b> маршрутизация по таблицам RIB/FIB, декремент поля TTL (предотвращение петель), трансляция NAT/PAT, фильтрация списков ACL</li>
-          <li><b>Аппаратная база:</b> сетевой процессор NPU или ASIC в L3-коммутаторах для маршрутизации на скорости кабельной линии (Wire-Speed Inter-VLAN)</li>
-        </ul>
-      </div>
+    <!-- =============================================================
+         РАЗДЕЛ 3: СРАВНЕНИЕ УРОВНЕЙ МОДЕЛИ OSI
+         ============================================================= -->
+    <div id="osi" class="tab-pane">
+      <div class="als-osi-grid">
+        
+        <div class="als-osi-box als-osi-box-l3">
+          <div class="als-osi-num">LAYER 3</div>
+          <div class="als-osi-name">Сетевой уровень</div>
+          <div class="als-osi-sub">Маршрутизатор (Router L3, Cisco ISR 4331), L3-коммутатор (Catalyst 3850)</div>
+          <ul class="als-osi-specs">
+            <li><b>PDU:</b> Пакет (Packet) | <b>Адресация:</b> Логическая IP (IPv4 / IPv6)</li>
+            <li><b>Широковещательные домены:</b> <b>N раздельных доменов</b> (полная изоляция подсетей)</li>
+            <li><b>Домены коллизий:</b> N раздельных доменов (по числу физических портов)</li>
+            <li><b>Функционал:</b> маршрутизация по таблицам RIB/FIB, декремент поля TTL, трансляция NAT/PAT, фильтрация списков ACL</li>
+            <li><b>Аппаратная база:</b> сетевой процессор NPU или ASIC для маршрутизации на скорости кабельной линии (Wire-Speed SVI)</li>
+          </ul>
+        </div>
 
-      <!-- L2 CARD -->
-      <div class="osi-layer-card osi-layer-l2">
-        <div class="osi-title" style="color: #34d399;">🔄 Уровень 2: Канальный (Data Link Layer)</div>
-        <div class="osi-devs">Коммутатор (Switch L2, Cisco 2960-X), Мост (Bridge), NIC (MAC-модуль)</div>
-        <ul class="osi-list">
-          <li><b>PDU:</b> Кадр (Frame) | <b>Адресация:</b> Физический MAC-адрес (48 бит / 6 байт)</li>
-          <li><b>Широковещательные домены:</b> <b>1 единый домен</b> (или по 1 на каждый VLAN IEEE 802.1Q)</li>
-          <li><b>Домены коллизий:</b> <b>N раздельных доменов</b> (аппаратная микросегментация)</li>
-          <li><b>Самообучение:</b> ассоциативная память CAM (Source MAC → Port → VLAN, aging 300 с)</li>
-          <li><b>Режимы:</b> Cut-Through (задержка 0.45 мкс) и Store-and-Forward (буферизация с проверкой CRC)</li>
-          <li><b>Защита от петель:</b> протоколы STP (IEEE 802.1D) и RSTP (IEEE 802.1w)</li>
-        </ul>
-      </div>
+        <div class="als-osi-box als-osi-box-l2">
+          <div class="als-osi-num">LAYER 2</div>
+          <div class="als-osi-name">Канальный уровень</div>
+          <div class="als-osi-sub">Коммутатор (Switch L2, Cisco 2960-X), Мост (Bridge), NIC (MAC-модуль)</div>
+          <ul class="als-osi-specs">
+            <li><b>PDU:</b> Кадр (Frame) | <b>Адресация:</b> Физический MAC-адрес (48 бит / 6 байт)</li>
+            <li><b>Широковещательные домены:</b> <b>1 единый домен</b> (или по 1 на каждый VLAN IEEE 802.1Q)</li>
+            <li><b>Домены коллизий:</b> <b>N раздельных доменов</b> (аппаратная микросегментация)</li>
+            <li><b>Самообучение:</b> ассоциативная память CAM (Source MAC → Port → VLAN, aging 300 с)</li>
+            <li><b>Режимы:</b> Cut-Through (задержка 0.45 мкс) и Store-and-Forward (буферизация с проверкой CRC)</li>
+            <li><b>Защита от петель:</b> протоколы STP (IEEE 802.1D) и RSTP (IEEE 802.1w)</li>
+          </ul>
+        </div>
 
-      <!-- L1 CARD -->
-      <div class="osi-layer-card osi-layer-l1">
-        <div class="osi-title" style="color: #fbbf24;">⚡ Уровень 1: Физический (Physical Layer)</div>
-        <div class="osi-devs">Концентратор (Hub L1, 3Com), Репитер (Repeater L1), Усилитель сетевого сигнала</div>
-        <ul class="osi-list">
-          <li><b>PDU:</b> Битовый поток (Bit Stream) | <b>Среда:</b> Витая пара UTP Cat.5e/6, Оптика</li>
-          <li><b>Широковещательные домены:</b> 1 единый домен на все порты</li>
-          <li><b>Домены коллизий:</b> <b>1 единый домен на все порты</b> (Shared Media)</li>
-          <li><b>Режим работы:</b> полудуплекс (Half-Duplex) по протоколу доступа CSMA/CD</li>
-          <li><b>Ограничения:</b> правило 5-4-3 (максимум 4 репитера, задержка оборота до 512 bit-times)</li>
-          <li><b>Отличие репитера от усилителя:</b> репитер регенерирует цифровой сигнал (убирает джиттер), усилитель усиливает аналоговую амплитуду вместе с шумами</li>
-        </ul>
-      </div>
+        <div class="als-osi-box als-osi-box-l1">
+          <div class="als-osi-num">LAYER 1</div>
+          <div class="als-osi-name">Физический уровень</div>
+          <div class="als-osi-sub">Концентратор (Hub L1, 3Com), Репитер (Repeater L1), Усилитель сетевого сигнала</div>
+          <ul class="als-osi-specs">
+            <li><b>PDU:</b> Битовый поток (Bit Stream) | <b>Среда:</b> Витая пара UTP Cat.5e/6, Оптика</li>
+            <li><b>Широковещательные домены:</b> 1 единый домен на все порты</li>
+            <li><b>Домены коллизий:</b> <b>1 единый домен на все порты</b> (Shared Media)</li>
+            <li><b>Режим работы:</b> полудуплекс (Half-Duplex) по протоколу доступа CSMA/CD</li>
+            <li><b>Ограничения:</b> правило 5-4-3 (максимум 4 репитера, задержка оборота до 512 bit-times)</li>
+            <li><b>Регенерация сигнала:</b> восстановление прямоугольной формы импульсов и подавление джиттера</li>
+          </ul>
+        </div>
 
-    </div>
-
-    <div class="team-strip">
-      <h3>👥 Проектная команда (Группа БИВТ-26-6-9, Кафедра ИКТ НИТУ МИСИС)</h3>
-      <div class="team-strip-grid">
-        <div class="strip-card"><div class="strip-name">Ерепов Кирилл Максимович</div><div class="strip-role">👑 Старший группы, докладчик</div><div class="strip-desc">Научно-техническое руководство, доклад и защита перед Микитенко И. И.</div></div>
-        <div class="strip-card"><div class="strip-name">Кашин Степан Кириллович</div><div class="strip-role">🎨 Дизайнер, работа с виртуальной доской</div><div class="strip-desc">Проектирование архитектуры доски, визуализация схем оборудования и кадра 802.3.</div></div>
-        <div class="strip-card"><div class="strip-name">Якушевский Игорь Игоревич</div><div class="strip-role">🧪 Составитель теста (тестер)</div><div class="strip-desc">Банк из 15 профессиональных заданий для проверки знаний других команд.</div></div>
-        <div class="strip-card"><div class="strip-name">Утяцкий Владислав Сергеевич</div><div class="strip-role">💻 Программист, моделирование сетей</div><div class="strip-desc">Моделирование топологии в Cisco Packet Tracer, бенчмаркинг полезной емкости.</div></div>
-        <div class="strip-card"><div class="strip-name">Горбунов Константин Васильевич</div><div class="strip-role">📡 Коммуникатор (связь с командами)</div><div class="strip-desc">Организация кросс-тестирования, координация экспертной оценки (Peer-Review).</div></div>
-      </div>
-    </div>
-  </main>
-
-  <!-- =========================================================================
-       РАЗДЕЛ 4: НАУЧНЫЕ СХЕМЫ И ГРАФИКИ (300 DPI)
-       ========================================================================= -->
-  <main id="gallery" class="tab-content">
-    <div class="section-header">
-      <div>
-        <h2>🖼️ Научно-исследовательские схемы и экспериментальные графики (300 DPI)</h2>
-        <p>Нажмите на любую иллюстрацию для детального масштабирования в оригинальном полиграфическом разрешении.</p>
       </div>
     </div>
 
-    <div class="gallery-grid">
-      
-      <div class="gallery-item">
-        <img src="img/fig1_architecture.png" alt="Классификация OSI" onclick="openLightbox(this.src)">
-        <div class="gallery-caption">Рисунок 1 — Классификация оборудования по уровням модели OSI и границам доменов</div>
-        <div class="gallery-sub">Разграничение Hub (L1), Bridge (L2), Switch (L2), Router (L3) по доменам коллизий и broadcast</div>
-      </div>
+    <!-- =============================================================
+         РАЗДЕЛ 4: НАУЧНЫЕ СХЕМЫ И ГРАФИКИ (300 DPI)
+         ============================================================= -->
+    <div id="gallery" class="tab-pane">
+      <div class="als-gallery-grid">
+        
+        <div class="als-fig-box">
+          <img src="img/fig1_architecture.png" alt="Классификация OSI" onclick="openAlsLightbox(this.src)">
+          <div class="als-fig-title">Рисунок 1 — Классификация оборудования по уровням модели OSI</div>
+          <div class="als-fig-desc">Разграничение Hub (L1), Bridge (L2), Switch (L2), Router (L3) по доменам коллизий и широковещания.</div>
+        </div>
 
-      <div class="gallery-item">
-        <img src="img/fig4_ethernet_frame.png" alt="Анатомия кадра" onclick="openLightbox(this.src)">
-        <div class="gallery-caption">Рисунок 2 — Анатомия кадра Ethernet II с тегированием виртуальных сетей IEEE 802.1Q</div>
-        <div class="gallery-sub">Преамбула (7Б) + SFD (1Б) + MAC Dst/Src (12Б) + Tag 802.1Q (4Б) + EtherType + Данные + FCS CRC32</div>
-      </div>
+        <div class="als-fig-box">
+          <img src="img/fig4_ethernet_frame.png" alt="Анатомия кадра" onclick="openAlsLightbox(this.src)">
+          <div class="als-fig-title">Рисунок 2 — Анатомия кадра Ethernet II с тегированием IEEE 802.1Q</div>
+          <div class="als-fig-desc">Преамбула (7Б) + SFD (1Б) + MAC Dst/Src (12Б) + Tag 802.1Q (4Б) + EtherType + Данные + FCS CRC32.</div>
+        </div>
 
-      <div class="gallery-item">
-        <img src="img/fig2_benchmark_latency.png" alt="Бенчмаркинг Hub vs Switch" onclick="openLightbox(this.src)">
-        <div class="gallery-caption">Рисунок 3 — Бенчмаркинг полезной емкости CSMA/CD: коллапс общей шины хаба vs коммутатор</div>
-        <div class="gallery-sub">При 100% нагрузке хаб падает до 8.2 Мбит/с (9400 кол/с), свитч Full-Duplex удерживает 98 Мбит/с (0 коллизий)</div>
-      </div>
+        <div class="als-fig-box">
+          <img src="img/fig2_benchmark_latency.png" alt="Бенчмаркинг Hub vs Switch" onclick="openAlsLightbox(this.src)">
+          <div class="als-fig-title">Рисунок 3 — Бенчмаркинг CSMA/CD: коллапс общей шины хаба vs коммутатор</div>
+          <div class="als-fig-desc">При 100% нагрузке хаб деградирует до 8.2 Мбит/с из-за 9400 кол/с; свитч Full-Duplex удерживает 98.0 Мбит/с при 0 коллизий.</div>
+        </div>
 
-      <div class="gallery-item">
-        <img src="img/fig3_database_performance.png" alt="Задержки коммутации и NIC" onclick="openLightbox(this.src)">
-        <div class="gallery-caption">Рисунок 4 — Задержки коммутации (Cut-Through vs Store-and-Forward) и аппаратная разгрузка CPU</div>
-        <div class="gallery-sub">Cut-Through задержка = const 0.45 мкс; аппаратный TSO + Jumbo снижает загрузку CPU хоста с 92.4% до 9.8%</div>
-      </div>
+        <div class="als-fig-box">
+          <img src="img/fig3_database_performance.png" alt="Задержки коммутации и NIC" onclick="openAlsLightbox(this.src)">
+          <div class="als-fig-title">Рисунок 4 — Задержки коммутации и аппаратная разгрузка процессора</div>
+          <div class="als-fig-desc">Cut-Through задержка = const 0.45 мкс; аппаратный TSO + Jumbo снижает загрузку CPU хоста с 92.4% до 9.8%.</div>
+        </div>
 
-      <div class="gallery-item" style="grid-column: span 2;">
-        <img src="img/fig5_topology.png" alt="Топология сети" style="height: 380px;" onclick="openLightbox(this.src)">
-        <div class="gallery-caption">Рисунок 5 — Корпоративная топология сети проекта в среде моделирования Cisco Packet Tracer</div>
-        <div class="gallery-sub">Маршрутизатор L3 Cisco ISR 4331, коммутируемый сегмент А (Full-Duplex 1 Gbps) и разделяемый сегмент Б (Hub CSMA/CD)</div>
-      </div>
+        <div class="als-fig-box" style="grid-column: span 2;">
+          <img src="img/fig5_topology.png" alt="Топология сети" style="height: 420px;" onclick="openAlsLightbox(this.src)">
+          <div class="als-fig-title">Рисунок 5 — Корпоративная топология сети проекта в среде моделирования Cisco Packet Tracer</div>
+          <div class="als-fig-desc">Маршрутизатор L3 Cisco ISR 4331, коммутируемый сегмент А (Full-Duplex 1 Gbps) и разделяемый сегмент Б (Hub CSMA/CD).</div>
+        </div>
 
-    </div>
-
-    <div class="team-strip">
-      <h3>👥 Проектная команда (Группа БИВТ-26-6-9, Кафедра ИКТ НИТУ МИСИС)</h3>
-      <div class="team-strip-grid">
-        <div class="strip-card"><div class="strip-name">Ерепов Кирилл Максимович</div><div class="strip-role">👑 Старший группы, докладчик</div><div class="strip-desc">Научно-техническое руководство, доклад и защита перед Микитенко И. И.</div></div>
-        <div class="strip-card"><div class="strip-name">Кашин Степан Кириллович</div><div class="strip-role">🎨 Дизайнер, работа с виртуальной доской</div><div class="strip-desc">Проектирование архитектуры доски, визуализация схем оборудования и кадра 802.3.</div></div>
-        <div class="strip-card"><div class="strip-name">Якушевский Игорь Игоревич</div><div class="strip-role">🧪 Составитель теста (тестер)</div><div class="strip-desc">Банк из 15 профессиональных заданий для проверки знаний других команд.</div></div>
-        <div class="strip-card"><div class="strip-name">Утяцкий Владислав Сергеевич</div><div class="strip-role">💻 Программист, моделирование сетей</div><div class="strip-desc">Моделирование топологии в Cisco Packet Tracer, бенчмаркинг полезной емкости.</div></div>
-        <div class="strip-card"><div class="strip-name">Горбунов Константин Васильевич</div><div class="strip-role">📡 Коммуникатор (связь с командами)</div><div class="strip-desc">Организация кросс-тестирования, координация экспертной оценки (Peer-Review).</div></div>
       </div>
     </div>
-  </main>
 
-  <!-- LIGHTBOX МОДАЛЬНОЕ ОКНО -->
-  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
-    <img id="lightbox-img" src="" alt="Просмотр схемы">
+    <!-- ФИРМЕННЫЙ ПОДВАЛ СТУДИИ ЛЕБЕДЕВА: ПАСПОРТ ПРОЕКТА И КОМАНДА -->
+    <footer class="als-footer">
+      <div class="als-team-grid">
+        <div class="als-member">
+          <div class="als-member-name">Ерепов Кирилл Максимович</div>
+          <div class="als-member-role">Старший группы, докладчик</div>
+          <div class="als-member-desc">Научно-техническое руководство, архитектура сети, очная защита перед комиссией.</div>
+        </div>
+        <div class="als-member">
+          <div class="als-member-name">Кашин Степан Кириллович</div>
+          <div class="als-member-role">Дизайнер, визуализация доски</div>
+          <div class="als-member-desc">Проектирование структуры доски, схем уровней OSI и анатомии кадра IEEE 802.3.</div>
+        </div>
+        <div class="als-member">
+          <div class="als-member-name">Якушевский Игорь Игоревич</div>
+          <div class="als-member-role">Составитель теста (тестер)</div>
+          <div class="als-member-desc">Банк из 15 профессиональных заданий для проверки знаний других команд.</div>
+        </div>
+        <div class="als-member">
+          <div class="als-member-name">Утяцкий Владислав Сергеевич</div>
+          <div class="als-member-role">Программист, моделирование</div>
+          <div class="als-member-desc">Моделирование топологии в Cisco Packet Tracer, бенчмаркинг задержек и емкости.</div>
+        </div>
+        <div class="als-member">
+          <div class="als-member-name">Горбунов Константин Васильевич</div>
+          <div class="als-member-role">Коммуникатор (связь с командами)</div>
+          <div class="als-member-desc">Организация взаимодействия, координация экспертной оценки (Peer-Review).</div>
+        </div>
+      </div>
+
+      <div class="als-credits">
+        <div>НИТУ МИСИС • Кафедра инфокоммуникационных технологий • Учебная группа БИВТ-26-6-9 • 2026 г.</div>
+        <div>Руководитель: кандидат технических наук, старший научный сотрудник Микитенко И. И.</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div id="als-lightbox" class="als-lightbox" onclick="closeAlsLightbox()">
+    <img id="als-lightbox-img" src="" alt="Просмотр схемы">
   </div>
 
   <script>
-    function switchTab(tabId, btnElement) {
-      document.querySelectorAll('.tab-content').forEach(tab => {
+    function switchAlsTab(tabId, btnElement) {
+      document.querySelectorAll('.tab-pane').forEach(tab => {
         tab.classList.remove('active');
       });
-      document.querySelectorAll('.tab-btn').forEach(btn => {
+      document.querySelectorAll('.als-tab-item').forEach(btn => {
         btn.classList.remove('active');
       });
 
-      const targetTab = document.getElementById(tabId);
-      if (targetTab) {
-        targetTab.classList.add('active');
+      const target = document.getElementById(tabId);
+      if (target) {
+        target.classList.add('active');
       }
 
       if (btnElement) {
@@ -1127,15 +1094,15 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function openLightbox(src) {
-      const lb = document.getElementById('lightbox');
-      const img = document.getElementById('lightbox-img');
+    function openAlsLightbox(src) {
+      const lb = document.getElementById('als-lightbox');
+      const img = document.getElementById('als-lightbox-img');
       img.src = src;
       lb.classList.add('active');
     }
 
-    function closeLightbox() {
-      document.getElementById('lightbox').classList.remove('active');
+    function closeAlsLightbox() {
+      document.getElementById('als-lightbox').classList.remove('active');
     }
   </script>
 
