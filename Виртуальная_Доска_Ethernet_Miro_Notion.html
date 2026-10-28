@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Виртуальная доска Miro / Notion: Проект № 1 — Проводная сеть Ethernet</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --primary-light: #eff6ff;
+      --success: #10b981;
+      --success-light: #ecfdf5;
+      --warning: #f59e0b;
+      --warning-light: #fef3c7;
+      --danger: #ef4444;
+      --danger-light: #fef2f2;
+      --purple: #8b5cf6;
+      --purple-light: #f5f3ff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; padding: 24px; }
+    .header { background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border); padding: 28px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: 600; }
+    .badge-blue { background: var(--primary-light); color: var(--primary); }
+    .badge-green { background: var(--success-light); color: var(--success); }
+    .badge-purple { background: var(--purple-light); color: var(--purple); }
+    .title { font-size: 26px; font-weight: 800; margin: 12px 0 6px 0; color: #0f172a; }
+    .subtitle { color: var(--text-muted); font-size: 15px; margin-bottom: 16px; }
+    
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+    .team-card { background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; padding: 16px; transition: transform 0.2s, box-shadow 0.2s; }
+    .team-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08); }
+    .team-name { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+    .team-role { font-size: 12px; color: var(--primary); font-weight: 600; margin-bottom: 8px; }
+    .team-desc { font-size: 12px; color: var(--text-muted); }
+
+    .kanban-board { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 28px; }
+    .kanban-col { background: #f1f5f9; border-radius: 14px; padding: 18px; border: 1px solid var(--border); }
+    .col-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-weight: 700; font-size: 15px; }
+    .task-card { background: var(--card-bg); border-radius: 10px; padding: 14px; margin-bottom: 12px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .task-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+    .task-meta { font-size: 12px; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; }
+
+    .section-title { font-size: 20px; font-weight: 800; margin: 32px 0 16px 0; display: flex; align-items: center; gap: 8px; }
+    
+    .osi-layers { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .osi-card { background: var(--card-bg); border-radius: 14px; padding: 20px; border: 2px solid; }
+    .osi-card-l3 { border-color: #0288d1; background: #f0f9ff; }
+    .osi-card-l2 { border-color: #00897b; background: #f0fdf4; }
+    .osi-card-l1 { border-color: #f39c12; background: #fffbeb; }
+
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 20px; margin-bottom: 30px; }
+    .gallery-card { background: var(--card-bg); border-radius: 14px; border: 1px solid var(--border); padding: 16px; overflow: hidden; }
+    .gallery-card img { width: 100%; border-radius: 8px; border: 1px solid var(--border); display: block; margin-bottom: 12px; }
+    .gallery-caption { font-size: 13px; font-weight: 600; color: #334155; text-align: center; }
+
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 10px; font-size: 14px; font-weight: 600; text-decoration: none; cursor: pointer; border: none; transition: all 0.2s; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-outline { background: #fff; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { background: #f8fafc; border-color: #cbd5e1; }
+    
+    .toolbar { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+  </style>
+</head>
+<body>
+
+  <!-- ВЕРХНЯЯ ШАПКА ПРОЕКТА -->
+  <div class="header">
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+      <span class="badge badge-blue">НИТУ МИСИС • Кафедра ИКТ</span>
+      <span class="badge badge-purple">Проект № 1</span>
+      <span class="badge badge-green">Статус: Защита готова (10/10)</span>
+      <span class="badge badge-blue">Группа БИВТ-26-6-9</span>
+    </div>
+    <h1 class="title">Виртуальная доска проекта: Проводные сети Ethernet и сетевые устройства</h1>
+    <p class="subtitle">
+      Изучаемое оборудование: концентратор (хаб), мост, коммутатор, маршрутизатор, репитер, усилитель сигнала, режимы работы, стандарты сетевых устройств, сетевые адаптеры (NIC) и технология Ethernet (IEEE 802.3).
+    </p>
+
+    <!-- КНОПКИ ДЕЙСТВИЯ -->
+    <div class="toolbar">
+      <a href="tests/Интерактивный_Тест_Ethernet.html" class="btn btn-primary" target="_blank">
+        🚀 Запустить интерактивный тест (15 вопросов)
+      </a>
+      <a href="tests/Интерактивная_Форма_Оценки_Проекта.html" class="btn btn-primary" style="background: #7c3aed;" target="_blank">
+        ⭐ Оценить проект (Форма рецензирования / Peer-Review)
+      </a>
+      <a href="docs/ПР-4__БИВТ-26-6-9__Ерепов%20К.М.__Проводная%20сеть%20Ethernet%20и%20сетевые%20устройства.pdf" class="btn btn-outline" target="_blank">
+        📄 Открыть полный отчет (29 стр. ГОСТ)
+      </a>
+      <a href="docs/План_защиты_ВМ_ПР4_Микитенко_Ерепов_К_М.pdf" class="btn btn-outline" target="_blank">
+        🎙️ Шпаргалка и речь к защите (3 мин.)
+      </a>
+      <a href="tests/Тест_Google_Forms_Вопросы_и_Ответы.txt" class="btn btn-outline" target="_blank">
+        📋 Банк вопросов Google Forms
+      </a>
+      <a href="tests/Опросник_Оценки_Проекта_Google_Forms.txt" class="btn btn-outline" target="_blank">
+        📝 Критерии оценки (7 шкал)
+      </a>
+    </div>
+
+    <!-- КАРТОЧКИ КОМАНДЫ -->
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-name">Ерепов Кирилл Максимович</div>
+        <div class="team-role">👑 Старший группы, докладчик</div>
+        <div class="team-desc">Архитектура, регламент, подготовка доклада и публичная защита перед Микитенко И. И.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">Кашин Степан Кириллович</div>
+        <div class="team-role">🎨 Дизайнер, работа с доской</div>
+        <div class="team-desc">Проектирование Miro/Notion, отрисовка схем L1/L2/L3, визуализация доменов коллизий.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">Якушевский Игорь Игоревич</div>
+        <div class="team-role">🧪 Составитель теста (тестер)</div>
+        <div class="team-desc">Банк из 15 тестовых заданий для кросс-тестирования других команд, скрипт Google Forms.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">Утяцкий Владислав Сергеевич</div>
+        <div class="team-role">💻 Программист, моделирование</div>
+        <div class="team-desc">Моделирование в Cisco Packet Tracer, скрипты бенчмаркинга CSMA/CD и задержек кадров.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">Горбунов Константин Васильевич</div>
+        <div class="team-role">📡 Коммуникатор (связь с командами)</div>
+        <div class="team-desc">Организация кросс-тестирования, проверка регламента, обратная связь, реестр ссылок.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- КАНБАН-ДОСКА В СТИЛЕ NOTION / MIRO -->
+  <h2 class="section-title">📌 Канбан-доска реализации проекта (Miro / Notion Task Flow)</h2>
+  <div class="kanban-board">
+    <div class="kanban-col">
+      <div class="col-header">
+        <span>🔬 Исследование и стандарты</span>
+        <span class="badge badge-green">3/3</span>
+      </div>
+      <div class="task-card">
+        <div class="task-title">Эволюция стандартов IEEE 802.3</div>
+        <div class="task-meta"><span>10BASE-T → 10GBASE-T</span><span>✅ Готово</span></div>
+      </div>
+      <div class="task-card">
+        <div class="task-title">Анатомия кадра Ethernet II</div>
+        <div class="task-meta"><span>Преамбула, MAC, тег 802.1Q, FCS</span><span>✅ Готово</span></div>
+      </div>
+      <div class="task-card">
+        <div class="task-title">Метод доступа CSMA/CD</div>
+        <div class="task-meta"><span>Carrier Sense, Collision, Backoff</span><span>✅ Готово</span></div>
+      </div>
+    </div>
+
+    <div class="kanban-col">
+      <div class="col-header">
+        <span>🖧 Сетевые устройства L1/L2/L3</span>
+        <span class="badge badge-green">3/3</span>
+      </div>
+      <div class="task-card">
+        <div class="task-title">Устройства L1: Хаб, Репитер, Усилитель</div>
+        <div class="task-meta"><span>1 Домен коллизий, общая шина</span><span>✅ Готово</span></div>
+      </div>
+      <div class="task-card">
+        <div class="task-title">Устройства L2: Коммутатор, Мост</div>
+        <div class="task-meta"><span>Микросегментация, CAM, STP</span><span>✅ Готово</span></div>
+      </div>
+      <div class="task-card">
+        <div class="task-title">Устройства L3: Маршрутизатор (Router)</div>
+        <div class="task-meta"><span>Изоляция broadcast, RIB/FIB, TTL</span><span>✅ Готово</span></div>
+      </div>
+    </div>
+
+    <div class="kanban-col">
+      <div class="col-header">
+        <span>📊 Эксперимент и бенчмарки</span>
+        <span class="badge badge-green">3/3</span>
+      </div>
+      <div class="task-card">
+        <div class="task-title">Hub vs Switch в 100BASE-TX</div>
+        <div class="task-meta"><span>Коллапс хаба при нагрузке >37.5%</span><span>✅ Готово</span></div>
+      </div>
+      <div class="task-card">
+        <div class="task-title">Задержки Store-and-Forward vs Cut-Through</div>
+        <div class="task-meta"><span>Константа 0.45 мкс vs линейный рост</span><span>✅ Готово</span></div>
+      </div>
+      <div class="task-card">
+        <div class="task-title">Аппаратные разгрузки NIC (TSO/Jumbo)</div>
+        <div class="task-meta"><span>Разгрузка CPU с 92.4% до 9.8%</span><span>✅ Готово</span></div>
+      </div>
+    </div>
+
+    <div class="kanban-col">
+      <div class="col-header">
+        <span>🎯 Защита и кросс-тест</span>
+        <span class="badge badge-green">3/3</span>
+      </div>
+      <div class="task-card">
+        <div class="task-title">Кросс-тест из 15 вопросов</div>
+        <div class="task-meta"><span>Google Apps Script + Веб-тест</span><span>✅ Готово</span></div>
+      </div>
+      <div class="task-card">
+        <div class="task-title">ТОП-10 каверзных вопросов Микитенко</div>
+        <div class="task-meta"><span>Развернутые академические ответы</span><span>✅ Готово</span></div>
+      </div>
+      <div class="task-card">
+        <div class="task-title">Речь докладчика Ерепова К. М.</div>
+        <div class="task-meta"><span>Регламент 3 минуты</span><span>✅ Готово</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- БАЗА ЗНАНИЙ: УРОВНИ OSI -->
+  <h2 class="section-title">🧱 Архитектурное разграничение оборудования по уровням OSI</h2>
+  <div class="osi-layers">
+    <div class="osi-card osi-card-l3">
+      <h3 style="color: #0288d1; margin-bottom: 8px;">🌐 Уровень 3: Сетевой (Network Layer)</h3>
+      <p style="font-size: 13px; font-weight: 600; margin-bottom: 6px;">Маршрутизатор (Router, Cisco ISR 4331), L3-коммутатор (Catalyst 3850)</p>
+      <ul style="font-size: 12.5px; padding-left: 18px; color: #334155;">
+        <li>PDU: <b>Пакет (Packet)</b> | Адресация: <b>IP (IPv4/IPv6)</b></li>
+        <li><b>Полная изоляция широковещательных доменов</b> (Broadcast Domains)</li>
+        <li>Маршрутизация по таблицам RIB/FIB, декремент поля TTL, NAT/PAT, ACL</li>
+        <li>Количество доменов коллизий: <b>N</b> (по числу интерфейсов)</li>
+        <li>Количество широковещательных доменов: <b>N</b> (каждый интерфейс — отдельная подсеть)</li>
+      </ul>
+    </div>
+
+    <div class="osi-card osi-card-l2">
+      <h3 style="color: #00897b; margin-bottom: 8px;">🔄 Уровень 2: Канальный (Data Link Layer)</h3>
+      <p style="font-size: 13px; font-weight: 600; margin-bottom: 6px;">Коммутатор (Switch, Cisco 2960-X), Мост (Bridge), NIC (MAC-модуль)</p>
+      <ul style="font-size: 12.5px; padding-left: 18px; color: #334155;">
+        <li>PDU: <b>Кадр (Frame)</b> | Адресация: <b>Физический MAC (48 бит)</b></li>
+        <li><b>Микросегментация:</b> каждый порт — отдельный домен коллизий</li>
+        <li>Самообучение через CAM-таблицу (Source MAC → Port, Aging 300с)</li>
+        <li>Режимы: Store-and-Forward, Cut-Through, Fragment-Free, Full-Duplex</li>
+        <li>Поддержка VLAN (IEEE 802.1Q) и защита от петель (STP/RSTP 802.1w)</li>
+      </ul>
+    </div>
+
+    <div class="osi-card osi-card-l1">
+      <h3 style="color: #d97706; margin-bottom: 8px;">⚡ Уровень 1: Физический (Physical Layer)</h3>
+      <p style="font-size: 13px; font-weight: 600; margin-bottom: 6px;">Концентратор (Hub, 3Com), Репитер (Repeater), Усилитель сигнала</p>
+      <ul style="font-size: 12.5px; padding-left: 18px; color: #334155;">
+        <li>PDU: <b>Бит (Bit Stream)</b> | Среда: Витая пара UTP Cat.5e/6, Оптика</li>
+        <li><b>Единый домен коллизий (Shared Media)</b>: сигнал дублируется во все порты</li>
+        <li>Регенерация формы и амплитуды импульсов, устранение джиттера</li>
+        <li>Работа в полудуплексе (Half-Duplex) по протоколу CSMA/CD</li>
+        <li>Ограничение правилом 5-4-3 (максимальное время оборота 512 битовых слотов)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ГАЛЕРЕЯ НАУЧНЫХ СХЕМ ПРОЕКТА -->
+  <h2 class="section-title">🖼️ Научные схемы и экспериментальные графики проекта (300 DPI)</h2>
+  <div class="gallery-grid">
+    <div class="gallery-card">
+      <img src="img/fig4_ethernet_frame.png" alt="Анатомия кадра Ethernet II">
+      <div class="gallery-caption">Рисунок 1 — Анатомия кадра Ethernet II с тегированием IEEE 802.1Q</div>
+    </div>
+    <div class="gallery-card">
+      <img src="img/fig1_architecture.png" alt="Классификация устройств по уровням OSI">
+      <div class="gallery-caption">Рисунок 2 — Классификация сетевых устройств по уровням OSI и доменам коллизий/широковещания</div>
+    </div>
+    <div class="gallery-card">
+      <img src="img/fig5_topology.png" alt="Топология проводной сети">
+      <div class="gallery-caption">Рисунок 3 — Архитектура топологии проводной корпоративной сети (Hub, Switch, Router, Repeater)</div>
+    </div>
+    <div class="gallery-card">
+      <img src="img/fig2_benchmark_latency.png" alt="Бенчмаркинг Hub vs Switch">
+      <div class="gallery-caption">Рисунок 4 — Бенчмаркинг пропускной способности и частоты коллизий: Концентратор (Hub) vs Коммутатор (Switch)</div>
+    </div>
+    <div class="gallery-card">
+      <img src="img/fig3_database_performance.png" alt="Задержки коммутации и разгрузка CPU">
+      <div class="gallery-caption">Рисунок 5 — Задержка коммутации кадров (Store-and-Forward vs Cut-Through) и разгрузка CPU сетевым адаптером</div>
+    </div>
+  </div>
+
+</body>
+</html>
