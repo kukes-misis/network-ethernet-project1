@@ -1338,6 +1338,379 @@
       from { transform: scale(0.9); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
+  
+    /* -------------------------------------------------------------
+       КНОПКИ ОТКРЫТИЯ ПРЕЗЕНТАЦИИ (HIGH-AGENCY PRESENTATION TRIGGER)
+       ------------------------------------------------------------- */
+    .btn-presentation {
+      background: linear-gradient(135deg, var(--accent), #be123c) !important;
+      color: #ffffff !important;
+      font-weight: 700 !important;
+      border: 1px solid rgba(255, 255, 255, 0.25) !important;
+      box-shadow: 0 4px 16px var(--accent-glow), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.25s var(--ease-spring);
+    }
+
+    .btn-presentation:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 24px var(--accent-glow) !important;
+    }
+
+    .btn-play-icon {
+      font-size: 11px;
+      display: inline-block;
+      transition: transform 0.2s var(--ease-spring);
+    }
+
+    .btn-presentation:hover .btn-play-icon {
+      transform: scale(1.2);
+    }
+
+    .hero-btn-presentation {
+      background: linear-gradient(135deg, var(--accent), #e11d48);
+      color: #ffffff;
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      font-weight: 700;
+      padding: 9px 18px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 6px 20px var(--accent-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s var(--ease-spring);
+    }
+
+    .hero-btn-presentation:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 28px var(--accent-glow);
+    }
+
+    .hero-btn-presentation:active {
+      transform: scale(0.98);
+    }
+
+    /* -------------------------------------------------------------
+       ПОЛНОЭКРАННЫЙ ИНТЕРАКТИВНЫЙ ВЬЮЕР ПРЕЗЕНТАЦИИ ДЛЯ ЗАЩИТЫ
+       ------------------------------------------------------------- */
+    .pres-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #040711;
+      z-index: 5000;
+      flex-direction: column;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 0.25s var(--ease-smooth);
+    }
+
+    .pres-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    /* Верхняя панель управления презентацией */
+    .pres-topbar {
+      height: 60px;
+      background: rgba(11, 17, 32, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .pres-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 14.5px;
+      color: #ffffff;
+    }
+
+    .pres-timer-pill {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-emerald);
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pres-slide-indicator {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      border-radius: 6px;
+    }
+
+    .pres-slide-indicator b {
+      color: #ffffff;
+    }
+
+    .pres-controls-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pres-action-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
+      color: #ffffff;
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s var(--ease-smooth);
+    }
+
+    .pres-action-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .pres-btn-close {
+      background: rgba(244, 63, 94, 0.15);
+      border-color: rgba(244, 63, 94, 0.3);
+      color: var(--accent);
+    }
+
+    .pres-btn-close:hover {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    /* Область отображения слайда */
+    .pres-viewport {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pres-slide-stage {
+      width: 100%;
+      max-width: 1280px;
+      aspect-ratio: 16 / 9;
+      max-height: calc(100vh - 150px);
+      background: rgba(11, 17, 32, 0.95);
+      border: 1px solid var(--border-bright);
+      border-radius: 16px;
+      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.8), 0 0 50px rgba(244, 63, 94, 0.1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 40px 48px;
+      backdrop-filter: blur(16px);
+    }
+
+    /* Стрелки навигации */
+    .pres-nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(11, 17, 32, 0.7);
+      border: 1px solid var(--border-bright);
+      color: #ffffff;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 20;
+      transition: all 0.2s var(--ease-spring);
+      backdrop-filter: blur(10px);
+    }
+
+    .pres-nav-arrow:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 0 24px var(--accent-glow);
+    }
+
+    .pres-nav-prev { left: 24px; }
+    .pres-nav-next { right: 24px; }
+
+    /* Слайды (Скрыты/Активны) */
+    .slide-item {
+      display: none;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      opacity: 0;
+      transform: scale(0.98);
+      transition: opacity 0.3s var(--ease-smooth), transform 0.3s var(--ease-spring);
+    }
+
+    .slide-item.active {
+      display: flex;
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .slide-header {
+      margin-bottom: 24px;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+    }
+
+    .slide-category {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .slide-title {
+      font-size: clamp(22px, 2.2vw, 30px);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      line-height: 1.15;
+    }
+
+    .slide-body {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow-y: auto;
+    }
+
+    /* Специфические раскладки слайдов */
+    .slide-split-content {
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 32px;
+      height: 100%;
+      align-items: center;
+    }
+
+    .slide-img-preview {
+      width: 100%;
+      height: 100%;
+      max-height: 380px;
+      object-fit: contain;
+      background: #020617;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 8px;
+    }
+
+    .slide-bullet-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .slide-bullet-list li {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      line-height: 1.45;
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .slide-bullet-list li::before {
+      content: '■';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 10px;
+      top: 3px;
+    }
+
+    .slide-bullet-list li b {
+      color: #ffffff;
+    }
+
+    /* Нижняя панель прогресса и превью */
+    .pres-bottombar {
+      height: 54px;
+      background: rgba(11, 17, 32, 0.85);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      flex-shrink: 0;
+    }
+
+    .pres-dots {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pres-dot {
+      width: 28px;
+      height: 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.12);
+      cursor: pointer;
+      transition: all 0.25s var(--ease-spring);
+    }
+
+    .pres-dot:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scaleY(1.3);
+    }
+
+    .pres-dot.active {
+      width: 48px;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    .pres-hints {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-subtle);
+    }
+
   </style>
 </head>
 <body>
@@ -1364,6 +1737,7 @@
         <li><a href="tests/Интерактивная_Форма_Оценки_Проекта.html" target="_blank" class="topbar-link">Рецензирование</a></li>
         <li><a href="docs/ПР-4__БИВТ-26-6-9__Ерепов%20К.М.__Проводная%20сеть%20Ethernet%20и%20сетевые%20устройства.pdf" target="_blank" class="topbar-link">Отчет ГОСТ (29 с.)</a></li>
         <li><a href="docs/План_защиты_ВМ_ПР4_Микитенко_Ерепов_К_М.pdf" target="_blank" class="topbar-link">План защиты (3 мин.)</a></li>
+        <li><button onclick="openPresentationModal()" class="topbar-link btn-presentation"><span class="btn-play-icon">▶</span> Презентация проекта</button></li>
         <li><a href="https://github.com/kukes-misis/network-ethernet-project1" target="_blank" class="topbar-link btn-github">GitHub</a></li>
       </ul>
     </div>
@@ -1380,6 +1754,9 @@
           Архитектурное исследование концентраторов, мостов, коммутаторов, маршрутизаторов и сетевых адаптеров (NIC) по стандартам IEEE 802.3. Включает физический бенчмаркинг алгоритма CSMA/CD, замеры микросекундных задержек Cut-Through и оценку аппаратной разгрузки CPU хоста.
         </p>
         <div class="hero-metrics">
+          <button onclick="openPresentationModal()" class="hero-btn-presentation">
+            <span class="btn-play-icon">▶</span> Презентация проекта (Защита 3 мин. • 10 слайдов)
+          </button>
           <div class="metric-pill">Оборудование: <b>5 категорий</b></div>
           <div class="metric-pill">Коллизии Full-Duplex: <b>0</b></div>
           <div class="metric-pill">Готовность: <b>100% (9/9 задач)</b></div>
@@ -2116,7 +2493,463 @@
         card.style.transform = '';
       });
     });
+  
+    // =========================================================================
+    // ИНТЕРАКТИВНОЕ УПРАВЛЕНИЕ ПРЕЗЕНТАЦИЕЙ ЗАЩИТЫ (10 СЛАЙДОВ)
+    // =========================================================================
+    let currentSlide = 1;
+    const totalSlides = 10;
+    let timerSeconds = 180; // 3 минуты
+    let timerInterval = null;
+    let timerRunning = false;
+
+    function openPresentationModal() {
+      const modal = document.getElementById('presentation-modal');
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        initPresDots();
+        goToSlide(1);
+        startTimer();
+      }
+    }
+
+    function closePresentationModal() {
+      const modal = document.getElementById('presentation-modal');
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        pauseTimer();
+      }
+    }
+
+    function initPresDots() {
+      const container = document.getElementById('pres-dots');
+      if (!container || container.children.length > 0) return;
+      for (let i = 1; i <= totalSlides; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'pres-dot' + (i === 1 ? ' active' : '');
+        dot.title = 'Слайд ' + i;
+        dot.onclick = function() { goToSlide(i); };
+        container.appendChild(dot);
+      }
+    }
+
+    function goToSlide(n) {
+      if (n < 1) n = 1;
+      if (n > totalSlides) n = totalSlides;
+      currentSlide = n;
+
+      document.querySelectorAll('.slide-item').forEach(function(slide) {
+        slide.classList.remove('active');
+      });
+      const target = document.querySelector('.slide-item[data-slide="' + currentSlide + '"]');
+      if (target) {
+        target.classList.add('active');
+      }
+
+      const currNum = document.getElementById('pres-curr-num');
+      if (currNum) currNum.textContent = currentSlide;
+
+      const dots = document.querySelectorAll('.pres-dot');
+      dots.forEach(function(dot, idx) {
+        dot.classList.toggle('active', idx + 1 === currentSlide);
+      });
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        goToSlide(currentSlide + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        goToSlide(currentSlide - 1);
+      }
+    }
+
+    // Клавиатурная навигация
+    window.addEventListener('keydown', function(e) {
+      const modal = document.getElementById('presentation-modal');
+      if (!modal || !modal.classList.contains('active')) return;
+
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'Escape') {
+        closePresentationModal();
+      }
+    });
+
+    // Таймер регламента (3:00)
+    function startTimer() {
+      if (timerRunning) return;
+      timerRunning = true;
+      timerInterval = setInterval(function() {
+        if (timerSeconds > 0) {
+          timerSeconds--;
+          updateTimerDisplay();
+        } else {
+          pauseTimer();
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      timerRunning = false;
+      clearInterval(timerInterval);
+    }
+
+    function toggleTimer() {
+      if (timerRunning) {
+        pauseTimer();
+      } else {
+        startTimer();
+      }
+    }
+
+    function updateTimerDisplay() {
+      const el = document.getElementById('pres-timer');
+      if (!el) return;
+      const m = Math.floor(timerSeconds / 60);
+      const s = timerSeconds % 60;
+      el.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+      if (timerSeconds < 30) {
+        el.style.color = '#f87171';
+      } else {
+        el.style.color = 'var(--accent-emerald)';
+      }
+    }
+
+    function toggleFullscreen() {
+      const modal = document.getElementById('presentation-modal');
+      if (!document.fullscreenElement) {
+        modal.requestFullscreen().catch(err => {
+          console.log(err);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
   </script>
+
+
+  <!-- =============================================================
+       ПОЛНОЭКРАННАЯ ИНТЕРАКТИВНАЯ ПРЕЗЕНТАЦИЯ ДЛЯ ЗАЩИТЫ ПРОЕКТА
+       ============================================================= -->
+  <div id="presentation-modal" class="pres-modal">
+    
+    <!-- Topbar презентации -->
+    <div class="pres-topbar">
+      <div class="pres-brand">
+        <span class="pulse-dot"></span>
+        НИТУ МИСИС ИКН • ЗАЩИТА ПРОЕКТА № 1
+      </div>
+      
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <div class="pres-timer-pill">
+          <span>⏱ Регламент защиты:</span>
+          <b id="pres-timer">03:00</b>
+        </div>
+        <div class="pres-slide-indicator">
+          Слайд <b id="pres-curr-num">1</b> из <b>10</b>
+        </div>
+      </div>
+
+      <div class="pres-controls-right">
+        <button class="pres-action-btn" onclick="toggleTimer()">⏯ Таймер</button>
+        <button class="pres-action-btn" onclick="toggleFullscreen()">⛶ Во весь экран</button>
+        <button class="pres-action-btn pres-btn-close" onclick="closePresentationModal()">✕ Закрыть (Esc)</button>
+      </div>
+    </div>
+
+    <!-- Вьюпорт слайда со стрелками -->
+    <div class="pres-viewport">
+      <button class="pres-nav-arrow pres-nav-prev" onclick="prevSlide()" title="Предыдущий слайд (←)">❮</button>
+      <button class="pres-nav-arrow pres-nav-next" onclick="nextSlide()" title="Следующий слайд (→)">❯</button>
+
+      <div class="pres-slide-stage">
+        
+        <!-- СЛАЙД 1: ТИТУЛЬНЫЙ -->
+        <div class="slide-item active" data-slide="1">
+          <div class="slide-header">
+            <span class="slide-category">НИТУ МИСИС • ИНСТИТУТ КОМПЬЮТЕРНЫХ НАУК (ИКН) • КАФЕДРА ИКТ</span>
+            <h2 class="slide-title">Архитектура, аппаратные компоненты и стандарты проводных сетей: исследование сетевых устройств в технологии Ethernet</h2>
+          </div>
+          <div class="slide-body">
+            <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 32px; align-items: center;">
+              <div>
+                <p style="font-size: 16px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5;">
+                  <b>Практическая работа № 4:</b> Разработка и защита IT-проекта (Проект № 1)<br>
+                  <b>Учебная дисциплина:</b> «Вычислительные машины, сети и системы»
+                </p>
+                <div style="background: rgba(255, 255, 255, 0.04); padding: 18px; border-radius: 10px; border: 1px solid var(--border);">
+                  <div style="font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-bottom: 6px; text-transform: uppercase;">Команда проекта (гр. БИВТ-26-6-9):</div>
+                  <div style="font-size: 13.5px; color: #ffffff; line-height: 1.6;">
+                    • <b>Ерепов К. М.</b> — Старший группы, докладчик<br>
+                    • <b>Кашин С. К.</b> — Дизайнер, работа с виртуальной доской<br>
+                    • <b>Якушевский И. И.</b> — Составитель теста (тестер)<br>
+                    • <b>Утяцкий В. С.</b> — Программист, моделирование сетей<br>
+                    • <b>Горбунов Константин Васильевич</b> — Коммуникатор (связь с командами)
+                  </div>
+                </div>
+              </div>
+              <div style="background: rgba(4, 7, 17, 0.8); border: 1px solid var(--border-bright); padding: 24px; border-radius: 12px; text-align: center;">
+                <div style="font-family: var(--font-mono); font-size: 12px; color: var(--text-subtle); margin-bottom: 8px;">НАУЧНЫЙ РУКОВОДИТЕЛЬ</div>
+                <div style="font-size: 18px; font-weight: 800; color: #ffffff; margin-bottom: 4px;">Микитенко И. И.</div>
+                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 18px;">кандидат технических наук, старший научный сотрудник</div>
+                <div style="display: inline-block; font-family: var(--font-mono); font-size: 12px; color: var(--accent-emerald); background: rgba(16, 185, 129, 0.12); padding: 4px 12px; border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.3);">
+                  Москва • 2026
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- СЛАЙД 2: КОМАНДА И РАСПРЕДЕЛЕНИЕ РОЛЕЙ -->
+        <div class="slide-item" data-slide="2">
+          <div class="slide-header">
+            <span class="slide-category">РАЗДЕЛ 1 • РЕГЛАМЕНТ КАФЕДРЫ ИКТ</span>
+            <h2 class="slide-title">1. Проектная команда и распределение обязанностей</h2>
+          </div>
+          <div class="slide-body">
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px;">
+              <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); padding: 18px; border-radius: 10px;">
+                <div style="font-size: 14px; font-weight: 800; color: #ffffff; margin-bottom: 4px;">Ерепов К. М.</div>
+                <div style="font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-bottom: 8px;">Старший, докладчик</div>
+                <div style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">Координация проекта, оформление отчета ГОСТ (29 с.), защита перед комиссией.</div>
+              </div>
+              <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); padding: 18px; border-radius: 10px;">
+                <div style="font-size: 14px; font-weight: 800; color: #ffffff; margin-bottom: 4px;">Кашин С. К.</div>
+                <div style="font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-bottom: 8px;">Дизайнер</div>
+                <div style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">Проектирование интерактивной архитектурной доски, инфографика L1/L2/L3.</div>
+              </div>
+              <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); padding: 18px; border-radius: 10px;">
+                <div style="font-size: 14px; font-weight: 800; color: #ffffff; margin-bottom: 4px;">Якушевский И. И.</div>
+                <div style="font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-bottom: 8px;">Тестер</div>
+                <div style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">Разработка банка из 15 тестовых заданий для кросс-тестирования потока.</div>
+              </div>
+              <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); padding: 18px; border-radius: 10px;">
+                <div style="font-size: 14px; font-weight: 800; color: #ffffff; margin-bottom: 4px;">Утяцкий В. С.</div>
+                <div style="font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-bottom: 8px;">Программист</div>
+                <div style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">Моделирование в Cisco Packet Tracer, бенчмаркинг задержек и CSMA/CD.</div>
+              </div>
+              <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); padding: 18px; border-radius: 10px;">
+                <div style="font-size: 14px; font-weight: 800; color: #ffffff; margin-bottom: 4px;">Горбунов К. В.</div>
+                <div style="font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-bottom: 8px;">Коммуникатор</div>
+                <div style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">Взаимодействие со смежными группами, организация взаимного рецензирования.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- СЛАЙД 3: УРОВНИ OSI И ДОМЕНЫ КОЛЛИЗИЙ -->
+        <div class="slide-item" data-slide="3">
+          <div class="slide-header">
+            <span class="slide-category">РАЗДЕЛ 2 • ТЕОРЕТИЧЕСКИЙ АНАЛИЗ</span>
+            <h2 class="slide-title">2. Архитектура оборудования: уровни модели OSI и границы доменов</h2>
+          </div>
+          <div class="slide-body">
+            <div class="slide-split-content">
+              <img src="img/fig1_architecture.png" class="slide-img-preview" alt="Классификация OSI">
+              <div>
+                <ul class="slide-bullet-list">
+                  <li><b>L1 Physical (Концентратор / Хаб):</b> 1 общий домен коллизий (Shared Media), полудуплекс (Half-Duplex), нулевая буферизация.</li>
+                  <li><b>L2 Data Link (Коммутатор / Switch):</b> N изолированных доменов коллизий по числу портов. Аппаратная микросегментация на ASIC-матрицах.</li>
+                  <li><b>L3 Network (Маршрутизатор / Router):</b> N независимых широковещательных доменов (Broadcast Domains). Полная изоляция broadcast-трафика.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- СЛАЙД 4: АНАТОМИЯ КАДРА ETHERNET II И 802.1Q -->
+        <div class="slide-item" data-slide="4">
+          <div class="slide-header">
+            <span class="slide-category">РАЗДЕЛ 3 • СТАНДАРТЫ IEEE 802.3</span>
+            <h2 class="slide-title">3. Анатомия кадра Ethernet II и виртуальные сети IEEE 802.1Q</h2>
+          </div>
+          <div class="slide-body">
+            <div class="slide-split-content">
+              <img src="img/fig4_ethernet_frame.png" class="slide-img-preview" alt="Анатомия кадра">
+              <div>
+                <ul class="slide-bullet-list">
+                  <li><b>Преамбула + SFD (8 байт):</b> синхронизация тактового генератора сетевого контроллера.</li>
+                  <li><b>MAC-адреса (12 байт):</b> физическая адресация получателя и источника (OUI + Device ID).</li>
+                  <li><b>Тег 802.1Q (4 байта):</b> TPID 0x8100, приоритет PCP (QoS 0–7) и VID (до 4094 VLAN).</li>
+                  <li><b>MTU (1500 байт) и FCS CRC-32 (4 байта):</b> аппаратная проверка целостности кадра.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- СЛАЙД 5: ТОПОЛОГИЯ СЕТИ -->
+        <div class="slide-item" data-slide="5">
+          <div class="slide-header">
+            <span class="slide-category">РАЗДЕЛ 4 • СЕТЕВОЕ МОДЕЛИРОВАНИЕ</span>
+            <h2 class="slide-title">4. Корпоративная топология сети в Cisco Packet Tracer</h2>
+          </div>
+          <div class="slide-body">
+            <div class="slide-split-content">
+              <img src="img/fig5_topology.png" class="slide-img-preview" alt="Топология сети">
+              <div>
+                <ul class="slide-bullet-list">
+                  <li><b>Маршрутизатор L3 Cisco ISR 4331:</b> межсетевая маршрутизация между подсетями 192.168.10.0/24 и 192.168.20.0/24.</li>
+                  <li><b>Сегмент А (Switch Full-Duplex):</b> коммутатор Cisco Catalyst 2960-X, гигабитные каналы 1000BASE-T, 0 коллизий.</li>
+                  <li><b>Сегмент Б (Hub Half-Duplex):</b> концентратор 3Com SuperStack, коллизионный арбитраж CSMA/CD.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- СЛАЙД 6: ЭКСПЕРИМЕНТ CSMA/CD -->
+        <div class="slide-item" data-slide="6">
+          <div class="slide-header">
+            <span class="slide-category">РАЗДЕЛ 5 • ФИЗИЧЕСКИЙ БЕНЧМАРКИНГ</span>
+            <h2 class="slide-title">5. Эксперимент: Коллапс CSMA/CD хаба против коммутатора</h2>
+          </div>
+          <div class="slide-body">
+            <div class="slide-split-content">
+              <img src="img/fig2_benchmark_latency.png" class="slide-img-preview" alt="Бенчмаркинг CSMA/CD">
+              <div>
+                <ul class="slide-bullet-list">
+                  <li><b>Коллапс разделяемой среды:</b> при нагрузке 100% частота коллизий на концентраторе достигает <b>9400 кол/с</b>.</li>
+                  <li><b>Деградация пропускной способности:</b> полезная емкость хаба падает со 100 Мбит/с до <b>8.2 Мбит/с</b>.</li>
+                  <li><b>Преимущество Switch Full-Duplex:</b> коммутатор сохраняет утилизацию <b>98.0 Мбит/с</b> при <b>0 коллизий</b>.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- СЛАЙД 7: ЗАДЕРЖКИ CUT-THROUGH И РАЗГРУЗКА CPU -->
+        <div class="slide-item" data-slide="7">
+          <div class="slide-header">
+            <span class="slide-category">РАЗДЕЛ 6 • ИНЖЕНЕРНЫЕ ИЗМЕРЕНИЯ</span>
+            <h2 class="slide-title">6. Эксперимент: Задержки коммутации и разгрузка CPU</h2>
+          </div>
+          <div class="slide-body">
+            <div class="slide-split-content">
+              <img src="img/fig3_database_performance.png" class="slide-img-preview" alt="Задержки коммутации">
+              <div>
+                <ul class="slide-bullet-list">
+                  <li><b>Сквозная коммутация (Cut-Through):</b> ультранизкая постоянная задержка <b>0.45 мкс</b> независимо от длины пакета.</li>
+                  <li><b>Буферизация (Store-and-Forward):</b> линейный рост задержки до <b>12.80 мкс</b> при MTU 1500 байт.</li>
+                  <li><b>Аппаратные разгрузки NIC (TSO/LRO/Jumbo):</b> снижают нагрузку на центральный процессор хоста с <b>92.4% до 9.8%</b>.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- СЛАЙД 8: ТЕСТИРОВАНИЕ ДРУГИХ КОМАНД -->
+        <div class="slide-item" data-slide="8">
+          <div class="slide-header">
+            <span class="slide-category">РАЗДЕЛ 7 • КРОСС-ТЕСТИРОВАНИЕ ПОТОКА</span>
+            <h2 class="slide-title">7. Банк тестовых заданий (Разработчик: Якушевский И. И.)</h2>
+          </div>
+          <div class="slide-body">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+              <div style="background: rgba(255, 255, 255, 0.03); padding: 22px; border-radius: 12px; border: 1px solid var(--border);">
+                <div style="font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-bottom: 6px;">СТРУКТУРА ТЕСТА</div>
+                <div style="font-size: 16px; font-weight: 800; color: #ffffff; margin-bottom: 12px;">15 комплексных вопросов с 4 дистракторами</div>
+                <ul style="font-size: 13px; color: var(--text-muted); line-height: 1.6; list-style: square; padding-left: 18px;">
+                  <li>Разграничение L1/L2/L3 по доменам коллизий;</li>
+                  <li>Алгоритм BEB при коллизиях в CSMA/CD;</li>
+                  <li>Параметры задержек Cut-Through vs Store-and-Forward;</li>
+                  <li>Тегирование IEEE 802.1Q и протокол Spanning Tree (STP).</li>
+                </ul>
+              </div>
+              <div style="background: rgba(4, 7, 17, 0.7); padding: 22px; border-radius: 12px; border: 1px solid var(--border-bright); display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                  <div style="font-family: var(--font-mono); font-size: 11px; color: var(--accent-emerald); margin-bottom: 6px;">АВТОМАТИЗАЦИЯ И РЕЦЕНЗИРОВАНИЕ</div>
+                  <div style="font-size: 16px; font-weight: 800; color: #ffffff; margin-bottom: 8px;">Интерактивный веб-тест и анкета оценки</div>
+                  <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">
+                    Разработан Google Apps Script для автоматического развертывания формы тестирования и анкеты экспертного оценивания по 5 критериям регламента.
+                  </p>
+                </div>
+                <div style="font-family: var(--font-mono); font-size: 12px; color: var(--accent-cyan);">
+                  ✓ Ключи ответов верифицированы тестером
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- СЛАЙД 9: ИТОГИ И РЕЕСТР ССЫЛОК -->
+        <div class="slide-item" data-slide="9">
+          <div class="slide-header">
+            <span class="slide-category">РАЗДЕЛ 8 • ЗАКЛЮЧЕНИЕ И РЕЕСТР</span>
+            <h2 class="slide-title">8. Итоги проекта и реестр ссылок (Регламент кафедры)</h2>
+          </div>
+          <div class="slide-body">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+              <div>
+                <div style="font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-bottom: 8px;">КЛЮЧЕВЫЕ ВЫВОДЫ:</div>
+                <ul class="slide-bullet-list">
+                  <li>Коммутаторы полностью вытеснили хабы благодаря ликвидации коллизий и аппаратной изоляции портов.</li>
+                  <li>Сквозная коммутация минимизирует задержку до sub-microsecond уровня (0.45 мкс).</li>
+                  <li>Аппаратные разгрузки NIC освобождают до 82.6% ресурсов процессора хоста при обработке трафика.</li>
+                </ul>
+              </div>
+              <div style="background: rgba(255, 255, 255, 0.03); padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
+                <div style="font-family: var(--font-mono); font-size: 11px; color: var(--accent-cyan); margin-bottom: 8px;">РЕЕСТР СОСТАВЛЯЮЩИХ ПРОЕКТА:</div>
+                <div style="font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); line-height: 1.8;">
+                  • <b>Интерактивный веб-портал:</b> kukes-misis.github.io<br>
+                  • <b>Онлайн-тест (15 вопр.):</b> /tests/Интерактивный_Тест_Ethernet.html<br>
+                  • <b>Анкета рецензирования:</b> /tests/Интерактивная_Форма_Оценки_Проекта.html<br>
+                  • <b>Отчет ГОСТ 7.32-2017:</b> 29 страниц, формулы, листинги<br>
+                  • <b>Репозиторий проекта:</b> github.com/kukes-misis/network-ethernet-project1
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- СЛАЙД 10: ИСПОЛЬЗОВАНИЕ ИИ -->
+        <div class="slide-item" data-slide="10">
+          <div class="slide-header">
+            <span class="slide-category">РАЗДЕЛ 9 • СВЕДЕНИЯ ОБ ИСПОЛЬЗОВАНИИ ИИ</span>
+            <h2 class="slide-title">9. Применение технологий искусственного интеллекта в проекте</h2>
+          </div>
+          <div class="slide-body">
+            <div style="background: rgba(11, 17, 32, 0.8); border: 1px solid var(--border-bright); padding: 24px; border-radius: 12px; margin-bottom: 16px;">
+              <div style="font-size: 15px; font-weight: 800; color: #ffffff; margin-bottom: 8px;">
+                Применяемый инструмент: нейросетевая модель Google Gemini (в режиме диалогового ассистента)
+              </div>
+              <div style="font-size: 13.5px; color: var(--text-muted); line-height: 1.55;">
+                • <b>Самостоятельная работа студентов (гр. БИВТ-26-6-9):</b> теоретический анализ стандартов, расчет параметров CSMA/CD, подбор оборудования, топологическое моделирование в Cisco Packet Tracer, составление банка вопросов и очная защита.<br>
+                • <b>Вспомогательная роль ИИ:</b> ускорение написания Python-скриптов отрисовки графиков, первичный аудит библиографии по ГОСТ 7.0.100-2018 и верстка веб-форм. Все сгенерированные фрагменты прошли ручную инженерную проверку.
+              </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 12px; color: var(--text-subtle);">
+              <span>НИТУ МИСИС ИКН • БИВТ-26-6-9</span>
+              <span style="color: var(--accent-emerald);">✓ Соответствует регламенту кафедры ИКТ</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Нижняя панель с точками-слайдами -->
+    <div class="pres-bottombar">
+      <div class="pres-dots" id="pres-dots">
+        <!-- Генерируются скриптом -->
+      </div>
+      <div class="pres-hints">
+        [← / →] Листать слайды • [Пробел] Вперёд • [Esc] Закрыть
+      </div>
+    </div>
+
+  </div>
 
 </body>
 </html>
