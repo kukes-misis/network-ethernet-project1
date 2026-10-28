@@ -2259,17 +2259,15 @@
           Руководитель: <span>Микитенко И. И.</span>
         </div>
       </div>
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <button onclick="openPresentationModal()" class="topbar-link btn-presentation" style="display: inline-flex;">
-          <span class="btn-play-icon">▶</span> Презентация
-        </button>
-        <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Открыть меню">
-          ☰
-        </button>
-      </div>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Открыть меню">
+        ☰
+      </button>
 
       <!-- Мобильный Drawer со всеми ссылками -->
       <nav id="mobile-drawer" class="mobile-drawer">
+        <button onclick="openPresentationModal(); toggleMobileMenu();" class="topbar-link btn-presentation" style="width: 100%; justify-content: center; margin-bottom: 4px;">
+          <span class="btn-play-icon">▶</span> Презентация проекта (10 слайдов)
+        </button>
         <a href="tests/Интерактивный_Тест_Ethernet.html" target="_blank" class="topbar-link" onclick="toggleMobileMenu()">📝 Тест (15 вопросов)</a>
         <a href="tests/Интерактивная_Форма_Оценки_Проекта.html" target="_blank" class="topbar-link" onclick="toggleMobileMenu()">⭐ Рецензирование</a>
         <a href="docs/ПР-4__БИВТ-26-6-9__Ерепов%20К.М.__Проводная%20сеть%20Ethernet%20и%20сетевые%20устройства.pdf" target="_blank" class="topbar-link" onclick="toggleMobileMenu()">📄 Отчет ГОСТ (29 с.)</a>
@@ -2282,7 +2280,7 @@
         <li><a href="tests/Интерактивная_Форма_Оценки_Проекта.html" target="_blank" class="topbar-link">Рецензирование</a></li>
         <li><a href="docs/ПР-4__БИВТ-26-6-9__Ерепов%20К.М.__Проводная%20сеть%20Ethernet%20и%20сетевые%20устройства.pdf" target="_blank" class="topbar-link">Отчет ГОСТ (29 с.)</a></li>
         <li><a href="docs/План_защиты_ВМ_ПР4_Микитенко_Ерепов_К_М.pdf" target="_blank" class="topbar-link">План защиты (3 мин.)</a></li>
-        <li><button onclick="openPresentationModal()" class="topbar-link btn-presentation"><span class="btn-play-icon">▶</span> Презентация проекта</button></li>
+        <li><button onclick="openPresentationModal()" class="topbar-link btn-presentation"><span class="btn-play-icon">▶</span> Презентация</button></li>
         <li><a href="https://github.com/kukes-misis/network-ethernet-project1" target="_blank" class="topbar-link btn-github">GitHub</a></li>
       </ul>
     </div>
