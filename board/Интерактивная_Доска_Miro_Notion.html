@@ -1991,6 +1991,127 @@
       }
     }
 
+  
+    /* -------------------------------------------------------------
+       ADAPTIVE HIGH-RESOLUTION PRESENTATION DIAGRAMS
+       ------------------------------------------------------------- */
+    .pres-slide-stage {
+      max-width: 1440px !important;
+      max-height: calc(100vh - 110px) !important;
+      padding: 22px 32px !important;
+    }
+
+    .slide-header {
+      margin-bottom: 14px !important;
+      padding-bottom: 10px !important;
+    }
+
+    .slide-title {
+      font-size: clamp(20px, 2vw, 26px) !important;
+    }
+
+    /* Адаптивный сплит для слайдов с диаграммами: 68% схема + 32% тезисы */
+    .slide-split-diagram {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+      height: 100%;
+      align-items: stretch;
+    }
+
+    .slide-split-diagram > div:not(.slide-diagram-card) {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+    }
+
+    @media (max-width: 900px) {
+      .slide-split-diagram {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Карточка с диаграммой на чистом белом фоне для максимальной четкости */
+    .slide-diagram-card {
+      background: #ffffff !important;
+      border-radius: 14px;
+      padding: 16px;
+      height: 100%;
+      min-height: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: zoom-in;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.22s var(--ease-spring);
+    }
+
+    .slide-diagram-card:hover {
+      border-color: var(--accent);
+      transform: scale(1.008);
+      box-shadow: 0 20px 52px rgba(0, 0, 0, 0.75), 0 0 28px var(--accent-glow);
+    }
+
+    .slide-diagram-card img {
+      width: 100%;
+      height: 100%;
+      max-height: 580px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .slide-zoom-hint {
+      position: absolute;
+      bottom: 12px;
+      right: 14px;
+      background: rgba(4, 7, 17, 0.88);
+      color: #ffffff;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(8px);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Карточки тезисов справа */
+    .slide-key-points {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+      height: 100%;
+    }
+
+    .slide-point-box {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      border-left: 4px solid var(--accent);
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+
+    .slide-point-box b {
+      color: #ffffff;
+      display: block;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .slide-point-box.l2 { border-left-color: var(--accent-cyan); }
+    .slide-point-box.l1 { border-left-color: var(--accent-emerald); }
+
   </style>
 </head>
 <body>
@@ -2973,6 +3094,33 @@
       }, { passive: true });
     })();
 
+    // Автоматическое открытие презентации по параметру ?slide=N или #slide-N
+    (function checkUrlForSlide() {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        let s = urlParams.get('slide');
+        if (!s && window.location.hash) {
+          const match = window.location.hash.match(/slide[-=](\d+)/i);
+          if (match) s = match[1];
+        }
+        if (s) {
+          const slideNum = parseInt(s, 10);
+          if (!isNaN(slideNum) && slideNum >= 1 && slideNum <= totalSlides) {
+            window.addEventListener('DOMContentLoaded', function() {
+              openPresentationModal();
+              goToSlide(slideNum);
+            });
+            // Если DOMContentLoaded уже наступил
+            if (document.readyState === 'complete' || document.readyState === 'interactive') {
+              openPresentationModal();
+              goToSlide(slideNum);
+            }
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    })();
   </script>
 
 
@@ -3087,19 +3235,34 @@
 
         <!-- СЛАЙД 3: УРОВНИ OSI И ДОМЕНЫ КОЛЛИЗИЙ -->
         <div class="slide-item" data-slide="3">
-          <div class="slide-header">
-            <span class="slide-category">РАЗДЕЛ 2 • ТЕОРЕТИЧЕСКИЙ АНАЛИЗ</span>
-            <h2 class="slide-title">2. Архитектура оборудования: уровни модели OSI и границы доменов</h2>
+          <div class="slide-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+              <span class="slide-category">РАЗДЕЛ 2 • ТЕОРЕТИЧЕСКИЙ АНАЛИЗ</span>
+              <h2 class="slide-title">2. Архитектура оборудования: уровни модели OSI и границы доменов</h2>
+            </div>
+            <button onclick="openModalLightbox('img/fig1_architecture.png')" class="pres-action-btn" style="font-size: 11.5px; padding: 4px 10px;">
+              🔍 Во весь экран (300 DPI)
+            </button>
           </div>
           <div class="slide-body">
-            <div class="slide-split-content">
-              <img src="img/fig1_architecture.png" class="slide-img-preview" alt="Классификация OSI">
-              <div>
-                <ul class="slide-bullet-list">
-                  <li><b>L1 Physical (Концентратор / Хаб):</b> 1 общий домен коллизий (Shared Media), полудуплекс (Half-Duplex), нулевая буферизация.</li>
-                  <li><b>L2 Data Link (Коммутатор / Switch):</b> N изолированных доменов коллизий по числу портов. Аппаратная микросегментация на ASIC-матрицах.</li>
-                  <li><b>L3 Network (Маршрутизатор / Router):</b> N независимых широковещательных доменов (Broadcast Domains). Полная изоляция broadcast-трафика.</li>
-                </ul>
+            <div class="slide-split-diagram">
+              <div class="slide-diagram-card" onclick="openModalLightbox('img/fig1_architecture.png')" title="Кликните для увеличения схемы">
+                <img src="img/fig1_architecture.png" alt="Классификация OSI и границы доменов">
+                <span class="slide-zoom-hint">🔍 300 DPI • Нажмите для зума</span>
+              </div>
+              <div class="slide-key-points">
+                <div class="slide-point-box">
+                  <b>L3 Network (Маршрутизатор / Router)</b>
+                  N раздельных широковещательных доменов. Полная изоляция broadcast-шторма между интерфейсами.
+                </div>
+                <div class="slide-point-box l2">
+                  <b>L2 Data Link (Коммутатор / Switch)</b>
+                  N изолированных доменов коллизий по числу портов. Аппаратная микросегментация на ASIC-матрицах.
+                </div>
+                <div class="slide-point-box l1">
+                  <b>L1 Physical (Концентратор / Хаб)</b>
+                  1 общий домен коллизий (Shared Media). Полудуплекс (Half-Duplex), арбитраж CSMA/CD, 0 буферизации.
+                </div>
               </div>
             </div>
           </div>
@@ -3107,13 +3270,21 @@
 
         <!-- СЛАЙД 4: АНАТОМИЯ КАДРА ETHERNET II И 802.1Q -->
         <div class="slide-item" data-slide="4">
-          <div class="slide-header">
-            <span class="slide-category">РАЗДЕЛ 3 • СТАНДАРТЫ IEEE 802.3</span>
-            <h2 class="slide-title">3. Анатомия кадра Ethernet II и виртуальные сети IEEE 802.1Q</h2>
+          <div class="slide-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+              <span class="slide-category">РАЗДЕЛ 3 • СТАНДАРТЫ IEEE 802.3</span>
+              <h2 class="slide-title">3. Анатомия кадра Ethernet II и виртуальные сети IEEE 802.1Q</h2>
+            </div>
+            <button onclick="openModalLightbox('img/fig4_ethernet_frame.png')" class="pres-action-btn" style="font-size: 11.5px; padding: 4px 10px;">
+              🔍 Во весь экран (300 DPI)
+            </button>
           </div>
           <div class="slide-body">
-            <div class="slide-split-content">
-              <img src="img/fig4_ethernet_frame.png" class="slide-img-preview" alt="Анатомия кадра">
+            <div class="slide-split-diagram">
+              <div class="slide-diagram-card" onclick="openModalLightbox('img/fig4_ethernet_frame.png')" title="Кликните для зума">
+                <img src="img/fig4_ethernet_frame.png" alt="Анатомия кадра">
+                <span class="slide-zoom-hint">🔍 300 DPI • Нажмите для зума</span>
+              </div>
               <div>
                 <ul class="slide-bullet-list">
                   <li><b>Преамбула + SFD (8 байт):</b> синхронизация тактового генератора сетевого контроллера.</li>
@@ -3128,13 +3299,21 @@
 
         <!-- СЛАЙД 5: ТОПОЛОГИЯ СЕТИ -->
         <div class="slide-item" data-slide="5">
-          <div class="slide-header">
-            <span class="slide-category">РАЗДЕЛ 4 • СЕТЕВОЕ МОДЕЛИРОВАНИЕ</span>
-            <h2 class="slide-title">4. Корпоративная топология сети в Cisco Packet Tracer</h2>
+          <div class="slide-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+              <span class="slide-category">РАЗДЕЛ 4 • СЕТЕВОЕ МОДЕЛИРОВАНИЕ</span>
+              <h2 class="slide-title">4. Корпоративная топология сети в Cisco Packet Tracer</h2>
+            </div>
+            <button onclick="openModalLightbox('img/fig5_topology.png')" class="pres-action-btn" style="font-size: 11.5px; padding: 4px 10px;">
+              🔍 Во весь экран (300 DPI)
+            </button>
           </div>
           <div class="slide-body">
-            <div class="slide-split-content">
-              <img src="img/fig5_topology.png" class="slide-img-preview" alt="Топология сети">
+            <div class="slide-split-diagram">
+              <div class="slide-diagram-card" onclick="openModalLightbox('img/fig5_topology.png')" title="Кликните для зума">
+                <img src="img/fig5_topology.png" alt="Топология сети">
+                <span class="slide-zoom-hint">🔍 300 DPI • Нажмите для зума</span>
+              </div>
               <div>
                 <ul class="slide-bullet-list">
                   <li><b>Маршрутизатор L3 Cisco ISR 4331:</b> межсетевая маршрутизация между подсетями 192.168.10.0/24 и 192.168.20.0/24.</li>
@@ -3148,13 +3327,21 @@
 
         <!-- СЛАЙД 6: ЭКСПЕРИМЕНТ CSMA/CD -->
         <div class="slide-item" data-slide="6">
-          <div class="slide-header">
-            <span class="slide-category">РАЗДЕЛ 5 • ФИЗИЧЕСКИЙ БЕНЧМАРКИНГ</span>
-            <h2 class="slide-title">5. Эксперимент: Коллапс CSMA/CD хаба против коммутатора</h2>
+          <div class="slide-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+              <span class="slide-category">РАЗДЕЛ 5 • ФИЗИЧЕСКИЙ БЕНЧМАРКИНГ</span>
+              <h2 class="slide-title">5. Эксперимент: Коллапс CSMA/CD хаба против коммутатора</h2>
+            </div>
+            <button onclick="openModalLightbox('img/fig2_benchmark_latency.png')" class="pres-action-btn" style="font-size: 11.5px; padding: 4px 10px;">
+              🔍 Во весь экран (300 DPI)
+            </button>
           </div>
           <div class="slide-body">
-            <div class="slide-split-content">
-              <img src="img/fig2_benchmark_latency.png" class="slide-img-preview" alt="Бенчмаркинг CSMA/CD">
+            <div class="slide-split-diagram">
+              <div class="slide-diagram-card" onclick="openModalLightbox('img/fig2_benchmark_latency.png')" title="Кликните для зума">
+                <img src="img/fig2_benchmark_latency.png" alt="Бенчмаркинг CSMA/CD">
+                <span class="slide-zoom-hint">🔍 300 DPI • Нажмите для зума</span>
+              </div>
               <div>
                 <ul class="slide-bullet-list">
                   <li><b>Коллапс разделяемой среды:</b> при нагрузке 100% частота коллизий на концентраторе достигает <b>9400 кол/с</b>.</li>
@@ -3168,13 +3355,21 @@
 
         <!-- СЛАЙД 7: ЗАДЕРЖКИ CUT-THROUGH И РАЗГРУЗКА CPU -->
         <div class="slide-item" data-slide="7">
-          <div class="slide-header">
-            <span class="slide-category">РАЗДЕЛ 6 • ИНЖЕНЕРНЫЕ ИЗМЕРЕНИЯ</span>
-            <h2 class="slide-title">6. Эксперимент: Задержки коммутации и разгрузка CPU</h2>
+          <div class="slide-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+              <span class="slide-category">РАЗДЕЛ 6 • ИНЖЕНЕРНЫЕ ИЗМЕРЕНИЯ</span>
+              <h2 class="slide-title">6. Эксперимент: Задержки коммутации и разгрузка CPU</h2>
+            </div>
+            <button onclick="openModalLightbox('img/fig3_database_performance.png')" class="pres-action-btn" style="font-size: 11.5px; padding: 4px 10px;">
+              🔍 Во весь экран (300 DPI)
+            </button>
           </div>
           <div class="slide-body">
-            <div class="slide-split-content">
-              <img src="img/fig3_database_performance.png" class="slide-img-preview" alt="Задержки коммутации">
+            <div class="slide-split-diagram">
+              <div class="slide-diagram-card" onclick="openModalLightbox('img/fig3_database_performance.png')" title="Кликните для зума">
+                <img src="img/fig3_database_performance.png" alt="Задержки коммутации">
+                <span class="slide-zoom-hint">🔍 300 DPI • Нажмите для зума</span>
+              </div>
               <div>
                 <ul class="slide-bullet-list">
                   <li><b>Сквозная коммутация (Cut-Through):</b> ультранизкая постоянная задержка <b>0.45 мкс</b> независимо от длины пакета.</li>
