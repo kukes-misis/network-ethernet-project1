@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,33 +12,37 @@
   
   <style>
     /* ==========================================================================
-       DESIGN SYSTEM: HIGH-AGENCY FRONTEND (design-taste-frontend skill)
-       - Baseline: DESIGN_VARIANCE=8, MOTION_INTENSITY=6, VISUAL_DENSITY=4
-       - Typography: Geist Sans + Geist Mono (tight tracking, display confidence)
-       - Color: Absolute Slate Neutral + Singular MISIS Electric Crimson (#e11d48)
-       - Layout: Asymmetric 50/50 Split Hero + Fluid Segmented Control (Zero Scroll)
-       - Materiality: Liquid Glass refraction, inner highlights, anti-card grouping
-       - Performance: transform/opacity-only animations, zero layout thrashing
+       CYBERNETIC DARK THEME & HIGH-AGENCY MOTION SYSTEM (design-taste-frontend)
+       - Baseline: DESIGN_VARIANCE=8, MOTION_INTENSITY=8, VISUAL_DENSITY=4
+       - Theme: Deep Obsidian (#040711) + Liquid Glass + Spotlight Parallax Glow
+       - Accent: MISIS Neon Crimson (#f43f5e) + Telemetry Emerald (#10b981)
+       - Animations: Canvas Particle Constellation, Live Switch LEDs, Waveform OSC,
+         Magnetic Spring Controls, 3D Tilt Refraction, Interactive Frame Inspector
        ========================================================================== */
 
     :root {
-      --bg: #ffffff;
-      --bg-subtle: #f8fafc;
-      --bg-surface: #f1f5f9;
-      --border: #e2e8f0;
-      --border-dark: #0f172a;
-      --text: #0f172a;
-      --text-muted: #475569;
+      --bg: #040711;
+      --bg-surface: #0b1120;
+      --bg-card: rgba(15, 23, 42, 0.75);
+      --bg-card-hover: rgba(30, 41, 59, 0.85);
+      
+      --border: rgba(255, 255, 255, 0.08);
+      --border-bright: rgba(255, 255, 255, 0.18);
+      --border-accent: rgba(244, 63, 94, 0.4);
+      
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
       --text-subtle: #64748b;
-      --text-faint: #94a3b8;
+      --text-faint: #475569;
       
-      /* Singular Accent (Max 1, Saturation < 80%, Zero Lila/Purple) */
-      --accent-crimson: #e11d48;
-      --accent-crimson-subtle: rgba(225, 29, 72, 0.08);
-      --accent-teal: #0d9488;
+      --accent: #f43f5e;
+      --accent-glow: rgba(244, 63, 94, 0.25);
+      --accent-emerald: #10b981;
+      --accent-emerald-glow: rgba(16, 185, 129, 0.25);
+      --accent-cyan: #38bdf8;
       
-      --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'Geist Mono', ui-monospace, Menlo, monospace;
       
       --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
       --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
@@ -57,28 +61,60 @@
       font-size: 15px;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ФОНОВЫЙ КАНВАС ДЛЯ СЕТЕВЫХ ЧАСТИЦ (INTERACTIVE NETWORK GRID) */
+    #network-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+    }
+
+    /* Фоновый неоновый градиентный свет */
+    .ambient-glow {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(244, 63, 94, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      top: -150px;
+      right: -100px;
+      filter: blur(80px);
+      animation: ambientFloat 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes ambientFloat {
+      0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+      100% { transform: translate(-100px, 120px) scale(1.2); opacity: 0.9; }
     }
 
     /* -------------------------------------------------------------
-       TOPBAR: LIQUID GLASS REFRACTION & RESTRAINED NAV
+       TOPBAR: LIQUID GLASS REFRACTION
        ------------------------------------------------------------- */
     .topbar {
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(4, 7, 17, 0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
-      box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.5), 0 4px 20px rgba(15, 23, 42, 0.03);
+      box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.05), 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
     .topbar-inner {
       max-width: 1400px;
       margin: 0 auto;
-      padding: 12px 28px;
+      padding: 14px 28px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -92,38 +128,44 @@
     }
 
     .brand-logo {
-      font-size: 18px;
+      font-size: 19px;
       font-weight: 900;
       letter-spacing: -0.04em;
-      color: var(--border-dark);
+      color: #ffffff;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       text-decoration: none;
+      transition: transform 0.2s var(--ease-spring);
+    }
+
+    .brand-logo:hover {
+      transform: scale(1.03);
     }
 
     .pulse-dot {
-      width: 9px;
-      height: 9px;
-      background: var(--accent-crimson);
+      width: 10px;
+      height: 10px;
+      background: var(--accent);
       border-radius: 50%;
       position: relative;
       display: inline-block;
+      box-shadow: 0 0 12px var(--accent);
     }
 
     .pulse-dot::after {
       content: '';
       position: absolute;
-      top: -4px; left: -4px; right: -4px; bottom: -4px;
+      top: -5px; left: -5px; right: -5px; bottom: -5px;
       border-radius: 50%;
-      border: 2px solid var(--accent-crimson);
-      animation: pulsePing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
-      opacity: 0.8;
+      border: 2px solid var(--accent);
+      animation: pulsePing 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+      opacity: 0.9;
     }
 
     @keyframes pulsePing {
-      0% { transform: scale(0.8); opacity: 0.9; }
-      75%, 100% { transform: scale(2.4); opacity: 0; }
+      0% { transform: scale(0.7); opacity: 1; }
+      75%, 100% { transform: scale(2.8); opacity: 0; }
     }
 
     .brand-meta {
@@ -132,18 +174,18 @@
       color: var(--text-subtle);
       border-left: 1px solid var(--border);
       padding-left: 14px;
-      line-height: 1.3;
+      line-height: 1.35;
     }
 
     .brand-meta span {
-      color: var(--text);
+      color: #ffffff;
       font-weight: 600;
     }
 
     .topbar-nav {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       list-style: none;
     }
 
@@ -152,62 +194,67 @@
       font-weight: 600;
       color: var(--text-muted);
       text-decoration: none;
-      padding: 7px 12px;
-      border-radius: 6px;
-      transition: all 0.2s var(--ease-smooth);
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: all 0.25s var(--ease-smooth);
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      border: 1px solid transparent;
+      position: relative;
     }
 
     .topbar-link:hover {
-      color: var(--text);
-      background: var(--bg-surface);
-      transform: translateY(-1px);
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--border);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
     }
 
     .topbar-link:active {
-      transform: scale(0.98);
+      transform: scale(0.96);
     }
 
     .btn-github {
-      background: var(--border-dark);
+      background: linear-gradient(135deg, #1e293b, #0f172a);
       color: #ffffff !important;
-      padding: 7px 14px;
-      font-weight: 600;
-      border-radius: 6px;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
     }
 
     .btn-github:hover {
-      background: #1e293b;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.25);
+      background: linear-gradient(135deg, var(--accent), #be123c);
+      border-color: var(--accent);
+      box-shadow: 0 6px 20px var(--accent-glow);
     }
 
     /* -------------------------------------------------------------
-       CONTAINER
+       MAIN CONTAINER
        ------------------------------------------------------------- */
     .site-container {
       max-width: 1400px;
       margin: 0 auto;
-      padding: 36px 28px 80px 28px;
+      padding: 40px 28px 100px 28px;
+      position: relative;
+      z-index: 10;
     }
 
     /* -------------------------------------------------------------
-       HERO: ASYMMETRIC SPLIT SCREEN (VARIANCE=8, ANTI-CENTER BIAS)
+       HERO SPLIT (ASYMMETRIC 50/50 + DYNAMIC INSPECTOR)
        ------------------------------------------------------------- */
     .hero-split {
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
+      grid-template-columns: 1.1fr 0.9fr;
       gap: 48px;
       align-items: center;
-      margin-bottom: 48px;
-      padding-bottom: 40px;
+      margin-bottom: 52px;
+      padding-bottom: 48px;
       border-bottom: 1px solid var(--border);
+      position: relative;
     }
 
-    @media (max-width: 1024px) {
+    @media (max-width: 1040px) {
       .hero-split {
         grid-template-columns: 1fr;
         gap: 36px;
@@ -218,38 +265,41 @@
       font-family: var(--font-mono);
       font-size: 11.5px;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--accent-crimson);
-      margin-bottom: 12px;
+      color: var(--accent);
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      text-shadow: 0 0 16px var(--accent-glow);
     }
 
     .hero-kicker::before {
       content: '';
       display: inline-block;
-      width: 16px;
+      width: 20px;
       height: 2px;
-      background: var(--accent-crimson);
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
     }
 
     .hero-title {
-      font-size: clamp(36px, 4vw, 54px);
+      font-size: clamp(38px, 4.2vw, 56px);
       font-weight: 900;
       letter-spacing: -0.04em;
       line-height: 1.05;
-      color: var(--border-dark);
-      margin-bottom: 18px;
+      color: #ffffff;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
     }
 
     .hero-lead {
       font-size: 16.5px;
       color: var(--text-muted);
-      line-height: 1.55;
+      line-height: 1.6;
       max-width: 65ch;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
     }
 
     .hero-metrics {
@@ -261,31 +311,47 @@
     .metric-pill {
       font-family: var(--font-mono);
       font-size: 12px;
-      background: var(--bg-subtle);
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(8px);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 6px 12px;
-      color: var(--text);
+      padding: 8px 14px;
+      color: #ffffff;
       display: flex;
       align-items: center;
       gap: 8px;
+      transition: all 0.25s var(--ease-spring);
+    }
+
+    .metric-pill:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px var(--accent-glow);
     }
 
     .metric-pill b {
-      color: var(--accent-crimson);
+      color: var(--accent);
       font-weight: 700;
     }
 
-    /* Live Telemetry / Packet Inspector Box */
+    /* -------------------------------------------------------------
+       INTERACTIVE TELEMETRY & FRAME INSPECTOR CARD
+       ------------------------------------------------------------- */
     .telemetry-card {
-      background: #090d16;
-      border-radius: 14px;
-      border: 1px solid #1e293b;
+      background: rgba(11, 17, 32, 0.85);
+      border-radius: 16px;
+      border: 1px solid var(--border-bright);
       padding: 24px;
-      color: #f8fafc;
-      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
       position: relative;
       overflow: hidden;
+      backdrop-filter: blur(16px);
+      transition: transform 0.3s var(--ease-spring), box-shadow 0.3s ease;
+    }
+
+    .telemetry-card:hover {
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 30px rgba(244, 63, 94, 0.15);
+      border-color: var(--border-accent);
     }
 
     .telemetry-header {
@@ -294,69 +360,81 @@
       align-items: center;
       margin-bottom: 16px;
       padding-bottom: 12px;
-      border-bottom: 1px solid #1e293b;
+      border-bottom: 1px solid var(--border);
     }
 
     .telemetry-tag {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 700;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: #38bdf8;
+      color: var(--accent-cyan);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
 
     .telemetry-tag::before {
       content: '';
-      width: 6px;
-      height: 6px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
-      background: #38bdf8;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 8px var(--accent-cyan);
     }
 
-    .telemetry-status {
+    .telemetry-live-badge {
       font-family: var(--font-mono);
       font-size: 11px;
-      color: #4ade80;
+      color: var(--accent-emerald);
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 3px 8px;
+      border-radius: 12px;
     }
 
+    /* ИНТЕРАКТИВНЫЙ ИНСПЕКТОР БАЙТОВ КАДРА */
     .packet-strip {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
-      margin-bottom: 16px;
-      background: #0f172a;
-      padding: 6px;
-      border-radius: 8px;
-      border: 1px solid #334155;
+      gap: 6px;
+      margin-bottom: 14px;
+      background: rgba(4, 7, 17, 0.8);
+      padding: 8px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
     }
 
     .packet-chunk {
       text-align: center;
-      padding: 8px 4px;
-      background: #1e293b;
-      border-radius: 4px;
-      transition: all 0.2s var(--ease-smooth);
-      cursor: default;
+      padding: 10px 4px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      transition: all 0.22s var(--ease-spring);
+      cursor: pointer;
+      user-select: none;
+      position: relative;
     }
 
-    .packet-chunk:hover {
-      background: #334155;
-      transform: translateY(-2px);
+    .packet-chunk:hover, .packet-chunk.active {
+      background: rgba(244, 63, 94, 0.18);
+      border-color: var(--accent);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 6px 16px var(--accent-glow);
     }
 
     .packet-name {
       font-family: var(--font-mono);
       font-size: 9.5px;
-      color: #94a3b8;
+      color: var(--text-muted);
       display: block;
       margin-bottom: 2px;
+      font-weight: 600;
     }
 
     .packet-bytes {
@@ -366,10 +444,28 @@
       color: #ffffff;
     }
 
+    /* Интерактивное пояснение к выбранному полю */
+    .packet-explainer {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--accent-cyan);
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px dashed rgba(56, 189, 248, 0.3);
+      border-radius: 6px;
+      padding: 6px 12px;
+      margin-bottom: 16px;
+      min-height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+
+    /* Бегущая дорожка пакетов данных */
     .traffic-stream-bar {
-      height: 4px;
-      background: #1e293b;
-      border-radius: 2px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 3px;
       position: relative;
       overflow: hidden;
       margin-bottom: 16px;
@@ -378,33 +474,99 @@
     .traffic-stream-fill {
       position: absolute;
       top: 0; bottom: 0;
-      width: 40%;
-      background: linear-gradient(90deg, transparent, var(--accent-crimson), transparent);
-      animation: trafficStreamMove 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      width: 45%;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--accent-cyan), transparent);
+      animation: trafficStreamMove 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      box-shadow: 0 0 12px var(--accent);
     }
 
     @keyframes trafficStreamMove {
-      0% { left: -40%; }
+      0% { left: -45%; }
       100% { left: 100%; }
     }
 
+    /* Живая матрица портов коммутатора со светодиодами */
+    .switch-leds-panel {
+      background: rgba(4, 7, 17, 0.7);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .leds-title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-subtle);
+    }
+
+    .leds-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .port-led {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .led-light {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #334155;
+      transition: background 0.1s ease;
+    }
+
+    .led-light.active {
+      background: var(--accent-emerald);
+      box-shadow: 0 0 8px var(--accent-emerald);
+      animation: ledBlink 0.8s infinite alternate;
+    }
+
+    .led-light.active.fast {
+      animation-duration: 0.3s;
+    }
+
+    .led-num {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: var(--text-faint);
+    }
+
+    @keyframes ledBlink {
+      0% { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+
+    /* Статистика телеметрии */
     .telemetry-stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 10px;
       font-family: var(--font-mono);
-      font-size: 12px;
     }
 
     .stat-box {
-      background: #0f172a;
-      padding: 10px 14px;
-      border-radius: 6px;
-      border: 1px solid #1e293b;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+    }
+
+    .stat-box:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--border-bright);
     }
 
     .stat-label {
-      color: #94a3b8;
+      color: var(--text-subtle);
       font-size: 10.5px;
       display: block;
       margin-bottom: 4px;
@@ -413,22 +575,28 @@
     .stat-val {
       color: #ffffff;
       font-weight: 700;
-      font-size: 13.5px;
+      font-size: 13px;
     }
 
-    .stat-val.highlight {
-      color: #4ade80;
+    .stat-val.emerald {
+      color: var(--accent-emerald);
+      text-shadow: 0 0 8px var(--accent-emerald-glow);
+    }
+
+    .stat-val.crimson {
+      color: #f87171;
     }
 
     /* -------------------------------------------------------------
-       SECTION TABS: ZERO-SCROLL RESPONSIVE SEGMENTED SWITCHER
+       SECTION TABS CONTROLLER (ZERO-SCROLL RESPONSIVE SEGMENTED)
        ------------------------------------------------------------- */
     .tabs-controller {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 12px;
-      margin-bottom: 36px;
-      background: var(--bg-surface);
+      margin-bottom: 40px;
+      background: rgba(11, 17, 32, 0.8);
+      backdrop-filter: blur(16px);
       padding: 8px;
       border-radius: 14px;
       border: 1px solid var(--border);
@@ -460,27 +628,27 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
       text-align: left;
       user-select: none;
       position: relative;
     }
 
     .tab-trigger:hover {
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.7);
-      transform: translateY(-1px);
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.06);
+      transform: translateY(-2px);
     }
 
     .tab-trigger:active {
-      transform: scale(0.98);
+      transform: scale(0.97);
     }
 
     .tab-trigger.active {
       color: #ffffff;
-      background: var(--border-dark);
-      border-color: var(--border-dark);
-      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     }
 
     .tab-trigger.active::after {
@@ -490,23 +658,21 @@
       left: 14px;
       right: 14px;
       height: 3px;
-      background: var(--accent-crimson);
+      background: var(--accent);
       border-radius: 2px;
+      box-shadow: 0 0 10px var(--accent);
     }
 
     .tab-trigger-label {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
     .tab-badge {
       font-family: var(--font-mono);
       font-size: 11px;
-      background: var(--bg);
+      background: rgba(255, 255, 255, 0.08);
       color: var(--text-muted);
       padding: 3px 8px;
       border-radius: 6px;
@@ -517,9 +683,10 @@
     }
 
     .tab-trigger.active .tab-badge {
-      background: rgba(255, 255, 255, 0.16);
+      background: var(--accent);
       color: #ffffff;
-      border-color: rgba(255, 255, 255, 0.25);
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
     }
 
     /* -------------------------------------------------------------
@@ -535,12 +702,12 @@
     }
 
     @keyframes paneSpringUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(12px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     /* -------------------------------------------------------------
-       TAB 1: HARDWARE SHOWCASE & ASYMMETRIC GRID (ANTI-CARD OVERUSE)
+       TAB 1: HARDWARE SPOTLIGHT & ASYMMETRIC GRID
        ------------------------------------------------------------- */
     .hardware-layout {
       display: grid;
@@ -549,23 +716,31 @@
       margin-bottom: 40px;
     }
 
-    @media (max-width: 960px) {
+    @media (max-width: 980px) {
       .hardware-layout {
         grid-template-columns: 1fr;
       }
     }
 
-    /* Featured deep-dive spotlight (L2 Switch) */
+    /* SPOTLIGHT: L2 SWITCH */
     .hardware-spotlight {
-      background: #ffffff;
-      border: 1px solid var(--border-dark);
-      border-radius: 14px;
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(11, 17, 32, 0.95));
+      border: 1px solid var(--border-bright);
+      border-radius: 16px;
       padding: 32px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
       position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s ease, transform 0.25s var(--ease-spring);
+    }
+
+    .hardware-spotlight:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), 0 0 30px var(--accent-glow);
     }
 
     .spotlight-badge {
@@ -575,10 +750,11 @@
       font-family: var(--font-mono);
       font-size: 11.5px;
       font-weight: 700;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--accent-crimson);
+      color: var(--accent);
       margin-bottom: 14px;
+      text-shadow: 0 0 12px var(--accent-glow);
     }
 
     .spotlight-title {
@@ -587,23 +763,23 @@
       letter-spacing: -0.03em;
       line-height: 1.15;
       margin-bottom: 12px;
-      color: var(--border-dark);
+      color: #ffffff;
     }
 
     .spotlight-desc {
-      font-size: 15.5px;
+      font-size: 15px;
       color: var(--text-muted);
-      line-height: 1.5;
+      line-height: 1.55;
       margin-bottom: 24px;
     }
 
     .spotlight-specs-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      gap: 12px;
       margin-bottom: 24px;
-      padding: 18px;
-      background: var(--bg-subtle);
+      padding: 16px;
+      background: rgba(4, 7, 17, 0.7);
       border-radius: 10px;
       border: 1px solid var(--border);
     }
@@ -622,10 +798,10 @@
 
     .spec-value {
       font-weight: 700;
-      color: var(--border-dark);
+      color: #ffffff;
     }
 
-    /* Asymmetric Right Stack: Hub, Bridge, Router, Repeater */
+    /* ASYMMETRIC RIGHT STACK */
     .hardware-stack {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -639,30 +815,33 @@
     }
 
     .hardware-card {
-      background: #ffffff;
+      background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 22px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       transition: all 0.25s var(--ease-spring);
       position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
     }
 
     .hardware-card:hover {
-      border-color: var(--border-dark);
-      transform: translateY(-3px);
-      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+      background: var(--bg-card-hover);
+      border-color: var(--border-bright);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
     }
 
     .card-layer-tag {
       font-family: var(--font-mono);
       font-size: 10.5px;
       font-weight: 700;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--accent-crimson);
+      color: var(--accent);
       margin-bottom: 8px;
       display: block;
     }
@@ -672,13 +851,13 @@
       font-weight: 800;
       letter-spacing: -0.02em;
       margin-bottom: 8px;
-      color: var(--border-dark);
+      color: #ffffff;
     }
 
     .card-body {
-      font-size: 13.5px;
+      font-size: 13px;
       color: var(--text-muted);
-      line-height: 1.45;
+      line-height: 1.5;
       margin-bottom: 16px;
       flex-grow: 1;
     }
@@ -693,7 +872,7 @@
 
     .card-data-rows li {
       padding: 4px 0;
-      color: var(--text);
+      color: #ffffff;
       display: flex;
       justify-content: space-between;
       gap: 8px;
@@ -730,10 +909,11 @@
     }
 
     .kanban-column {
-      background: var(--bg-subtle);
+      background: rgba(11, 17, 32, 0.7);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 18px;
+      border-radius: 14px;
+      padding: 20px;
+      backdrop-filter: blur(12px);
     }
 
     .column-header {
@@ -742,42 +922,43 @@
       align-items: center;
       padding-bottom: 14px;
       margin-bottom: 16px;
-      border-bottom: 2px solid var(--border-dark);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.15);
       font-weight: 800;
       font-size: 15px;
-      letter-spacing: -0.02em;
+      color: #ffffff;
     }
 
     .task-card {
-      background: #ffffff;
+      background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 16px;
       margin-bottom: 12px;
-      transition: all 0.2s var(--ease-smooth);
+      transition: all 0.22s var(--ease-spring);
     }
 
     .task-card:hover {
-      border-color: var(--border-dark);
+      background: rgba(255, 255, 255, 0.07);
+      border-color: var(--border-bright);
       transform: translateY(-2px);
-      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
 
     .task-category {
       font-family: var(--font-mono);
       font-size: 10.5px;
       font-weight: 700;
-      color: var(--accent-crimson);
+      color: var(--accent);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
       margin-bottom: 6px;
       display: block;
     }
 
     .task-title {
-      font-size: 14px;
+      font-size: 14.5px;
       font-weight: 700;
-      color: var(--border-dark);
+      color: #ffffff;
       margin-bottom: 6px;
       line-height: 1.35;
     }
@@ -801,15 +982,16 @@
     }
 
     .task-status-done {
-      color: #059669;
+      color: var(--accent-emerald);
       font-weight: 700;
       display: flex;
       align-items: center;
       gap: 4px;
+      text-shadow: 0 0 8px var(--accent-emerald-glow);
     }
 
     /* -------------------------------------------------------------
-       TAB 3: OSI ARCHITECTURE COMPARISON
+       TAB 3: OSI ARCHITECTURE
        ------------------------------------------------------------- */
     .osi-layers-stack {
       display: flex;
@@ -818,27 +1000,29 @@
     }
 
     .osi-layer-card {
-      background: #ffffff;
+      background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 24px;
-      border-left: 6px solid var(--border-dark);
-      transition: all 0.2s var(--ease-smooth);
+      border-left: 6px solid #64748b;
+      transition: all 0.22s var(--ease-spring);
+      backdrop-filter: blur(12px);
     }
 
     .osi-layer-card.l3 {
-      border-left-color: var(--accent-crimson);
+      border-left-color: var(--accent);
     }
     .osi-layer-card.l2 {
-      border-left-color: var(--border-dark);
+      border-left-color: var(--accent-cyan);
     }
     .osi-layer-card.l1 {
-      border-left-color: #64748b;
+      border-left-color: var(--accent-emerald);
     }
 
     .osi-layer-card:hover {
-      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+      background: var(--bg-card-hover);
       transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
     }
 
     .osi-layer-top {
@@ -853,17 +1037,18 @@
     .osi-layer-title {
       font-size: 20px;
       font-weight: 800;
-      letter-spacing: -0.02em;
+      color: #ffffff;
     }
 
     .osi-layer-badge {
       font-family: var(--font-mono);
       font-size: 11.5px;
       font-weight: 700;
-      background: var(--bg-surface);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
       padding: 4px 10px;
       border-radius: 6px;
-      color: var(--border-dark);
+      color: #ffffff;
     }
 
     .osi-table {
@@ -874,7 +1059,7 @@
     }
 
     .osi-table td {
-      padding: 8px 0;
+      padding: 10px 0;
       border-top: 1px solid var(--border);
       vertical-align: top;
     }
@@ -887,11 +1072,15 @@
     }
 
     .osi-table td:last-child {
-      color: var(--text);
+      color: var(--text-muted);
+    }
+
+    .osi-table td:last-child b {
+      color: #ffffff;
     }
 
     /* -------------------------------------------------------------
-       TAB 4: HIGH-RES 300 DPI GALLERY
+       TAB 4: 300 DPI GALLERY
        ------------------------------------------------------------- */
     .gallery-grid {
       display: grid;
@@ -906,33 +1095,34 @@
     }
 
     .figure-box {
-      background: #ffffff;
+      background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       transition: all 0.25s var(--ease-spring);
+      backdrop-filter: blur(12px);
     }
 
     .figure-box:hover {
-      border-color: var(--border-dark);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      border-color: var(--border-bright);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
     }
 
     .figure-box img {
       width: 100%;
       height: 260px;
       object-fit: cover;
-      background: #0f172a;
+      background: #020617;
       cursor: zoom-in;
       display: block;
       transition: transform 0.3s var(--ease-smooth);
     }
 
     .figure-box:hover img {
-      transform: scale(1.02);
+      transform: scale(1.03);
     }
 
     .figure-caption {
@@ -945,9 +1135,9 @@
       font-family: var(--font-mono);
       font-size: 11px;
       font-weight: 700;
-      color: var(--accent-crimson);
+      color: var(--accent);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
       margin-bottom: 4px;
       display: block;
     }
@@ -955,7 +1145,7 @@
     .figure-title {
       font-size: 15px;
       font-weight: 700;
-      color: var(--border-dark);
+      color: #ffffff;
       margin-bottom: 6px;
     }
 
@@ -966,7 +1156,7 @@
     }
 
     /* -------------------------------------------------------------
-       TEAM SECTION (ALL 5 MEMBERS + GORBUNOV KONSTANTIN VASILIEVICH)
+       TEAM SECTION (ALL 5 MEMBERS)
        ------------------------------------------------------------- */
     .team-section {
       margin-top: 64px;
@@ -987,7 +1177,7 @@
       font-size: 24px;
       font-weight: 900;
       letter-spacing: -0.03em;
-      color: var(--border-dark);
+      color: #ffffff;
     }
 
     .section-sub {
@@ -1015,35 +1205,34 @@
     }
 
     .member-box {
-      background: var(--bg-subtle);
+      background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: all 0.2s var(--ease-smooth);
+      transition: all 0.22s var(--ease-spring);
     }
 
     .member-box:hover {
-      background: #ffffff;
-      border-color: var(--border-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+      background: rgba(255, 255, 255, 0.07);
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4), 0 0 20px var(--accent-glow);
     }
 
     .member-name {
       font-size: 14px;
       font-weight: 800;
-      color: var(--border-dark);
+      color: #ffffff;
       margin-bottom: 4px;
-      letter-spacing: -0.01em;
     }
 
     .member-role {
       font-family: var(--font-mono);
       font-size: 11px;
-      color: var(--accent-crimson);
+      color: var(--accent);
       font-weight: 600;
       margin-bottom: 8px;
     }
@@ -1054,35 +1243,41 @@
       line-height: 1.4;
     }
 
-    /* AI Usage Academic Disclosure Box */
+    /* AI Disclosure Academic Banner */
     .ai-disclosure-banner {
-      background: var(--bg-surface);
-      border-radius: 10px;
+      background: rgba(11, 17, 32, 0.7);
+      border-radius: 12px;
       border: 1px solid var(--border);
-      padding: 18px 24px;
+      padding: 20px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 20px;
       flex-wrap: wrap;
       margin-bottom: 36px;
+      backdrop-filter: blur(12px);
     }
 
     .ai-disclosure-text {
       font-size: 13px;
       color: var(--text-muted);
-      line-height: 1.45;
+      line-height: 1.5;
       max-width: 900px;
+    }
+
+    .ai-disclosure-text b {
+      color: #ffffff;
     }
 
     .ai-badge {
       font-family: var(--font-mono);
       font-size: 11.5px;
       font-weight: 700;
-      background: var(--border-dark);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--border-bright);
       color: #ffffff;
-      padding: 5px 12px;
-      border-radius: 6px;
+      padding: 6px 14px;
+      border-radius: 8px;
       white-space: nowrap;
     }
 
@@ -1103,7 +1298,7 @@
     }
 
     .footer-left strong {
-      color: var(--border-dark);
+      color: #ffffff;
     }
 
     /* -------------------------------------------------------------
@@ -1113,9 +1308,9 @@
       display: none;
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(15, 23, 42, 0.94);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(4, 7, 17, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       z-index: 2000;
       justify-content: center;
       align-items: center;
@@ -1133,19 +1328,23 @@
     .lightbox-modal img {
       max-width: 95%;
       max-height: 90vh;
-      border-radius: 8px;
-      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8), 0 0 30px rgba(244, 63, 94, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       animation: modalZoom 0.3s var(--ease-spring);
     }
 
     @keyframes modalZoom {
-      from { transform: scale(0.92); opacity: 0; }
+      from { transform: scale(0.9); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
   </style>
 </head>
 <body>
+
+  <!-- ФОНОВЫЙ КАНВАС ЧАСТИЦ СЕТИ -->
+  <canvas id="network-canvas"></canvas>
+  <div class="ambient-glow"></div>
 
   <!-- TOPBAR -->
   <header class="topbar">
@@ -1188,53 +1387,75 @@
         </div>
       </div>
 
-      <!-- Live Packet Telemetry & Frame Inspector Asset -->
+      <!-- Live Interactive Packet Telemetry & Frame Inspector Asset -->
       <div class="telemetry-card">
         <div class="telemetry-header">
           <div class="telemetry-tag">Инспектор кадра IEEE 802.3</div>
-          <div class="telemetry-status">● Live Stream</div>
+          <div class="telemetry-live-badge">● Live Telemetry</div>
         </div>
         
-        <!-- Ethernet II Packet Breakdown -->
-        <div class="packet-strip">
-          <div class="packet-chunk" title="Преамбула синхронизации">
+        <!-- Ethernet II Packet Breakdown (Кликабельный) -->
+        <div class="packet-strip" id="packet-strip">
+          <div class="packet-chunk active" data-name="Преамбула (Preamble)" data-desc="7 байт чередующихся бит 10101010 для физической синхронизации тактовой частоты приёмника.">
             <span class="packet-name">PRE</span>
             <span class="packet-bytes">7B</span>
           </div>
-          <div class="packet-chunk" title="Start Frame Delimiter">
+          <div class="packet-chunk" data-name="Ограничитель кадра (SFD)" data-desc="1 байт 10101011 (SFD), сигнализирующий о немедленном начале заголовка MAC.">
             <span class="packet-name">SFD</span>
             <span class="packet-bytes">1B</span>
           </div>
-          <div class="packet-chunk" title="MAC Destination">
+          <div class="packet-chunk" data-name="MAC-адрес назначения (DST)" data-desc="6 байт физического адреса получателя (Unicast, Multicast или Broadcast FF:FF:FF:FF:FF:FF).">
             <span class="packet-name">DST</span>
             <span class="packet-bytes">6B</span>
           </div>
-          <div class="packet-chunk" title="MAC Source">
+          <div class="packet-chunk" data-name="MAC-адрес источника (SRC)" data-desc="6 байт уникального аппаратного адреса сетевой карты передатчика (OUI производителя + NIC).">
             <span class="packet-name">SRC</span>
             <span class="packet-bytes">6B</span>
           </div>
-          <div class="packet-chunk" title="EtherType / 802.1Q">
+          <div class="packet-chunk" data-name="Тип протокола / 802.1Q (TYPE)" data-desc="0x0800 (IPv4), 0x86DD (IPv6), 0x0806 (ARP) или 0x8100 с тегом VLAN IEEE 802.1Q (4B).">
             <span class="packet-name">TYPE</span>
             <span class="packet-bytes">2B</span>
           </div>
-          <div class="packet-chunk" title="Полезная нагрузка IP">
-            <span class="packet-name">PAYLOAD</span>
+          <div class="packet-chunk" data-name="Полезные данные (PAYLOAD)" data-desc="От 46 до 1500 байт (MTU) данных IP-пакета. Дополняется паддингом при &lt; 46B.">
+            <span class="packet-name">DATA</span>
             <span class="packet-bytes">1500B</span>
           </div>
-          <div class="packet-chunk" title="Контрольная сумма FCS">
+          <div class="packet-chunk" data-name="Контрольная сумма (FCS CRC32)" data-desc="4 байта циклического избыточного кода CRC-32 для обнаружения битовых искажений на L2.">
             <span class="packet-name">FCS</span>
             <span class="packet-bytes">4B</span>
           </div>
         </div>
 
+        <!-- Интерактивное описание выбранного поля -->
+        <div class="packet-explainer" id="packet-explainer">
+          <span id="explainer-text"><b>Преамбула:</b> 7 байт синхронизации (кликните поле для инспекции)</span>
+        </div>
+
+        <!-- Бегущий неоновый поток трафика -->
         <div class="traffic-stream-bar">
           <div class="traffic-stream-fill"></div>
         </div>
 
+        <!-- Живая матрица портов коммутатора со светодиодами -->
+        <div class="switch-leds-panel">
+          <span class="leds-title">Catalyst 2960 ASIC Link/Act:</span>
+          <div class="leds-row">
+            <div class="port-led"><div class="led-light active fast"></div><span class="led-num">G1</span></div>
+            <div class="port-led"><div class="led-light active"></div><span class="led-num">G2</span></div>
+            <div class="port-led"><div class="led-light active fast"></div><span class="led-num">G3</span></div>
+            <div class="port-led"><div class="led-light active"></div><span class="led-num">G4</span></div>
+            <div class="port-led"><div class="led-light"></div><span class="led-num">G5</span></div>
+            <div class="port-led"><div class="led-light active fast"></div><span class="led-num">G6</span></div>
+            <div class="port-led"><div class="led-light active"></div><span class="led-num">G7</span></div>
+            <div class="port-led"><div class="led-light active fast"></div><span class="led-num">G8</span></div>
+          </div>
+        </div>
+
+        <!-- Метрики телеметрии -->
         <div class="telemetry-stats-grid">
           <div class="stat-box">
             <span class="stat-label">Задержка Cut-Through</span>
-            <span class="stat-val highlight">0.45 мкс (const)</span>
+            <span class="stat-val emerald">0.45 мкс (const)</span>
           </div>
           <div class="stat-box">
             <span class="stat-label">Задержка Store-and-Forward</span>
@@ -1242,11 +1463,11 @@
           </div>
           <div class="stat-box">
             <span class="stat-label">Пропускная способность Hub</span>
-            <span class="stat-val" style="color: #f87171;">8.2 Мбит/с (коллапс)</span>
+            <span class="stat-val crimson">8.2 Мбит/с (коллапс)</span>
           </div>
           <div class="stat-box">
             <span class="stat-label">Пропускная способность Switch</span>
-            <span class="stat-val highlight">98.0 Мбит/с (Full-Duplex)</span>
+            <span class="stat-val emerald">98.0 Мбит/с (Full-Duplex)</span>
           </div>
         </div>
       </div>
@@ -1293,7 +1514,7 @@
               </div>
               <div class="spec-item">
                 <span class="spec-key">Домены коллизий</span>
-                <span class="spec-value">N изолированных (по числу портов)</span>
+                <span class="spec-value">N изолированных (по портам)</span>
               </div>
               <div class="spec-item">
                 <span class="spec-key">Режим дуплекса</span>
@@ -1758,7 +1979,93 @@
   </div>
 
   <script>
-    // Табы без листалки и без рывков скролла
+    // 1. АНИМИРОВАННЫЙ СЕТЕВОЙ КАНВАС (Network Constellation Background)
+    (function initNetworkCanvas() {
+      const canvas = document.getElementById('network-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let width, height;
+      let particles = [];
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      const particleCount = Math.min(Math.floor(width / 22), 65);
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          radius: Math.random() * 1.8 + 1
+        });
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < 0 || p.x > width) p.vx *= -1;
+          if (p.y < 0 || p.y > height) p.vy *= -1;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(244, 63, 94, 0.45)';
+          ctx.fill();
+
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+            if (dist < 130) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.strokeStyle = 'rgba(244, 63, 94, ' + (1 - dist / 130) * 0.18 + ')';
+              ctx.lineWidth = 0.8;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
+
+    // 2. ИНТЕРАКТИВНЫЙ ИНСПЕКТОР БАЙТОВ КАДРА
+    const chunks = document.querySelectorAll('.packet-chunk');
+    const explainerText = document.getElementById('explainer-text');
+
+    chunks.forEach(function(chunk) {
+      chunk.addEventListener('click', function() {
+        chunks.forEach(function(c) { c.classList.remove('active'); });
+        chunk.classList.add('active');
+        const name = chunk.getAttribute('data-name');
+        const desc = chunk.getAttribute('data-desc');
+        if (explainerText && name && desc) {
+          explainerText.innerHTML = '<b>' + name + ':</b> ' + desc;
+        }
+      });
+    });
+
+    // 3. СВЕТОДИОДНАЯ АНИМАЦИЯ ПОРТОВ КОММУТАТОРА
+    const leds = document.querySelectorAll('.led-light');
+    setInterval(function() {
+      leds.forEach(function(led) {
+        if (Math.random() > 0.4) {
+          led.classList.toggle('active');
+        }
+      });
+    }, 280);
+
+    // 4. ТАБЫ БЕЗ СКРОЛЛА И БЕЗ РЫВКОВ
     function switchDesignTab(tabId, btnElement) {
       const panes = document.querySelectorAll('.tab-pane');
       for (let i = 0; i < panes.length; i++) {
@@ -1780,7 +2087,7 @@
       }
     }
 
-    // Просмотр схем в лайтбоксе
+    // 5. МОДАЛЬНОЕ ОКНО LIGHTBOX
     function openModalLightbox(src) {
       const modal = document.getElementById('lightbox-modal');
       const img = document.getElementById('lightbox-img');
@@ -1797,12 +2104,12 @@
       }
     }
 
-    // Микро-физика наклона для карточек оборудования (Hardware 3D tilt)
-    document.querySelectorAll('.hardware-card, .hardware-spotlight').forEach(function(card) {
+    // 6. 3D-TILT & SPOTLIGHT REFLECTION НА КАРТОЧКАХ
+    document.querySelectorAll('.hardware-card, .hardware-spotlight, .telemetry-card').forEach(function(card) {
       card.addEventListener('mousemove', function(e) {
         const rect = card.getBoundingClientRect();
-        const x = (e.clientX - rect.left - rect.width / 2) / 24;
-        const y = (e.clientY - rect.top - rect.height / 2) / 24;
+        const x = (e.clientX - rect.left - rect.width / 2) / 20;
+        const y = (e.clientY - rect.top - rect.height / 2) / 20;
         card.style.transform = 'perspective(900px) rotateX(' + (-y) + 'deg) rotateY(' + x + 'deg) translateY(-3px)';
       });
       card.addEventListener('mouseleave', function() {
