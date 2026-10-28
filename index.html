@@ -3,42 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Проект № 1: Проводная сеть Ethernet и сетевые устройства — НИТУ МИСИС</title>
+  <title>Проект № 1: Проводная сеть Ethernet и сетевые устройства — НИТУ МИСИС ИКН</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     /* -------------------------------------------------------------
-       ДИЗАЙН-КОД СТУДИИ АРТЕМИЯ ЛЕБЕДЕВА (Art. Lebedev Studio style)
-       Контраст, плотная сетка, четкая швейцарская типографика, 
-       лаконичные акценты, функциональные микросекции и инвентарь.
+       ДИЗАЙН-КОД: СТУДИЯ АРТЕМИЯ ЛЕБЕДЕВА + СОВРЕМЕННЫЙ МОУШН-ДИЗАЙН
+       (Micro-interactions, Smooth Springs, Hover Lifts, Parallax Glow,
+       Data Traffic Simulator Animation, Interactive Pulse, Glass Topbar)
        ------------------------------------------------------------- */
     :root {
       --bg: #ffffff;
-      --bg-alt: #f6f7f8;
+      --bg-alt: #f8f9fa;
       --border: #e2e4e8;
-      --border-dark: #1a1a1a;
+      --border-dark: #111111;
       --text: #111111;
-      --text-muted: #666666;
+      --text-muted: #555555;
       --text-subtle: #888888;
       --accent-red: #ea2323;
       --accent-blue: #0052cc;
-      --accent-yellow: #ffcc00;
+      --accent-teal: #00875a;
+      --accent-yellow: #ffab00;
       --link: #0044bb;
       --link-hover: #ea2323;
       --mono: 'JetBrains Mono', monospace;
       --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       font-family: var(--sans);
       background: var(--bg);
       color: var(--text);
-      line-height: 1.45;
+      line-height: 1.5;
       font-size: 15px;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Анимированная полоса сетевого трафика в самом верху (Network Packet Stream) */
+    .traffic-stream {
+      height: 3px;
+      width: 100%;
+      background: linear-gradient(90deg, #ea2323, #0052cc, #00875a, #ea2323);
+      background-size: 300% 100%;
+      animation: trafficFlow 4s linear infinite;
+    }
+    @keyframes trafficFlow {
+      0% { background-position: 100% 0; }
+      100% { background-position: -100% 0; }
     }
 
     a {
@@ -46,24 +67,26 @@
       text-decoration: underline;
       text-decoration-thickness: 1px;
       text-underline-offset: 3px;
-      transition: color 0.15s ease, text-decoration-color 0.15s ease;
+      transition: all 0.2s ease;
     }
     a:hover {
       color: var(--link-hover);
       text-decoration-color: var(--link-hover);
     }
 
-    /* Верхняя фирменная полоса (Header Лебедева) */
+    /* Верхняя фирменная полоса (Header Лебедева с Glassmorphism) */
     .als-topbar {
       border-bottom: 2px solid var(--text);
-      padding: 14px 40px;
+      padding: 12px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #ffffff;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
       position: sticky;
       top: 0;
       z-index: 1000;
+      transition: all 0.3s ease;
     }
 
     .als-identity {
@@ -80,14 +103,30 @@
       color: var(--text);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      cursor: pointer;
     }
-    .als-dot {
-      display: inline-block;
+    
+    /* Живая пульсирующая точка статуса (Network Pulse Indicator) */
+    .pulse-dot {
       width: 10px;
       height: 10px;
       background: var(--accent-red);
       border-radius: 50%;
+      position: relative;
+    }
+    .pulse-dot::after {
+      content: '';
+      position: absolute;
+      top: -4px; left: -4px; right: -4px; bottom: -4px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-red);
+      animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+      opacity: 0.8;
+    }
+    @keyframes ping {
+      0% { transform: scale(0.8); opacity: 0.9; }
+      75%, 100% { transform: scale(2.4); opacity: 0; }
     }
 
     .als-meta {
@@ -95,10 +134,13 @@
       color: var(--text-muted);
       font-family: var(--mono);
     }
+    .als-meta b {
+      color: var(--text);
+    }
 
     .als-nav {
       display: flex;
-      gap: 20px;
+      gap: 14px;
       list-style: none;
       align-items: center;
     }
@@ -108,24 +150,39 @@
       font-weight: 700;
       text-decoration: none;
       color: var(--text);
-      padding: 4px 8px;
+      padding: 6px 12px;
       border-radius: 4px;
+      position: relative;
+      transition: all 0.2s ease;
     }
-    .als-nav a:hover {
+    .als-nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
       background: var(--text);
-      color: #ffffff;
+      transition: all 0.2s var(--ease-smooth);
+      transform: translateX(-50%);
+    }
+    .als-nav a:hover::after {
+      width: 80%;
     }
 
     .als-btn-red {
       background: var(--accent-red) !important;
       color: #ffffff !important;
       text-decoration: none !important;
-      padding: 6px 14px !important;
+      padding: 7px 16px !important;
       border-radius: 4px !important;
       font-weight: 800 !important;
+      transition: transform 0.2s var(--ease-spring), background 0.2s ease, box-shadow 0.2s ease !important;
     }
     .als-btn-red:hover {
       background: #111111 !important;
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 4px 12px rgba(234, 35, 35, 0.3);
     }
 
     /* Главный контейнер */
@@ -135,11 +192,16 @@
       padding: 40px 40px 80px 40px;
     }
 
-    /* Мощный типографический заголовок в стиле «Ководства» */
+    /* Мощный типографический заголовок */
     .als-hero {
       border-bottom: 1px solid var(--border);
       padding-bottom: 30px;
       margin-bottom: 35px;
+      animation: heroFadeIn 0.8s var(--ease-smooth);
+    }
+    @keyframes heroFadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .als-tagline {
@@ -149,7 +211,10 @@
       letter-spacing: 1.5px;
       color: var(--accent-red);
       font-weight: 700;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .als-hero h1 {
@@ -162,13 +227,13 @@
     }
 
     .als-lead {
-      font-size: 18px;
+      font-size: 17.5px;
       color: var(--text-muted);
-      max-width: 950px;
+      max-width: 980px;
       line-height: 1.45;
     }
 
-    /* Навигация по доскам / разделам (Табы в стиле «Инвентаря» студии) */
+    /* Навигация по доскам (Табы в стиле «Инвентаря» студии) */
     .als-section-tabs {
       display: flex;
       border-bottom: 1px solid var(--border);
@@ -178,8 +243,8 @@
     }
 
     .als-tab-item {
-      padding: 12px 0;
-      font-size: 16px;
+      padding: 14px 0;
+      font-size: 15.5px;
       font-weight: 700;
       color: var(--text-subtle);
       border: none;
@@ -187,14 +252,16 @@
       cursor: pointer;
       border-bottom: 3px solid transparent;
       white-space: nowrap;
-      transition: all 0.15s ease;
+      transition: all 0.25s var(--ease-smooth);
       display: flex;
       align-items: center;
       gap: 8px;
+      position: relative;
     }
 
     .als-tab-item:hover {
       color: var(--text);
+      transform: translateY(-1px);
     }
 
     .als-tab-item.active {
@@ -207,26 +274,31 @@
       font-size: 11px;
       background: var(--bg-alt);
       color: var(--text-muted);
-      padding: 2px 6px;
-      border-radius: 3px;
+      padding: 2px 7px;
+      border-radius: 4px;
       border: 1px solid var(--border);
+      transition: all 0.2s ease;
+    }
+    .als-tab-item.active .tab-badge {
+      background: #111111;
+      color: #ffffff;
+      border-color: #111111;
     }
 
     .tab-pane {
       display: none;
-      animation: fadeIn 0.15s ease-out;
     }
     .tab-pane.active {
       display: block;
+      animation: tabSlideUp 0.35s var(--ease-smooth);
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    @keyframes tabSlideUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* -------------------------------------------------------------
-       РАЗДЕЛ 1: АНАЛИТИЧЕСКИЕ КАРТОЧКИ ОБОРУДОВАНИЯ И ИНТЕЛЛЕКТ-КАРТЫ
+       РАЗДЕЛ 1: АНАЛИТИЧЕСКИЕ КАРТОЧКИ ОБОРУДОВАНИЯ С МОУШН-ХОВЕРОМ
        ------------------------------------------------------------- */
     .als-grid-5 {
       display: grid;
@@ -239,20 +311,23 @@
       border: 1px solid var(--border);
       background: #ffffff;
       padding: 22px 18px;
-      border-radius: 4px;
+      border-radius: 6px;
       position: relative;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: border-color 0.15s, box-shadow 0.15s;
+      transition: transform 0.25s var(--ease-spring), border-color 0.2s ease, box-shadow 0.25s ease;
+      will-change: transform;
     }
     .als-card:hover {
       border-color: var(--border-dark);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 12px 24px -4px rgba(0,0,0,0.08), 0 4px 8px -2px rgba(0,0,0,0.04);
+      z-index: 5;
     }
 
     .als-card-header {
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .als-card-osi {
@@ -263,6 +338,7 @@
       text-transform: uppercase;
       margin-bottom: 4px;
       display: block;
+      letter-spacing: 0.5px;
     }
 
     .als-card-title {
@@ -286,9 +362,13 @@
       color: var(--text-muted);
     }
     .als-card-props li {
-      margin-bottom: 5px;
+      margin-bottom: 6px;
       padding-left: 14px;
       position: relative;
+      transition: color 0.15s ease;
+    }
+    .als-card:hover .als-card-props li {
+      color: #222222;
     }
     .als-card-props li::before {
       content: "—";
@@ -330,7 +410,12 @@
       border: 1px solid var(--border);
       background: var(--bg-alt);
       padding: 24px;
-      border-radius: 4px;
+      border-radius: 6px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .als-map-box:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.03);
     }
 
     .als-map-title {
@@ -346,11 +431,15 @@
       background: #111111;
       color: #ffffff;
       font-weight: 800;
-      font-size: 14px;
+      font-size: 13.5px;
       padding: 10px 18px;
       border-radius: 4px;
       display: inline-block;
       margin-bottom: 16px;
+      transition: transform 0.2s ease;
+    }
+    .als-map-box:hover .als-map-root {
+      transform: scale(1.02);
     }
 
     .als-map-branches {
@@ -365,10 +454,12 @@
       padding: 12px 10px;
       border-radius: 4px;
       font-size: 12px;
-      transition: border-color 0.15s;
+      transition: transform 0.2s var(--ease-spring), border-color 0.2s ease, box-shadow 0.2s ease;
     }
     .als-branch:hover {
       border-color: #111111;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
     }
     .als-branch b {
       display: block;
@@ -391,7 +482,7 @@
       background: var(--bg-alt);
       border: 1px solid var(--border);
       padding: 20px;
-      border-radius: 4px;
+      border-radius: 6px;
     }
 
     .als-kanban-head {
@@ -412,12 +503,12 @@
       border-radius: 4px;
       padding: 16px;
       margin-bottom: 12px;
-      transition: all 0.15s ease;
+      transition: transform 0.2s var(--ease-spring), border-color 0.2s ease, box-shadow 0.2s ease;
     }
     .als-task:hover {
       border-color: var(--text);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.06);
     }
 
     .als-task-category {
@@ -454,7 +545,7 @@
     }
 
     /* -------------------------------------------------------------
-       РАЗДЕЛ 3: СРАВНЕНИЕ OSI И БАЗА ЗНАНИЙ
+       РАЗДЕЛ 3: СРАВНЕНИЕ УРОВНЕЙ МОДЕЛИ OSI
        ------------------------------------------------------------- */
     .als-osi-grid {
       display: grid;
@@ -468,7 +559,12 @@
       border-top: 4px solid var(--text);
       background: #ffffff;
       padding: 24px;
-      border-radius: 4px;
+      border-radius: 6px;
+      transition: transform 0.25s var(--ease-spring), box-shadow 0.25s ease;
+    }
+    .als-osi-box:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.06);
     }
     .als-osi-box-l3 { border-top-color: #0052cc; }
     .als-osi-box-l2 { border-top-color: #00875a; }
@@ -528,11 +624,13 @@
       border: 1px solid var(--border);
       background: #ffffff;
       padding: 20px;
-      border-radius: 4px;
-      transition: border-color 0.15s ease;
+      border-radius: 6px;
+      transition: transform 0.25s var(--ease-spring), border-color 0.2s ease, box-shadow 0.25s ease;
     }
     .als-fig-box:hover {
       border-color: #111111;
+      transform: translateY(-4px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.07);
     }
 
     .als-fig-box img {
@@ -540,11 +638,15 @@
       height: 340px;
       object-fit: contain;
       background: var(--bg-alt);
-      border-radius: 2px;
+      border-radius: 4px;
       border: 1px solid var(--border);
       display: block;
       margin-bottom: 14px;
       cursor: zoom-in;
+      transition: transform 0.3s ease;
+    }
+    .als-fig-box:hover img {
+      transform: scale(1.015);
     }
 
     .als-fig-title {
@@ -577,6 +679,10 @@
     .als-member {
       border-left: 2px solid var(--accent-red);
       padding-left: 12px;
+      transition: transform 0.2s ease;
+    }
+    .als-member:hover {
+      transform: translateX(4px);
     }
     .als-member-name {
       font-size: 14px;
@@ -609,36 +715,49 @@
       font-family: var(--mono);
     }
 
-    /* Lightbox */
+    /* Lightbox с эффектом приближения */
     .als-lightbox {
       display: none;
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(17, 17, 17, 0.92);
-      backdrop-filter: blur(8px);
+      background: rgba(17, 17, 17, 0.94);
+      backdrop-filter: blur(10px);
       z-index: 2000;
       justify-content: center;
       align-items: center;
       padding: 40px;
       cursor: zoom-out;
+      opacity: 0;
+      transition: opacity 0.25s ease;
     }
-    .als-lightbox.active { display: flex; }
+    .als-lightbox.active {
+      display: flex;
+      opacity: 1;
+    }
     .als-lightbox img {
       max-width: 95%;
       max-height: 90vh;
-      border-radius: 4px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 6px;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.25);
+      animation: zoomIn 0.3s var(--ease-spring);
+    }
+    @keyframes zoomIn {
+      from { transform: scale(0.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
   </style>
 </head>
 <body>
 
+  <!-- АНИМИРОВАННЫЙ ПОТОК ТРАФИКА (NETWORK STREAM) -->
+  <div class="traffic-stream"></div>
+
   <!-- ВЕРХНЯЯ ШВЕЙЦАРСКАЯ ПОЛОСА НАВИГАЦИИ -->
   <header class="als-topbar">
     <div class="als-identity">
-      <div class="als-logo-text"><span class="als-dot"></span> МИСИС • ИКТ</div>
-      <div class="als-meta">БИВТ-26-6-9 / Проект № 1 / Преподаватель: Микитенко И. И.</div>
+      <div class="als-logo-text"><span class="pulse-dot"></span> МИСИС ИКН</div>
+      <div class="als-meta">БИВТ-26-6-9 / Проект № 1 / Преподаватель: <b>Микитенко И. И.</b></div>
     </div>
     <ul class="als-nav">
       <li><a href="tests/Интерактивный_Тест_Ethernet.html" target="_blank">Тест (15 вопросов)</a></li>
@@ -653,7 +772,7 @@
 
     <!-- КРУПНЫЙ ТИПОГРАФИЧЕСКИЙ БЛОК В СТИЛЕ СТУДИИ ЛЕБЕДЕВА -->
     <section class="als-hero">
-      <div class="als-tagline">Практическая работа № 4 — Разработка и защита IT-проекта</div>
+      <div class="als-tagline">НИТУ МИСИС ИКН • Практическая работа № 4 — Разработка и защита IT-проекта</div>
       <h1>Проводная сеть Ethernet, режимы работы и стандарты сетевых устройств</h1>
       <p class="als-lead">
         Архитектурное исследование концентраторов, мостов, коммутаторов, маршрутизаторов, сетевых адаптеров (NIC) и стандартов IEEE 802.3. Включает физический бенчмаркинг CSMA/CD, замеры задержек Cut-Through и оценку аппаратной разгрузки процессора хоста.
@@ -677,7 +796,7 @@
     </nav>
 
     <!-- =============================================================
-         РАЗДЕЛ 1: ИНТЕРАКТИВНАЯ ДОСКА ОБОРУДОВАНИЯ (1 В 1 ПО РЕГЛАМЕНТУ)
+         РАЗДЕЛ 1: ИНТЕРАКТИВНАЯ ДОСКА ОБОРУДОВАНИЯ
          ============================================================= -->
     <div id="whiteboard" class="tab-pane active">
       
@@ -1062,14 +1181,14 @@
       </div>
 
       <div class="als-credits">
-        <div>НИТУ МИСИС • Кафедра инфокоммуникационных технологий • Учебная группа БИВТ-26-6-9 • 2026 г.</div>
+        <div>НИТУ МИСИС • Институт компьютерных наук (ИКН) • Кафедра инфокоммуникационных технологий • БИВТ-26-6-9</div>
         <div>Руководитель: кандидат технических наук, старший научный сотрудник Микитенко И. И.</div>
       </div>
     </footer>
 
   </div>
 
-  <!-- LIGHTBOX -->
+  <!-- LIGHTBOX С ПЛАВНЫМ ПРИБЛИЖЕНИЕМ -->
   <div id="als-lightbox" class="als-lightbox" onclick="closeAlsLightbox()">
     <img id="als-lightbox-img" src="" alt="Просмотр схемы">
   </div>
@@ -1104,6 +1223,19 @@
     function closeAlsLightbox() {
       document.getElementById('als-lightbox').classList.remove('active');
     }
+
+    // Дополнительный интерактивный 3D-Tilt эффект для карточек оборудования
+    document.querySelectorAll('.als-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        card.style.transform = ;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
   </script>
 
 </body>
