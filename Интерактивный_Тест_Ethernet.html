@@ -90,8 +90,10 @@
     <div id="studentGreeting" style="font-weight: 700; font-size: 16px;"></div>
     <div class="score-big" id="scoreDisplay">0 / 15</div>
     <div class="grade-text" id="gradeDisplay"></div>
-    <p id="resultDesc" style="color: var(--muted); font-size: 14px; margin-bottom: 16px;"></p>
-    <button type="button" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" class="btn-submit" style="width: auto; padding: 10px 24px; font-size: 14px;">Посмотреть разбор ошибок выше ↑</button>
+    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+      <button type="button" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" class="btn-submit" style="width: auto; padding: 10px 24px; font-size: 14px;">Посмотреть разбор ошибок выше ↑</button>
+      <button type="button" onclick="resetQuiz();" class="btn-submit" style="width: auto; padding: 10px 24px; font-size: 14px; background: #475569;">🔄 Пройти тест заново</button>
+    </div>
   </div>
 </div>
 
@@ -144,13 +146,13 @@ const quizData = [
   {
     q: "5. В каком режиме коммутации кадр начинает передаваться в целевой порт сразу после считывания первых 6 байт Destination MAC?",
     opts: [
-      "A) Store-and-Forward (буферизация с проверкой)",
-      "B) Fragment-Free (бесфрагментная)",
+      "A) Store-and-Forward (буферизация с проверкой CRC)",
+      "B) Fragment-Free (бесфрагментная проверка 64 байт)",
       "C) Cut-Through (сквозная коммутация)",
-      "D) Adaptive Switching (адаптивная)"
+      "D) Adaptive Switching (адаптивная коммутация)"
     ],
     ans: 2,
-    exp: "Режим Cut-Through считывает только MAC-адрес назначения (6 байт) и мгновенно пересылает кадр, обеспечивая минимальную задержку (~0.45 мкс)."
+    exp: "Режим Cut-Through считывает только MAC-адрес назначения (6 байт) и мгновенно пересылает кадр, обеспечивая минимальную задержку (~0.85 мкс на специализированных ASIC, например Cisco Nexus 3000/9000)."
   },
   {
     q: "6. Какая служебная информация записывается в CAM-таблицу коммутатора в процессе его самообучения?",
@@ -175,15 +177,15 @@ const quizData = [
     exp: "Протокол STP строит логическую древовидную топологию без петель путем обмена кадрами BPDU и блокировки избыточных линков."
   },
   {
-    q: "8. Какова разрядность идентификатора виртуальной локальной сети VLAN ID (VID) в заголовке IEEE 802.1Q?",
+    q: "8. Какова разрядность идентификатора виртуальной локальной сети VLAN ID (VID) в заголовке IEEE 802.1Q и каков диапазон номеров?",
     opts: [
-      "A) 8 бит (до 256 VLAN)",
-      "B) 10 бит (до 1024 VLAN)",
-      "C) 12 бит (до 4094 VLAN)",
-      "D) 16 бит (до 65536 VLAN)"
+      "A) 8 бит (256 кодовых комбинаций)",
+      "B) 10 бит (1024 кодовых комбинации)",
+      "C) 12 бит (4096 значений, доступный диапазон от 1 до 4094 VID)",
+      "D) 16 бит (65536 кодовых комбинаций)"
     ],
     ans: 2,
-    exp: "Поле VLAN ID занимает ровно 12 бит, что определяет диапазон от 1 до 4094 доступных виртуальных сетей (значения 0 и 4095 зарезервированы)."
+    exp: "Поле VLAN ID занимает ровно 12 бит (4096 значений). Стандартом IEEE 802.1Q диапазон используемых номеров строго ограничен от 1 до 4094 (значения 0 и 4095 зарезервированы для приоритетных и служебных кадров)."
   },
   {
     q: "9. Что выполняет технология Checksum Offload в современном сетевом адаптере (NIC)?",
@@ -219,15 +221,15 @@ const quizData = [
     exp: "Значение EtherType = 0x0800 указывает на протокол IPv4 (0x86DD — IPv6, 0x0806 — ARP, 0x8100 — тег 802.1Q)."
   },
   {
-    q: "12. В чем главное функциональное отличие сетевого моста (Bridge) от современного коммутатора (Switch)?",
+    q: "12. Каково соотношение понятий сетевого моста (Bridge) и коммутатора (Switch) в стандартах IEEE?",
     opts: [
-      "A) Мост работает на уровне L3, а коммутатор — на уровне L2",
-      "B) Мост обрабатывает кадры программно на CPU, а коммутатор — аппаратно на ASIC-чипах",
-      "C) Мост не поддерживает разделение доменов коллизий",
-      "D) Мост используется только в беспроводных сетях Wi-Fi"
+      "A) Мост работает на сетевом уровне L3, а коммутатор — на канальном L2",
+      "B) Коммутатор является многопортовым аппаратным развитием моста IEEE 802.1D с параллельной неблокируемой матрицей на ASIC",
+      "C) Мост не изолирует домены коллизий, а коммутатор изолирует",
+      "D) Мост используется исключительно для соединения разнородных сред (медь/оптика)"
     ],
     ans: 1,
-    exp: "Исторические мосты выполняли коммутацию программно с ограниченной скоростью, тогда как коммутаторы выполняют параллельную аппаратную коммутацию на ASIC."
+    exp: "Фундаментальный алгоритм фильтрации и пересылки кадров прозрачного моста стандартизован в IEEE 802.1D. Коммутатор — это многопортовое аппаратное воплощение моста, реализующее неблокируемую матрицу переключения на специализированных чипах (ASIC)."
   },
   {
     q: "13. Какое устройство полностью изолирует широковещательный сетевой трафик (Broadcast Domains)?",
@@ -325,6 +327,25 @@ document.getElementById('quizForm').addEventListener('submit', function(e) {
     }
   });
 
+  // Блокировка перевыбора вариантов после показа ответов
+  document.querySelectorAll('input[type="radio"]').forEach(inp => inp.disabled = true);
+  document.querySelector('.btn-submit').style.display = 'none';
+
+  // Сохранение попытки в LocalStorage
+  try {
+    const attempts = JSON.parse(localStorage.getItem('ethernet_quiz_attempts') || '[]');
+    attempts.push({
+      name: name,
+      group: group,
+      score: score,
+      percent: percent,
+      date: new Date().toLocaleString('ru-RU')
+    });
+    localStorage.setItem('ethernet_quiz_attempts', JSON.stringify(attempts));
+  } catch (err) {
+    console.warn("LocalStorage save error:", err);
+  }
+
   // Вывод итогов
   const resultBox = document.getElementById('resultBox');
   resultBox.classList.add('show');
@@ -340,10 +361,26 @@ document.getElementById('quizForm').addEventListener('submit', function(e) {
   else grade = 'Оценка: 2 (Неудовлетворительно) ❌';
 
   document.getElementById('gradeDisplay').innerText = `${grade} (${percent} %)`;
-  document.getElementById('resultDesc').innerText = `Проверка знаний по материалам Проекта № 1 команды гр. БИВТ-26-6-9 завершена.`;
 
   resultBox.scrollIntoView({ behavior: 'smooth' });
 });
+
+function resetQuiz() {
+  document.querySelectorAll('input[type="radio"]').forEach(inp => {
+    inp.disabled = false;
+    inp.checked = false;
+  });
+  document.querySelectorAll('.opt-lbl').forEach(lbl => {
+    lbl.classList.remove('correct', 'incorrect', 'selected');
+  });
+  document.querySelectorAll('.feedback').forEach(fb => {
+    fb.className = 'feedback';
+    fb.innerHTML = '';
+  });
+  document.getElementById('resultBox').classList.remove('show');
+  document.querySelector('.btn-submit').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 </script>
 
 </body>
