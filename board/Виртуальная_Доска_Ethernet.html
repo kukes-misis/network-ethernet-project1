@@ -426,7 +426,7 @@
           <b>Принцип работы:</b> передает данные напрямую получателю по <b>CAM-таблице</b> (Source MAC → Port).
           <br><br>
           • <b>Микросегментация:</b> каждый порт — отдельный домен коллизий!<br>
-          • Режимы: Cut-Through (0.45 мкс) и Store-and-Forward<br>
+          • Режимы: Cut-Through (0.85 мкс) и Store-and-Forward<br>
           • Полный дуплекс (Full-Duplex)<br>
           • Поддержка VLAN (802.1Q)
         </div>
@@ -559,11 +559,11 @@
           <div class="branches-grid">
             <div class="branch-card">
               <b>Cut-Through</b>
-              Коммутация по первым 6 байтам MAC<br>Задержка: <b>0.45 мкс</b>
+              Коммутация по первым 6 байтам MAC<br>Задержка: <b>0.85 мкс</b>
             </div>
             <div class="branch-card">
               <b>Store-and-Forward</b>
-              Полная буферизация кадра + проверка CRC<br>Задержка: 0.51–72 мкс
+              Полная буферизация кадра + проверка CRC<br>Задержка: 1.31–72.8 мкс
             </div>
             <div class="branch-card">
               <b>VLAN (802.1Q)</b>

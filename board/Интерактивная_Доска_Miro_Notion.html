@@ -2296,7 +2296,7 @@
         </p>
         <div class="hero-metrics">
           <button onclick="openPresentationModal()" class="hero-btn-presentation">
-            <span class="btn-play-icon">▶</span> Презентация проекта (Защита 3 мин. • 10 слайдов)
+            <span class="btn-play-icon">▶</span> Презентация проекта (10 слайдов)
           </button>
           <div class="metric-pill">Оборудование: <b>5 категорий</b></div>
           <div class="metric-pill">Коллизии Full-Duplex: <b>0</b></div>
@@ -2373,11 +2373,11 @@
         <div class="telemetry-stats-grid">
           <div class="stat-box">
             <span class="stat-label">Задержка Cut-Through</span>
-            <span class="stat-val emerald">0.45 мкс (const)</span>
+            <span class="stat-val emerald">0.85 мкс (const)</span>
           </div>
           <div class="stat-box">
             <span class="stat-label">Задержка Store-and-Forward</span>
-            <span class="stat-val">12.80 мкс (MTU 1500)</span>
+            <span class="stat-val">12.94 мкс (1518 Б)</span>
           </div>
           <div class="stat-box">
             <span class="stat-label">Пропускная способность Hub</span>
@@ -2606,7 +2606,7 @@
           <div class="task-card">
             <span class="task-category">Benchmarking</span>
             <div class="task-title">Снятие метрик производительности</div>
-            <div class="task-desc">Фиксация 9400 кол/с в разделяемой среде хаба, замер задержек Cut-Through (0.45 мкс) и разгрузки CPU хоста (TSO/LRO).</div>
+            <div class="task-desc">Фиксация 9400 кол/с в разделяемой среде хаба, замер задержек Cut-Through (0.85 мкс) и разгрузки CPU хоста (TSO/LRO).</div>
             <div class="task-meta">
               <span>Утяцкий В. С.</span>
               <span class="task-status-done">✓ Выполнено</span>
@@ -2643,7 +2643,7 @@
 
           <div class="task-card">
             <span class="task-category">Documentation</span>
-            <div class="task-title">Отчет по ГОСТ 7.32-2017 (29 стр.)</div>
+            <div class="task-title">Отчет по ГОСТ 7.32-2017</div>
             <div class="task-desc">Полный академический расчетно-пояснительный документ с формулами, таблицами, листингами и списком литературы.</div>
             <div class="task-meta">
               <span>Ерепов К. М.</span>
@@ -2653,8 +2653,8 @@
 
           <div class="task-card">
             <span class="task-category">Presentation</span>
-            <div class="task-title">Презентация и план защиты (3 мин.)</div>
-            <div class="task-desc">Структурированный слайд-сет на 9 слайдов и посекундный тайминг доклада для защиты перед преподавателем Микитенко И. И.</div>
+            <div class="task-title">Мультимедийная слайд-презентация (10 слайдов)</div>
+            <div class="task-desc">Интерактивный слайд-сет на 10 слайдов с архитектурными схемами и результатами бенчмаркинга по стандартам IEEE 802.3.</div>
             <div class="task-meta">
               <span>Ерепов К. М.</span>
               <span class="task-status-done">✓ Выполнено</span>
@@ -2724,7 +2724,7 @@
             </tr>
             <tr>
               <td>Режимы коммутации</td>
-              <td>Cut-Through (пересылка сразу после 14-го байта кадра, задержка const 0.45 мкс) и Store-and-Forward (буферизация и верификация CRC32).</td>
+              <td>Cut-Through (пересылка сразу после считывания первых 6 байт Destination MAC, задержка const 0.85 мкс) и Store-and-Forward (буферизация и верификация CRC32).</td>
             </tr>
           </table>
         </div>
@@ -2811,7 +2811,7 @@
           <div class="figure-caption">
             <span class="figure-number">Рисунок 4</span>
             <div class="figure-title">Задержки коммутации и аппаратная разгрузка процессора</div>
-            <div class="figure-desc">Cut-Through задержка = const 0.45 мкс; аппаратный TSO + Jumbo снижает загрузку CPU хоста с 92.4% до 9.8%.</div>
+            <div class="figure-desc">Cut-Through задержка = const 0.85 мкс (ASIC Cisco Nexus 3000); аппаратный TSO + Jumbo снижает загрузку CPU хоста с 92.4% до 9.8% (разгрузка на 82.6 п.п.).</div>
           </div>
         </div>
 
@@ -3543,11 +3543,11 @@
               <div class="slide-cards-row cols-3">
                 <div class="slide-card-item accent-cyan">
                   <div class="slide-card-title">Сквозная коммутация (Cut-Through)</div>
-                  <div class="slide-card-desc">Постоянная ультранизкая задержка <b>0.45 мкс</b> независимо от длины кадра (коммутация сразу после чтения первых 6 байт MAC).</div>
+                  <div class="slide-card-desc">Постоянная ультранизкая задержка <b>0.85 мкс</b> (ASIC Cisco Nexus 3000) независимо от длины кадра (коммутация сразу после чтения первых 6 байт MAC).</div>
                 </div>
                 <div class="slide-card-item accent-amber">
                   <div class="slide-card-title">Буферизация (Store-and-Forward)</div>
-                  <div class="slide-card-desc">Линейный рост задержки до <b>12.80 мкс</b> при MTU 1500 байт из-за необходимости полной буферизации и валидации FCS CRC-32.</div>
+                  <div class="slide-card-desc">Линейный рост задержки до <b>12.94 мкс</b> при MTU 1500 байт (1518 Б) из-за необходимости полной буферизации и валидации FCS CRC-32.</div>
                 </div>
                 <div class="slide-card-item accent-emerald">
                   <div class="slide-card-title">Аппаратные разгрузки NIC (TSO/LRO)</div>
@@ -3581,7 +3581,7 @@
                   <div style="font-family: var(--font-mono); font-size: 11px; color: var(--accent-emerald); margin-bottom: 6px;">АВТОМАТИЗАЦИЯ И РЕЦЕНЗИРОВАНИЕ</div>
                   <div style="font-size: 16px; font-weight: 800; color: #ffffff; margin-bottom: 8px;">Интерактивный веб-тест и анкета оценки</div>
                   <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">
-                    Разработан Google Apps Script для автоматического развертывания формы тестирования и анкеты экспертного оценивания по 5 критериям регламента.
+                    Разработан Google Apps Script для автоматического развертывания формы тестирования и анкеты экспертного оценивания по 6 официальным показателям методички (с. 33).
                   </p>
                 </div>
                 <div style="font-family: var(--font-mono); font-size: 12px; color: var(--accent-cyan);">
@@ -3604,7 +3604,7 @@
                 <div style="font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-bottom: 8px;">КЛЮЧЕВЫЕ ВЫВОДЫ:</div>
                 <ul class="slide-bullet-list">
                   <li>Коммутаторы полностью вытеснили хабы благодаря ликвидации коллизий и аппаратной изоляции портов.</li>
-                  <li>Сквозная коммутация минимизирует задержку до sub-microsecond уровня (0.45 мкс).</li>
+                  <li>Сквозная коммутация минимизирует задержку до sub-microsecond уровня (0.85 мкс).</li>
                   <li>Аппаратные разгрузки NIC освобождают до 82.6% ресурсов процессора хоста при обработке трафика.</li>
                 </ul>
               </div>
@@ -3614,7 +3614,7 @@
                   • <b>Интерактивный веб-портал:</b> kukes-misis.github.io<br>
                   • <b>Онлайн-тест (15 вопр.):</b> /tests/Интерактивный_Тест_Ethernet.html<br>
                   • <b>Анкета рецензирования:</b> /tests/Интерактивная_Форма_Оценки_Проекта.html<br>
-                  • <b>Отчет ГОСТ 7.32-2017:</b> 29 страниц, формулы, листинги<br>
+                  • <b>Отчет ГОСТ 7.32-2017:</b> 18 страниц, Таблица 4.2, формулы, листинги<br>
                   • <b>Репозиторий проекта:</b> github.com/kukes-misis/network-ethernet-project1
                 </div>
               </div>
