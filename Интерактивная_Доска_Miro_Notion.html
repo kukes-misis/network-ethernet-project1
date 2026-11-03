@@ -3053,13 +3053,10 @@
     });
   
     // =========================================================================
-    // ИНТЕРАКТИВНОЕ УПРАВЛЕНИЕ ПРЕЗЕНТАЦИЕЙ ЗАЩИТЫ (10 СЛАЙДОВ)
+    // ИНТЕРАКТИВНОЕ УПРАВЛЕНИЕ СЛАЙДАМИ (10 СЛАЙДОВ)
     // =========================================================================
     let currentSlide = 1;
     const totalSlides = 10;
-    let timerSeconds = 180; // 3 минуты
-    let timerInterval = null;
-    let timerRunning = false;
 
     function openPresentationModal() {
       const modal = document.getElementById('presentation-modal');
@@ -3068,7 +3065,6 @@
         document.body.style.overflow = 'hidden';
         initPresDots();
         goToSlide(1);
-        startTimer();
       }
     }
 
@@ -3077,7 +3073,6 @@
       if (modal) {
         modal.classList.remove('active');
         document.body.style.overflow = '';
-        pauseTimer();
       }
     }
 
@@ -3142,46 +3137,6 @@
         closePresentationModal();
       }
     });
-
-    // Таймер регламента (3:00)
-    function startTimer() {
-      if (timerRunning) return;
-      timerRunning = true;
-      timerInterval = setInterval(function() {
-        if (timerSeconds > 0) {
-          timerSeconds--;
-          updateTimerDisplay();
-        } else {
-          pauseTimer();
-        }
-      }, 1000);
-    }
-
-    function pauseTimer() {
-      timerRunning = false;
-      clearInterval(timerInterval);
-    }
-
-    function toggleTimer() {
-      if (timerRunning) {
-        pauseTimer();
-      } else {
-        startTimer();
-      }
-    }
-
-    function updateTimerDisplay() {
-      const el = document.getElementById('pres-timer');
-      if (!el) return;
-      const m = Math.floor(timerSeconds / 60);
-      const s = timerSeconds % 60;
-      el.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
-      if (timerSeconds < 30) {
-        el.style.color = '#f87171';
-      } else {
-        el.style.color = 'var(--accent-emerald)';
-      }
-    }
 
     function toggleFullscreen() {
       const modal = document.getElementById('presentation-modal');
@@ -3276,17 +3231,12 @@
       </div>
       
       <div style="display: flex; align-items: center; gap: 16px;">
-        <div class="pres-timer-pill">
-          <span>⏱ Регламент защиты:</span>
-          <b id="pres-timer">03:00</b>
-        </div>
         <div class="pres-slide-indicator">
           Слайд <b id="pres-curr-num">1</b> из <b>10</b>
         </div>
       </div>
 
       <div class="pres-controls-right">
-        <button class="pres-action-btn" onclick="toggleTimer()">⏯ Таймер</button>
         <button class="pres-action-btn" onclick="toggleFullscreen()">⛶ Во весь экран</button>
         <button class="pres-action-btn pres-btn-close" onclick="closePresentationModal()">✕ Закрыть (Esc)</button>
       </div>
