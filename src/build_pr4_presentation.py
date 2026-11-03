@@ -183,7 +183,7 @@ q_examples = [
     "• Уровень работы концентратора: L1 (Physical) vs L2 коммутатора (микросегментация);",
     "• Физические коллизии в полудуплексном Ethernet (CSMA/CD) и правило отката Backoff;",
     "• Разграничение доменов коллизий (Switch L2) и широковещательных доменов (Router L3);",
-    "• Режимы коммутации: константная задержка Cut-Through (0.45 мкс) vs Store-and-Forward;",
+    "• Режимы коммутации: константная задержка Cut-Through (0.85 мкс) vs Store-and-Forward (до 12.94 мкс);",
     "• Структура тега IEEE 802.1Q: TPID 0x8100, PCP (QoS), VID (1..4094 виртуальные сети);",
     "• Аппаратные механизмы NIC: Checksum Offload, TSO, LRO и Jumbo Frames 9000 байт;",
     "• Протокол Spanning Tree (STP, 802.1D/w): блокировка избыточных петель и штормов."
@@ -217,7 +217,7 @@ p_c1.font.bold = True
 
 conclusions = [
     "1. Доказано преимущество коммутируемых сетей: 0 коллизий, линейная утилизация до 98 Мбит/с против коллапса хаба (8.2 Мбит/с при 9400 кол/с).",
-    "2. Сквозная коммутация Cut-Through обеспечивает постоянную задержку 0.45 мкс независимо от длины кадра.",
+    "2. Сквозная коммутация Cut-Through обеспечивает постоянную задержку 0.85 мкс (ASIC Cisco Nexus) независимо от длины кадра.",
     "3. Аппаратные разгрузки сетевого адаптера (TSO/LRO/Jumbo) освобождают до 82.6 % ресурсов центрального процессора хоста."
 ]
 for c in conclusions:
@@ -228,9 +228,9 @@ for c in conclusions:
 
 p_links = tf9.add_paragraph()
 p_links.text = "\nСсылки на составляющие проекта (4-я колонка регламента кафедры):\n" \
-               "• Виртуальная доска проекта (Интерактивная доска проекта): https://kukes-misis.github.io/network-ethernet-project1/\n" \
-               "• Онлайн-тестирование (Google Forms): https://kukes-misis.github.io/network-ethernet-project1/tests/Интерактивный_Тест_Ethernet.html\n" \
-               "• Официальный отчет (29 стр. по ГОСТ): https://github.com/kukes-misis/network-ethernet-project1/\n" \
+               "• Виртуальная интерактивная доска (Miro / Notion): https://kukes-misis.github.io/network-ethernet-project1/\n" \
+               "• Онлайн-тестирование (15 вопр.): https://kukes-misis.github.io/network-ethernet-project1/tests/Интерактивный_Тест_Ethernet.html\n" \
+               "• Официальный отчет (18 стр. по ГОСТ): https://github.com/kukes-misis/network-ethernet-project1/\n" \
                "• Веб-портал проекта: https://kukes-misis.github.io/network-ethernet-project1/"
 p_links.font.size = Pt(12)
 p_links.font.color.rgb = COLOR_ACCENT
